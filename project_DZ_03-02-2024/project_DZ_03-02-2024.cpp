@@ -8,6 +8,7 @@ int main()
     setlocale(LC_ALL, "Russian");
 
     std::cout << "Тест по Гиту" << std::endl;
+    std::cout << "Попытка синхронизировать проект с десктопной версией с флешки" std::endl;
 
     return 0;
 }
