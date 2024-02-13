@@ -18,18 +18,19 @@ void perfect_number(long long x1, long long x2)
 	Max = (x1 > x2) ? x1 : x2;
 	std::cout << "Совершенные числа в заданном интервале: ";
 	int k = 0;
-	for (long long i = Min; i <= Max; i++)
+	for (long long i = Min, Sum = 0; i <= Max; i++)
 	{
-		for (long long j = 1, long long Sum = 0; j < i; j++)
+		for (long long j = 1; j < i; j++)
 		{
 			if (i % j == 0)
 				Sum += j;
-			if (Sum == i)
-			{
-				std::cout << i << " ";
-				k++;
-			}
 		}
+		if (Sum == i)
+		{
+			std::cout << i << " ";
+			k++;
+		}
+		Sum = 0;
 	}
 	if (k == 0)
 		std::cout << "Отсутствуют" << std::endl;
@@ -38,7 +39,7 @@ void perfect_number(long long x1, long long x2)
 int main()
 {
 	setlocale(LC_ALL, "Russian");
-	
+
 	std::cout << "Введите первое челое интервала = ";
 	long long A{};
 	std::cin >> A;
@@ -49,20 +50,3 @@ int main()
 
 	return 0;
 }
-
-/*
-Почемуто программа не собирается, я не понимаю почему, весь код перепроверил и тк и не понял почему.
-1>------ Сборка начата: проект: projects, Конфигурация: Debug x64 ------
-1>projects.cpp
-1>E:\Мои Документы\Академия ТОП материалы и задания\Проект С++\projects\projects\projects.cpp(23,25): error C2062: тип "__int64" не требуется
-1>E:\Мои Документы\Академия ТОП материалы и задания\Проект С++\projects\projects\projects.cpp(23,46): warning C4552: "<": результат выражения не используется
-1>E:\Мои Документы\Академия ТОП материалы и задания\Проект С++\projects\projects\projects.cpp(23,54): error C2059: синтаксическая ошибка: )
-1>E:\Мои Документы\Академия ТОП материалы и задания\Проект С++\projects\projects\projects.cpp(25,4): error C2059: синтаксическая ошибка: if
-1>E:\Мои Документы\Академия ТОП материалы и задания\Проект С++\projects\projects\projects.cpp(27,8): error C2065: Sum: необъявленный идентификатор
-1>E:\Мои Документы\Академия ТОП материалы и задания\Проект С++\projects\projects\projects.cpp(34,2): error C2059: синтаксическая ошибка: if
-1>E:\Мои Документы\Академия ТОП материалы и задания\Проект С++\projects\projects\projects.cpp(36,1): error C2059: синтаксическая ошибка: }
-1>E:\Мои Документы\Академия ТОП материалы и задания\Проект С++\projects\projects\projects.cpp(36,1): error C2143: синтаксическая ошибка: отсутствие ";" перед "}"
-1>E:\Мои Документы\Академия ТОП материалы и задания\Проект С++\projects\projects\projects.cpp(39,1): error C2143: синтаксическая ошибка: отсутствие ";" перед "{"
-1>E:\Мои Документы\Академия ТОП материалы и задания\Проект С++\projects\projects\projects.cpp(39,1): error C2447: {: отсутствует заголовок функции (возможно, используется формальный список старого типа)
-1>Сборка проекта "projects.vcxproj" завершена с ошибкой.
-*/
