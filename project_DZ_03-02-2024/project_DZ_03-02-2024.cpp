@@ -47,30 +47,33 @@
 
 #include <iostream>
 
-template <typename T>
-void GenArray(T Mass[5][10], int line, int column);
+template<typename T>
+void GenArray(T Mass, int line, int column);
 template<typename T> 
-T Sum_Line_Array(T Mass[5][10], int num_line, int column);
-void GenArray(char Mass[5][10], int line, int column);
-template <typename T>
-void PrintArray(T Mass[5][10], int line, int column);
+T Sum_Line_Array(T Mass, int num_line, int column);
+void GenArray(char Mass, int line, int column);
 template<typename T>
-T Max_Element_Array(T Mass[5][10], int line, int column);
+void PrintArray(T Mass, int line, int column);
 template<typename T>
-T Min_Element_Array(T Mass[5][10], int line, int column);
+T Max_Element_Array(T Mass, int line, int column);
 template<typename T>
-T Average_Element_Array(T Mass[5][10], int line, int column);
+T Min_Element_Array(T Mass, int line, int column);
 template<typename T>
-void Line_Search_Array(T Mass[5][10], int line, int column, T searc_key);
+T Average_Element_Array(T Mass, int line, int column);
 template<typename T>
-T Sum_Column_Array(T Mass[5][10], int line, int num_column);
+void Line_Search_Array(T Mass, int line, int column, T searc_key);
 template<typename T>
-T Sum_Array(T Mass[5][10], int line, int column);
+T Sum_Column_Array(T Mass, int line, int num_column);
+template<typename T>
+T Sum_Array(T Mass, int line, int column);
+char Average_Element_Array(char Mass, int line, int column);
+char Sum_Line_Array(char Mass, int num_line, int column);
+char Sum_Column_Array(char Mass, int line, int num_column);
+char Sum_Array(char Mass[5][10], int line, int column);
 
-template <typename T> 
+template<typename T>
 void GenArray(T Mass[5][10], int line, int column) //Шаблон для генерации массива, для типа данных char будет отдельная функция через перегрузку функции
 {
-    srand(time(NULL));
     for (int i = 0; i < line; i++)
     {
         for (int j = 0; j < column; j++)
@@ -82,7 +85,6 @@ void GenArray(T Mass[5][10], int line, int column) //Шаблон для ген�
 
 void GenArray(char Mass[5][10], int line, int column) //Шаблон для генерации массива типа char в диапазоне символов от 65 (A) до 122 (z)
 {
-    srand(time(NULL));
     for (int i = 0; i < line; i++)
     {
         for (int j = 0; j < column; j++)
@@ -138,24 +140,16 @@ T Min_Element_Array(T Mass[5][10], int line, int column) // Поиск мини�
     return Min;
 }
 
-/*
 char Average_Element_Array(char Mass[5][10], int line, int column)
 {
     std::cout << "переменные типа char (символы) не вычисляются!!!" << std::endl;
-    return;
+    return 0;
 }
-*/
 
 template<typename T> 
 T Average_Element_Array(T Mass[5][10], int line, int column) // Поиск среднего арифметического
-{
-    if (T == char) // Можно было сделать отдельную функцию посредством перегрузки, но как мне кажется так лучше. Пример функции выше.
-    {
-        std::cout << "переменные типа char (символы) не вычисляются!!!" << std::endl;
-        return;
-    }
-       
-    return Sum_Array(Mass[5][10], int line, int column) / (line * column);
+{   
+    return (T)Sum_Array(Mass[5][10], line, column) / (line * column);
 }
 
 template<typename T> 
@@ -168,7 +162,7 @@ void Line_Search_Array(T Mass[5][10], int line, int column, T searc_key) // Ли
         {
             if (Mass[i][j] == searc_key)
             {
-                std::cout << "[" << i << "][" << j "]" << std::endl;
+                std::cout << "[" << i << "][" << j << "]" << std::endl;
                 ++x;
             }
         }
@@ -177,51 +171,52 @@ void Line_Search_Array(T Mass[5][10], int line, int column, T searc_key) // Ли
         std::cout << "Отсутствует" << std::endl;
 }
 
+char Sum_Line_Array(char Mass[5][10], int num_line, int column)
+{
+    std::cout << "переменные типа char (символы) не вычисляются!!!" << std::endl;
+}
+
 template<typename T> 
 T Sum_Line_Array(T Mass[5][10], int num_line, int column) //Сумма элементов строки
 {
-    if (T == char)
-    {
-        std::cout << "переменные типа char (символы) не вычисляются!!!" << std::endl;
-        return;
-    }
     T Sum{};
     for (int i = 0; i < column; i++)
-        Sum += Muss[num_line][i];
+        Sum += Mass[num_line][i];
     return Sum;
+}
+
+char Sum_Column_Array(char Mass[5][10], int line, int num_column)
+{
+    std::cout << "переменные типа char (символы) не вычисляются!!!" << std::endl;
 }
 
 template<typename T>
 T Sum_Column_Array(T Mass[5][10], int line, int num_column) //Сумма элементов столбца
 {
-    if (T == char)
-    {
-        std::cout << "переменные типа char (символы) не вычисляются!!!" << std::endl;
-        return;
-    }
     T Sum{};
     for (int i = 0; i < line; i++)
-        Sum += Muss[i][num_column];
+        Sum += Mass[i][num_column];
     return Sum;
+}
+
+char Sum_Array(char Mass[5][10], int line, int column)
+{
+    std::cout << "переменные типа char (символы) не вычисляются!!!" << std::endl;
 }
 
 template<typename T>
 T Sum_Array(T Mass[5][10], int line, int column) //Сумма элементов всего массива
 {
-    if (T == char)
-    {
-        std::cout << "переменные типа char (символы) не вычисляются!!!" << std::endl;
-        return;
-    }
     T Sum{};
     for (int i = 0; i < line; i++)
-        Sum += Sum_Line_Array(Mass[5][10], int i, int column);
+        Sum += Sum_Line_Array(Mass[5][10], i, column);
     return Sum;
 }
 
 int main()
 {
     setlocale(LC_ALL, "Russian");
+    srand(time(0));
 
     int Menu{}; //Главное меню
     int Menu_Type_Date{}; //Меню выбора типа данных
@@ -229,6 +224,7 @@ int main()
     int Line{ 5 };
     int Column{ 10 };
     int Mass[5][10]{};
+    int Searc_Key{};
     
     do
     {
@@ -306,7 +302,10 @@ int main()
                     Average_Element_Array(Mass[5][10], Line, Column);
                     break;
                 case 6:
-                    Line_Search_Array(Mass[5][10], Line, Column);
+                    std::cout << "Введите искомый элемент в массиве: ";
+                    std::cin >> Searc_Key;
+                    std::cout << "Искомый элемент  массива ";
+                    Line_Search_Array(Mass[5][10], Line, Column, Searc_Key);
                     break;
                 case 7:
                     for (int i = 0; i < Line; ++i)
@@ -323,7 +322,7 @@ int main()
                 default:
                     break;
                 }
-            } while (Menu_Acti != 10);
+            } while (Menu_Activ != 10);
             break;
         default:
             std::cout << "Не корректный выбор! Повторите ввод варианта меню! ";
