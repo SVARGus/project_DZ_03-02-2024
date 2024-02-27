@@ -223,8 +223,114 @@ int main()
 {
     setlocale(LC_ALL, "Russian");
 
-    std::cout << "Тест по Гиту" << std::endl;
-    std::cout << "Попытка синхронизировать проект с десктопной версией с флешки" << std::endl;
+    int Menu{}; //Главное меню
+    int Menu_Type_Date{}; //Меню выбора типа данных
+    int Menu_Activ{}; //Меню выбора действия
+    int Line{ 5 };
+    int Column{ 10 };
+    int Mass[5][10]{};
+    
+    do
+    {
+        std::cout << "Главное меню" << std::endl;
+        std::cout << "1.	Выбрать тип данных" << std::endl;
+        std::cout << "2.	Действия" << std::endl;
+        std::cout << "3.	Выход" << std::endl;
+        std::cin >> Menu;
+        switch (Menu)
+        {
+        case 1:
+            do
+            {
+                std::cout << "Выберите тип данных" << std::endl;
+                std::cout << "1.	Long" << std::endl;
+                std::cout << "2.	Int" << std::endl;
+                std::cout << "3.	Double" << std::endl;
+                std::cout << "4.	Char" << std::endl;
+                std::cout << "5.	Short" << std::endl;
+                std::cin >> Menu_Type_Date;
+                switch (Menu_Type_Date)
+                {
+                case 1:
+                    long Mass[5][10]{};
+                    break;
+                case 2:
+                    int Mass[5][10]{};
+                    break;
+                case 3:
+                    double Mass[5][10]{};
+                    break;
+                case 4:
+                    char Mass[5][10]{};
+                    break;
+                case 5:
+                    short Mass[5][10]{};
+                    break;
+                default:
+                    std::cout << "Вы не выбрали тип данных! Повторите выбор ";
+                    std::cin >> Menu_Type_Date;
+                    break;
+                }
+            } while (Menu_Type_Date > 5 || Menu_Type_Date < 1);
+            break;
+        case 2:
+            do
+            {
+                std::cout << "Выберите тип действия" << std::endl;
+                std::cout << "1.	Заполнения массива случайными данными" << std::endl;
+                std::cout << "2.	Вывод массива на экран" << std::endl;
+                std::cout << "3.	Поиск максимального элемента" << std::endl;
+                std::cout << "4.	Поиск минимального элемента" << std::endl;
+                std::cout << "5.	Поиск среднего арифметического" << std::endl;
+                std::cout << "6.	Линейный поиск элемента" << std::endl;
+                std::cout << "7.	Вывод на экран суммы элементов каждой строки" << std::endl;
+                std::cout << "8.	Вывод на экран суммы элементов каждого столбца" << std::endl;
+                std::cout << "9.	Вывод на экран суммы элементов всего массива" << std::endl;
+                std::cout << "10.	Главное меню" << std::endl;
+                std::cin >> Menu_Activ;
+                switch (Menu_Activ)
+                {
+                case 1:
+                    GenArray(Mass[5][10], Line, Column);
+                    break;
+                case 2:
+                    PrintArray(Mass[5][10], Line, Column);
+                    break;
+                case 3:
+                    Max_Element_Array(Mass[5][10], Line, Column);
+                    break;
+                case 4:
+                    Min_Element_Array(Mass[5][10], Line, Column);
+                    break;
+                case 5:
+                    Average_Element_Array(Mass[5][10], Line, Column);
+                    break;
+                case 6:
+                    Line_Search_Array(Mass[5][10], Line, Column);
+                    break;
+                case 7:
+                    for (int i = 0; i < Line; ++i)
+                    {
+
+                    }
+                    break;
+                case 8:
+                    break;
+                case 9:
+                    break;
+                case 10:
+                    break;
+                default:
+                    break;
+                }
+            } while (Menu_Acti != 10);
+            break;
+        default:
+            std::cout << "Не корректный выбор! Повторите ввод варианта меню! ";
+            std::cin >> Menu;
+            break;
+        }
+    } while (Menu != 3);
 
     return 0;
 }
