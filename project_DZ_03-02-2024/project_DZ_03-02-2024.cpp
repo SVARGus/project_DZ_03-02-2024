@@ -213,7 +213,156 @@ T Sum_Array(T Mass[5][10], int line, int column) //Сумма элементов
     return Sum;
 }
 
+
+
+template<typename T>
+void MenuMain(T Mass[5][10], int line, int column) // главное меню
+{
+    int Menu{};
+    do
+    {
+        std::cout << "Главное меню" << std::endl;
+        std::cout << "1.	Выбрать тип данных" << std::endl;
+        std::cout << "2.	Действия" << std::endl;
+        std::cout << "3.	Выход" << std::endl;
+        std::cin >> Menu;
+        switch (Menu)
+        {
+        case 1:
+            MenuTypeDate();
+            break;
+        case 2:
+       
+            break;
+        case 3:
+            return;
+        default:
+            std::cout << "Не корректный выбор! Повторите ввод варианта меню! ";
+            std::cin >> Menu;
+            break;
+        }
+    } while (Menu != 3);
+}
+
+void MenuTypeDate() // меню выбора типа данных
+{
+    int Menu_Type_Date{};
+    int line{ 5 };
+    int column{ 10 };
+    do
+    {
+        std::cout << "Выберите тип данных" << std::endl;
+        std::cout << "1.	Long" << std::endl;
+        std::cout << "2.	Int" << std::endl;
+        std::cout << "3.	Double" << std::endl;
+        std::cout << "4.	Char" << std::endl;
+        std::cout << "5.	Short" << std::endl;
+        std::cin >> Menu_Type_Date;
+        switch (Menu_Type_Date)
+        {
+        case 1:
+            long Mass_long[5][10]{};
+            MenuMain(Mass_long[5][10], line, column);
+            break;
+        case 2:
+            int Mass_int[5][10]{};
+            MenuMain(Mass_int[5][10], line, column);
+            break;
+        case 3:
+            double Mass_double[5][10]{};
+            MenuMain(Mass_double[5][10], line, column);
+            break;
+        case 4:
+            char Mass_char[5][10]{};
+            MenuMain(Mass_char[5][10], line, column);
+            break;
+        case 5:
+            short Mass_short[5][10]{};
+            MenuMain(Mass_short[5][10], line, column);
+            break;
+        default:
+            std::cout << "Вы не выбрали тип данных! Повторите выбор ";
+            std::cin >> Menu_Type_Date;
+            break;
+        }
+    } while (Menu_Type_Date > 5 || Menu_Type_Date < 1);
+}
+
+template<typename T>
+void MenuActiv(T Mass[5][10], int line, int column) //Меню действий
+{
+    int Menu_Activ{};
+    do
+    {
+        std::cout << "Выберите тип действия" << std::endl;
+        std::cout << "1.	Заполнения массива случайными данными" << std::endl;
+        std::cout << "2.	Вывод массива на экран" << std::endl;
+        std::cout << "3.	Поиск максимального элемента" << std::endl;
+        std::cout << "4.	Поиск минимального элемента" << std::endl;
+        std::cout << "5.	Поиск среднего арифметического" << std::endl;
+        std::cout << "6.	Линейный поиск элемента" << std::endl;
+        std::cout << "7.	Вывод на экран суммы элементов каждой строки" << std::endl;
+        std::cout << "8.	Вывод на экран суммы элементов каждого столбца" << std::endl;
+        std::cout << "9.	Вывод на экран суммы элементов всего массива" << std::endl;
+        std::cout << "10.	Главное меню" << std::endl;
+        std::cin >> Menu_Activ;
+        switch (Menu_Activ)
+        {
+        case 1:
+            GenArray(Mass[5][10], line, column);
+            break;
+        case 2:
+            PrintArray(Mass[5][10], line, column);
+            break;
+        case 3:
+            Max_Element_Array(Mass[5][10], line, column);
+            break;
+        case 4:
+            Min_Element_Array(Mass[5][10], line, column);
+            break;
+        case 5:
+            Average_Element_Array(Mass[5][10], line, column);
+            break;
+        case 6:
+            std::cout << "Введите искомый элемент в массиве: ";
+            int Searc_Key{};
+            std::cin >> Searc_Key;
+            std::cout << "Искомый элемент  массива ";
+            Line_Search_Array(Mass[5][10], line, column, Searc_Key);
+            break;
+        case 7:
+            for (int i = 0; i < Line; ++i)
+            {
+
+            }
+            break;
+        case 8:
+            break;
+        case 9:
+            break;
+        case 10:
+            break;
+        default:
+            break;
+        }
+    } while (Menu_Activ != 10);
+}
+
 int main()
+{
+    setlocale(LC_ALL, "Russian");
+    srand(time(0));
+
+    int Line{ 5 };
+    int Column{ 10 };
+
+    std::cout << "Для начала выберите тип данных";
+    MenuTypeDate();
+
+    return 0;
+}
+/*
+int main_old()
 {
     setlocale(LC_ALL, "Russian");
     srand(time(0));
@@ -333,3 +482,4 @@ int main()
 
     return 0;
 }
+*/
