@@ -69,7 +69,13 @@ T Sum_Array(T Mass, int line, int column);
 char Average_Element_Array(char Mass, int line, int column);
 char Sum_Line_Array(char Mass, int num_line, int column);
 char Sum_Column_Array(char Mass, int line, int num_column);
-char Sum_Array(char Mass[5][10], int line, int column);
+char Sum_Array(char Mass, int line, int column);
+template<typename T>
+void MenuMain(T Mass, int line, int column);
+void MenuTypeDate();
+template<typename T>
+void MenuActiv(T Mass, int line, int column);
+
 
 template<typename T>
 void GenArray(T Mass[5][10], int line, int column) //Шаблон для генерации массива, для типа данных char будет отдельная функция через перегрузку функции
@@ -174,6 +180,7 @@ void Line_Search_Array(T Mass[5][10], int line, int column, T searc_key) // Ли
 char Sum_Line_Array(char Mass[5][10], int num_line, int column)
 {
     std::cout << "переменные типа char (символы) не вычисляются!!!" << std::endl;
+    return 0;
 }
 
 template<typename T> 
@@ -188,6 +195,7 @@ T Sum_Line_Array(T Mass[5][10], int num_line, int column) //Сумма элем�
 char Sum_Column_Array(char Mass[5][10], int line, int num_column)
 {
     std::cout << "переменные типа char (символы) не вычисляются!!!" << std::endl;
+    return 0;
 }
 
 template<typename T>
@@ -202,6 +210,7 @@ T Sum_Column_Array(T Mass[5][10], int line, int num_column) //Сумма эле�
 char Sum_Array(char Mass[5][10], int line, int column)
 {
     std::cout << "переменные типа char (символы) не вычисляются!!!" << std::endl;
+    return 0;
 }
 
 template<typename T>
@@ -214,7 +223,7 @@ T Sum_Array(T Mass[5][10], int line, int column) //Сумма элементов
 }
 
 
-
+/*
 template<typename T>
 void MenuMain(T Mass[5][10], int line, int column) // главное меню
 {
@@ -235,7 +244,7 @@ void MenuMain(T Mass[5][10], int line, int column) // главное меню
        
             break;
         case 3:
-            return;
+            return 0;
         default:
             std::cout << "Не корректный выбор! Повторите ввод варианта меню! ";
             std::cin >> Menu;
@@ -243,12 +252,18 @@ void MenuMain(T Mass[5][10], int line, int column) // главное меню
         }
     } while (Menu != 3);
 }
+*/
 
 void MenuTypeDate() // меню выбора типа данных
 {
     int Menu_Type_Date{};
     int line{ 5 };
     int column{ 10 };
+    long Mass_long[5][10]{};
+    int Mass_int[5][10]{};
+    double Mass_double[5][10]{};
+    char Mass_char[5][10]{};
+    short Mass_short[5][10]{};
     do
     {
         std::cout << "Выберите тип данных" << std::endl;
@@ -261,24 +276,19 @@ void MenuTypeDate() // меню выбора типа данных
         switch (Menu_Type_Date)
         {
         case 1:
-            long Mass_long[5][10]{};
-            MenuMain(Mass_long[5][10], line, column);
+            MenuActiv(Mass_long[5][10], line, column);
             break;
         case 2:
-            int Mass_int[5][10]{};
-            MenuMain(Mass_int[5][10], line, column);
+            MenuActiv(Mass_int[5][10], line, column);
             break;
         case 3:
-            double Mass_double[5][10]{};
-            MenuMain(Mass_double[5][10], line, column);
+            MenuActiv(Mass_double[5][10], line, column);
             break;
         case 4:
-            char Mass_char[5][10]{};
-            MenuMain(Mass_char[5][10], line, column);
+            MenuActiv(Mass_char[5][10], line, column);
             break;
         case 5:
-            short Mass_short[5][10]{};
-            MenuMain(Mass_short[5][10], line, column);
+            MenuActiv(Mass_short[5][10], line, column);
             break;
         default:
             std::cout << "Вы не выбрали тип данных! Повторите выбор ";
@@ -331,7 +341,7 @@ void MenuActiv(T Mass[5][10], int line, int column) //Меню действий
             Line_Search_Array(Mass[5][10], line, column, Searc_Key);
             break;
         case 7:
-            for (int i = 0; i < Line; ++i)
+            for (int i = 0; i < line; ++i)
             {
 
             }
@@ -356,8 +366,33 @@ int main()
     int Line{ 5 };
     int Column{ 10 };
 
-    std::cout << "Для начала выберите тип данных";
-    MenuTypeDate();
+    int Menu{};
+    do
+    {
+        std::cout << "Главное меню" << std::endl;
+        std::cout << "1.	Выбрать тип данных" << std::endl;
+        std::cout << "2.	Действия" << std::endl;
+        std::cout << "3.	Выход" << std::endl;
+        std::cin >> Menu;
+        switch (Menu)
+        {
+        case 1:
+            MenuTypeDate();
+            break;
+        case 2:
+            MenuActiv(T Mass[5][10], Line, Column);
+            break;
+        case 3:
+            return 0;
+        default:
+            std::cout << "Не корректный выбор! Повторите ввод варианта меню! ";
+            std::cin >> Menu;
+            break;
+        }
+    } while (Menu != 3);
+
+    /*std::cout << "Для начала выберите тип данных";
+    MenuTypeDate();*/
 
     return 0;
 }
