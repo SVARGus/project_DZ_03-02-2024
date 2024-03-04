@@ -55,11 +55,11 @@ void GenArray(char Mass[5][10], int line, int column);
 template<typename T>
 void PrintArray(T Mass[5][10], int line, int column);
 template<typename T>
-T Max_Element_Array(T Mass[5][10], int line, int column);
+void Max_Element_Array(T Mass[5][10], int line, int column);
 template<typename T>
-T Min_Element_Array(T Mass[5][10], int line, int column);
+void Min_Element_Array(T Mass[5][10], int line, int column);
 template<typename T>
-T Average_Element_Array(T Mass[5][10], int line, int column);
+void Average_Element_Array(T Mass[5][10], int line, int column);
 template<typename T>
 void Line_Search_Array(T Mass[5][10], int line, int column);
 template<typename T>
@@ -137,7 +137,7 @@ void PrintArray(T Mass[5][10], int line, int column) //Шаблон вывода
 }
 
 template<typename T> 
-T Max_Element_Array(T Mass[5][10], int line, int column) // Поиск максимального элемента
+void Max_Element_Array(T Mass[5][10], int line, int column) // Поиск максимального элемента
 {
     T Max = Mass[0][0];
     for (int i = 0; i < line; i++)
@@ -148,13 +148,13 @@ T Max_Element_Array(T Mass[5][10], int line, int column) // Поиск макс�
                 Max = Mass[i][j];
         }
     }
-    //std::cout << "Максимальный элемент массива = " << Max << std::endl;
-    return Max;
+    std::cout << "Максимальный элемент массива = " << Max << std::endl;
+    //return Max;
 }
 
 
 template<typename T> 
-T Min_Element_Array(T Mass[5][10], int line, int column) // Поиск минимального элемента
+void Min_Element_Array(T Mass[5][10], int line, int column) // Поиск минимального элемента
 {
     T Min = Mass[0][0];
     for (int i = 0; i < line; i++)
@@ -165,8 +165,8 @@ T Min_Element_Array(T Mass[5][10], int line, int column) // Поиск мини�
                 Min = Mass[i][j];
         }
     }
-    //std::cout << "Минимальный элемент массива = " << Min << std::endl;
-    return Min;
+    std::cout << "Минимальный элемент массива = " << Min << std::endl;
+    //return Min;
 }
 
 char Average_Element_Array(char Mass[5][10], int line, int column)
@@ -176,9 +176,9 @@ char Average_Element_Array(char Mass[5][10], int line, int column)
 }
 
 template<typename T> 
-T Average_Element_Array(T Mass[5][10], int line, int column) // Поиск среднего арифметического
+void Average_Element_Array(T Mass[5][10], int line, int column) // Поиск среднего арифметического
 {   
-    return (T)Sum_Array(Mass, line, column) / (line * column);
+    std::cout << "Среднее арифметическое массива = " << (T)Sum_Array(Mass, line, column) / (line * column) << std::endl;
 }
 
 template<typename T> 
@@ -343,7 +343,7 @@ void MenuActiv(T Mass[5][10], int line, int column) //Меню действий
         std::cout << "9.	Вывод на экран суммы элементов всего массива" << std::endl;
         std::cout << "10.	Главное меню" << std::endl;
         std::cin >> Menu_Activ;
-        int Searc_Key{};
+        /*int Searc_Key{};*/
         switch (Menu_Activ)
         {
         case 1:
@@ -362,10 +362,10 @@ void MenuActiv(T Mass[5][10], int line, int column) //Меню действий
             Average_Element_Array(Mass, line, column);
             break;
         case 6:
-            std::cout << "Введите искомый элемент в массиве: ";
-            //int Searc_Key{};
+            /*std::cout << "Введите искомый элемент в массиве: ";
+            int Searc_Key{};
             std::cin >> Searc_Key;
-            std::cout << "Искомый элемент  массива ";
+            std::cout << "Искомый элемент  массива ";*/
             Line_Search_Array(Mass, line, column);
             break;
         case 7:
