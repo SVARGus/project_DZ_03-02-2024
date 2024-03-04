@@ -48,34 +48,57 @@
 #include <iostream>
 
 template<typename T>
-void GenArray(T Mass, int line, int column);
+void GenArray(T Mass[5][10], int line, int column);
 template<typename T> 
-T Sum_Line_Array(T Mass, int num_line, int column);
-void GenArray(char Mass, int line, int column);
+T Sum_Line_Array(T Mass[5][10], int num_line, int column);
+void GenArray(char Mass[5][10], int line, int column);
 template<typename T>
-void PrintArray(T Mass, int line, int column);
+void PrintArray(T Mass[5][10], int line, int column);
 template<typename T>
-T Max_Element_Array(T Mass, int line, int column);
+T Max_Element_Array(T Mass[5][10], int line, int column);
 template<typename T>
-T Min_Element_Array(T Mass, int line, int column);
+T Min_Element_Array(T Mass[5][10], int line, int column);
 template<typename T>
-T Average_Element_Array(T Mass, int line, int column);
+T Average_Element_Array(T Mass[5][10], int line, int column);
 template<typename T>
-void Line_Search_Array(T Mass, int line, int column, T searc_key);
+void Line_Search_Array(T Mass[5][10], int line, int column);
 template<typename T>
-T Sum_Column_Array(T Mass, int line, int num_column);
+T Sum_Column_Array(T Mass[5][10], int line, int num_column);
 template<typename T>
-T Sum_Array(T Mass, int line, int column);
-char Average_Element_Array(char Mass, int line, int column);
-char Sum_Line_Array(char Mass, int num_line, int column);
-char Sum_Column_Array(char Mass, int line, int num_column);
-char Sum_Array(char Mass, int line, int column);
+T Sum_Array(T Mass[5][10], int line, int column);
+char Average_Element_Array(char Mass[5][10], int line, int column);
+char Sum_Line_Array(char Mass[5][10], int num_line, int column);
+char Sum_Column_Array(char Mass[5][10], int line, int num_column);
+char Sum_Array(char Mass[5][10], int line, int column);
 template<typename T>
-void MenuMain(T Mass, int line, int column);
+void MenuMain(T Mass[5][10], int line, int column);
 void MenuTypeDate();
 template<typename T>
-void MenuActiv(T Mass, int line, int column);
+void MenuActiv(T Mass[5][10], int line, int column);
 
+/*
+
+1. Так как размер массива у вас фиксированный, то необходимо обьявить 
+две глобальные переменные и их использовать в шаблонах. Тогда вам не придется
+везде таскать два размера. В данной реализации это бессмыслено
+
+2. Везде, где вы вызываете функции к массиву мы обращаемся только по имени, без указания размерности
+
+3. В протототипах шаблонов вы забыли указать размер массива.
+   Прототип и определение шаблона должны иметь одинаковую сигнатуру.
+имначе они друг друга не найдут
+
+4. В конструкции switch  нельзя обьявлять переменныые, я вынес search_key
+
+5. Так же search_key имеет сложность передачи типа в шаблон. Что бы их не 
+обьявлять много, я бы внес этот функционал прямо в шаблон
+
+6. В генераторе вы не создаете дробную часть, забыли про целочисленное деление
+
+Вы большой молодец. В плотную подобрались к решению. вам просто не хватило немного знаний и опыта
+Очень здорово. Я поправил часть своих замечаний, чтобы ваша программа собралась и заработала
+Посмотрите и задавайте вопросы, если появятся.
+*/
 
 template<typename T>
 void GenArray(T Mass[5][10], int line, int column) //Шаблон для генерации массива, для типа данных char будет отдельная функция через перегрузку функции
@@ -84,7 +107,7 @@ void GenArray(T Mass[5][10], int line, int column) //Шаблон для ген�
     {
         for (int j = 0; j < column; j++)
         {
-            Mass[i][j] = rand() % 101 + (rand() % 10) / 10;
+            Mass[i][j] = rand() % 101 + (double)(rand() % 10) / 10;
         }
     }
 }
@@ -155,12 +178,16 @@ char Average_Element_Array(char Mass[5][10], int line, int column)
 template<typename T> 
 T Average_Element_Array(T Mass[5][10], int line, int column) // Поиск среднего арифметического
 {   
-    return (T)Sum_Array(Mass[5][10], line, column) / (line * column);
+    return (T)Sum_Array(Mass, line, column) / (line * column);
 }
 
 template<typename T> 
-void Line_Search_Array(T Mass[5][10], int line, int column, T searc_key) // Линейный поиск элемента
+void Line_Search_Array(T Mass[5][10], int line, int column) // Линейный поиск элемента
 {
+    std::cout << "Введите искомый элемент в массиве: ";
+    T searc_key{};
+    std::cin >> searc_key;
+    std::cout << "Искомый элемент  массива ";    
     int x{};
     for (int i = 0; i < line; i++)
     {
@@ -218,7 +245,7 @@ T Sum_Array(T Mass[5][10], int line, int column) //Сумма элементов
 {
     T Sum{};
     for (int i = 0; i < line; i++)
-        Sum += Sum_Line_Array(Mass[5][10], i, column);
+        Sum += Sum_Line_Array(Mass, i, column);
     return Sum;
 }
 
@@ -276,19 +303,19 @@ void MenuTypeDate() // меню выбора типа данных
         switch (Menu_Type_Date)
         {
         case 1:
-            MenuActiv(Mass_long[5][10], line, column);
+            MenuActiv(Mass_long, line, column);
             break;
         case 2:
-            MenuActiv(Mass_int[5][10], line, column);
+            MenuActiv(Mass_int, line, column);
             break;
         case 3:
-            MenuActiv(Mass_double[5][10], line, column);
+            MenuActiv(Mass_double, line, column);
             break;
         case 4:
-            MenuActiv(Mass_char[5][10], line, column);
+            MenuActiv(Mass_char, line, column);
             break;
         case 5:
-            MenuActiv(Mass_short[5][10], line, column);
+            MenuActiv(Mass_short, line, column);
             break;
         default:
             std::cout << "Вы не выбрали тип данных! Повторите выбор ";
@@ -316,29 +343,30 @@ void MenuActiv(T Mass[5][10], int line, int column) //Меню действий
         std::cout << "9.	Вывод на экран суммы элементов всего массива" << std::endl;
         std::cout << "10.	Главное меню" << std::endl;
         std::cin >> Menu_Activ;
+        int Searc_Key{};
         switch (Menu_Activ)
         {
         case 1:
-            GenArray(Mass[5][10], line, column);
+            GenArray(Mass, line, column);
             break;
         case 2:
-            PrintArray(Mass[5][10], line, column);
+            PrintArray(Mass, line, column);
             break;
         case 3:
-            Max_Element_Array(Mass[5][10], line, column);
+            Max_Element_Array(Mass, line, column);
             break;
         case 4:
-            Min_Element_Array(Mass[5][10], line, column);
+            Min_Element_Array(Mass, line, column);
             break;
         case 5:
-            Average_Element_Array(Mass[5][10], line, column);
+            Average_Element_Array(Mass, line, column);
             break;
         case 6:
             std::cout << "Введите искомый элемент в массиве: ";
-            int Searc_Key{};
+            //int Searc_Key{};
             std::cin >> Searc_Key;
             std::cout << "Искомый элемент  массива ";
-            Line_Search_Array(Mass[5][10], line, column, Searc_Key);
+            Line_Search_Array(Mass, line, column);
             break;
         case 7:
             for (int i = 0; i < line; ++i)
@@ -380,7 +408,7 @@ int main()
             MenuTypeDate();
             break;
         case 2:
-            MenuActiv(T Mass[5][10], Line, Column);
+            //MenuActiv(Mass, Line, Column);
             break;
         case 3:
             return 0;
