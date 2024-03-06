@@ -371,13 +371,13 @@ void MenuActiv(T Mass[5][10], int line, int column) //Меню действий
         case 7:
             for (int i = 0; i < line; ++i)
             {
-                std::cout << "Сумма элементов строки " << i + 1 << " = " << Sum_Line_Array(Mass, line, column) << std::endl;
+                std::cout << "Сумма элементов строки " << i + 1 << " = " << Sum_Line_Array(Mass, i, column) << std::endl;
             }
             break;
         case 8:
-            for (int i = 0; i < line; ++i)
+            for (int i = 0; i < column; ++i)
             {
-                std::cout << "Сумма элементов столбца " << i + 1 << " = " << Sum_Column_Array(Mass, line, column) << std::endl;
+                std::cout << "Сумма элементов столбца " << i + 1 << " = " << Sum_Column_Array(Mass, line, i) << std::endl;
             }
             break;
         case 9:
