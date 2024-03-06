@@ -371,12 +371,17 @@ void MenuActiv(T Mass[5][10], int line, int column) //Меню действий
         case 7:
             for (int i = 0; i < line; ++i)
             {
-
+                std::cout << "Сумма элементов строки " << i + 1 << " = " << Sum_Line_Array(Mass, line, column) << std::endl;
             }
             break;
         case 8:
+            for (int i = 0; i < line; ++i)
+            {
+                std::cout << "Сумма элементов столбца " << i + 1 << " = " << Sum_Column_Array(Mass, line, column) << std::endl;
+            }
             break;
         case 9:
+            std::cout << "Сумма элементов массива = " << Sum_Array(Mass, line, column) << std::endl;
             break;
         case 10:
             break;
@@ -407,7 +412,7 @@ int main()
         case 1:
             MenuTypeDate();
             break;
-        case 2:
+        case 2: 
             //MenuActiv(Mass, Line, Column);
             break;
         case 3:
