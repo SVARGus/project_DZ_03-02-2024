@@ -37,8 +37,11 @@
 #include <iostream>
 
 int CommonDivisor(int Num1, int Num2);
-int GenNum();
-void GameBullsCows(int Num);
+void GenNum(int Mass[], int size);
+int GameBullsCows(int Num);
+void PrintNum(int Mass[], int size);
+int CowsNum(int MassSearch[], int Muss[], int size, bool BoolMass[]);
+int BullsNum(int MassSearch[], int Muss[], int size, bool BoolMass[]);
 
 
 int CommonDivisor(int Num1, int Num2) //Функция рекурсии по заданию 1, Использовал алгоритм Евклида
@@ -52,27 +55,100 @@ int CommonDivisor(int Num1, int Num2) //Функция рекурсии по з�
 	CommonDivisor(Num2, NumX);
 }
 
-int GenNum() //функция генерации четырехзначного числа от 1000 до 9999. Для задания 2
+void GenNum(int Mass[], int size) //функция генерации одномерного массива
 {
-	return rand() % 9000 + 1000;
+	for (int i = 0; i < size; i++)
+	{
+		Mass[i] = rand() % 10;
+	}
 }
 
-void GameBullsCows(int Num)
+void PrintNum(int Mass[], int size)
 {
+	for (int i = 0; i < size; i++)
+	{
+		std::cout << Mass[i];
+	}
+}
+
+int CowsNum(int MassSearch[], int Muss[], int size, bool BoolMass[]) // количество Коров и заполнение специального булевского массива для нахождения в дальнейшем Быков
+{
+	int Cows{};
+	for (int i = 0; i < size; i++)
+	{
+		if (MassSearch[i] == Muss[i])
+		{
+			Cows++;
+			BoolMass[i] = 1;
+		}
+	}
+	return Cows;
+}
+
+int BullsNum(int MassSearch[], int Muss[], int size, bool BoolMass[]) //Количество Быков
+{
+	int Bulls{};
+	for (int i = 0; i < size; i++)
+	{
+		for (int j = 0; j < size; j++)
+		{
+			if (BoolMass[i] != 1 && MassSearch[i] == Muss[j] && BoolMass[j] != 1)
+			{
+				Bulls++;
+			}
+		}
+	}
+	return Bulls;
+}
+
+int GameBullsCows(int MassSearch[], int Muss[], int size, bool BoolMass[])
+{
+	int MussUser[size]{};
+	int NumUser{};
+	bool BoolMass[SIZE]{}; /*специальный массив для исключения конкрентной порядковой цифры если она уже ранее прошла проверку на Корову, в противном случае Быки не корректно будут считаться.
+	Например если заказдонное число 1041 и пользователь вводит 1111, то программа будет выводить 2 коровы и 6 быков, а должно выводить 2 коровы и 0 быков */
+	
+
+}
+
+/*int GameBullsCows(int Num)
+{
+	int NumAttempts{ 0 }; // надо понять как вывести верное количество попыток
 	int NumUser{};
 	std::cout << "Введите ваше четырехзначное число: ";
 	std::cin >> NumUser;
-	int Bulls{};
-	int Cows{};
-	for (int i = 0; i < 4; i++)
+	int Bulls{}; //Быки, сколько угадано чисел
+	int Cows{}; //Коровы, сколько угадано чисел и стоит на своем месте
+	for (int i{}, x{}, NumX = Num, x1{}; i < 4; i++, x1=0)
 	{
-
-		for (int j = 0; j < 4; j++)
+		x = NumX % 10;
+		for (int j{}, y{}, NumY = NumUser; j < 4; j++)
 		{
-
+			y = NumY % 10;
+			if (i == j && x == y)
+			{
+				Cows++;
+			}
+			else if (x == y && i != j)
+			{
+				x1++;
+			}
+			NumY /= 10;
 		}
+		if (x1 == 1)
+		{
+			Bulls++;
+		}
+		NumX /= 10;
 	}
-}
+	std::cout << "Количество Быков = " << Bulls << std::endl;
+	std::cout << "Количество Коров = " << Cows << std::endl;
+	++NumAttempts;
+	if (Cows == 4)
+		return NumAttempts;
+	GameBullsCows(Num);
+	return NumAttempts;
+}*/
 
 
 
@@ -98,11 +174,13 @@ int main_1() // Тело программы для задания 1, для ра
 int main()
 {
 	setlocale(LC_ALL, "ru");
-
-	int SearchNum{};
-	SearchNum = GenNum();
-	std::cout << SearchNum << std::endl; //Времення строка, позже удалить или полностью закомментировать.
-
+	srand(time(NULL));
+	const int SIZE{ 4 };
+	int SearchNum[SIZE]{};
+	GenNum(SearchNum, SIZE);
+	PrintNum(SearchNum, SIZE);
+	//std::cout << SearchNum << std::endl;
+	//std::cout <<"Количество попыток = " << GameBullsCows(SearchNum) << std::endl;
 
 	return 0;
 }
