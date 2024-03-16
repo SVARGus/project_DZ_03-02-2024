@@ -36,12 +36,13 @@
 
 #include <iostream>
 
-int CommonDivisor(int Num1, int Num2);
-void GenNum(int Mass[], int size);
-int GameBullsCows(int Num);
-void PrintNum(int Mass[], int size);
-int CowsNum(int MassSearch[], int Muss[], int size, bool BoolMass[]);
-int BullsNum(int MassSearch[], int Muss[], int size, bool BoolMass[]);
+int CommonDivisor(int Num1, int Num2); // 1
+void GenNum(int Mass[], int size); // 2
+void PrintNum(int Mass[], int size); // 2
+int CowsNum(int MassSearch[], int Muss[], int size, bool BoolMass[]); // 2
+int BullsNum(int MassSearch[], int Muss[], int size, bool BoolMass[]); // 2
+void MussNumUser(int NumUser, int Muss[], int size); // 2
+int GameBullsCows(int MassSearch[], int Muss[], int size, bool BoolMass[], int NumAttempts); // 2
 
 
 int CommonDivisor(int Num1, int Num2) //Функция рекурсии по заданию 1, Использовал алгоритм Евклида
@@ -55,7 +56,7 @@ int CommonDivisor(int Num1, int Num2) //Функция рекурсии по з�
 	CommonDivisor(Num2, NumX);
 }
 
-void GenNum(int Mass[], int size) //функция генерации одномерного массива
+void GenNum(int Mass[], int size) //функция генерации одномерного массива по заданию 2
 {
 	for (int i = 0; i < size; i++)
 	{
@@ -63,15 +64,16 @@ void GenNum(int Mass[], int size) //функция генерации одном
 	}
 }
 
-void PrintNum(int Mass[], int size)
+void PrintNum(int Mass[], int size) //функция вывода одномерного массива для задания 2
 {
 	for (int i = 0; i < size; i++)
 	{
 		std::cout << Mass[i];
 	}
+	std::cout << std::endl;
 }
 
-int CowsNum(int MassSearch[], int Muss[], int size, bool BoolMass[]) // количество Коров и заполнение специального булевского массива для нахождения в дальнейшем Быков
+int CowsNum(int MassSearch[], int Muss[], int size, bool BoolMass[]) // количество Коров и заполнение специального булевского массива для нахождения в дальнейшем Быков (задание 2)
 {
 	int Cows{};
 	for (int i = 0; i < size; i++)
@@ -81,11 +83,13 @@ int CowsNum(int MassSearch[], int Muss[], int size, bool BoolMass[]) // коли
 			Cows++;
 			BoolMass[i] = 1;
 		}
+		else
+			BoolMass[i] = 0;
 	}
 	return Cows;
 }
 
-int BullsNum(int MassSearch[], int Muss[], int size, bool BoolMass[]) //Количество Быков
+int BullsNum(int MassSearch[], int Muss[], int size, bool BoolMass[]) //Количество Быков (задание 2)
 {
 	int Bulls{};
 	for (int i = 0; i < size; i++)
@@ -101,14 +105,32 @@ int BullsNum(int MassSearch[], int Muss[], int size, bool BoolMass[]) //Коли
 	return Bulls;
 }
 
-int GameBullsCows(int MassSearch[], int Muss[], int size, bool BoolMass[])
+void MussNumUser(int NumUser, int Muss[], int size) //перевод вводимого числа пользователем в массив (задание 2)
 {
-	int MussUser[size]{};
-	int NumUser{};
-	bool BoolMass[SIZE]{}; /*специальный массив для исключения конкрентной порядковой цифры если она уже ранее прошла проверку на Корову, в противном случае Быки не корректно будут считаться.
-	Например если заказдонное число 1041 и пользователь вводит 1111, то программа будет выводить 2 коровы и 6 быков, а должно выводить 2 коровы и 0 быков */
-	
+	for (int i = size - 1; i >= 0; i--)
+	{
+		Muss[i] = NumUser % 10;
+		NumUser /= 10;
+	}
+}
 
+
+int GameBullsCows(int MassSearch[], int Muss[], int size, bool BoolMass[], int NumAttempts = 1) // игра Быки и коровы (задание 2)
+{
+	int y{ 1 };
+	int NumUser{};
+	std::cout << "Введите ваше число: ";
+	std::cin >> NumUser;
+	MussNumUser(NumUser, Muss, size);
+	std::cout << "Количество коров = " << CowsNum(MassSearch, Muss, size, BoolMass);
+	std::cout << ". Количество быков = " << BullsNum(MassSearch, Muss, size, BoolMass) << std::endl;
+	if (CowsNum(MassSearch, Muss, size, BoolMass) == 4)
+		return NumAttempts;
+	else
+	{
+		NumAttempts++;
+		GameBullsCows(MassSearch, Muss, size, BoolMass, NumAttempts);
+	}
 }
 
 /*int GameBullsCows(int Num)
@@ -177,10 +199,12 @@ int main()
 	srand(time(NULL));
 	const int SIZE{ 4 };
 	int SearchNum[SIZE]{};
+	int MussUser[SIZE]{};
 	GenNum(SearchNum, SIZE);
-	PrintNum(SearchNum, SIZE);
-	//std::cout << SearchNum << std::endl;
-	//std::cout <<"Количество попыток = " << GameBullsCows(SearchNum) << std::endl;
+	PrintNum(SearchNum, SIZE); // позже надо закомитить
+	bool BoolMass[SIZE]{}; /*специальный массив для исключения конкрентной порядковой цифры если она уже ранее прошла проверку на Корову, в противном случае Быки не корректно будут считаться.
+	Например если заказдонное число 1041 и пользователь вводит 1111, то программа будет выводить 2 коровы и 6 быков, а должно выводить 2 коровы и 0 быков */
+	std::cout <<"Количество попыток = " << GameBullsCows(SearchNum, MussUser, SIZE, BoolMass) << std::endl;
 
 	return 0;
 }
