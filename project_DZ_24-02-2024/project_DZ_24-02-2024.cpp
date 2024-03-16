@@ -43,6 +43,7 @@ int CowsNum(int MassSearch[], int Muss[], int size, bool BoolMass[]); // 2
 int BullsNum(int MassSearch[], int Muss[], int size, bool BoolMass[]); // 2
 void MussNumUser(int NumUser, int Muss[], int size); // 2
 int GameBullsCows(int MassSearch[], int Muss[], int size, bool BoolMass[], int NumAttempts); // 2
+int Exponentiation(int a, int n); // 4
 
 
 int CommonDivisor(int Num1, int Num2) //Функция рекурсии по заданию 1, Использовал алгоритм Евклида
@@ -133,6 +134,16 @@ int GameBullsCows(int MassSearch[], int Muss[], int size, bool BoolMass[], int N
 	}
 }
 
+int Exponentiation(int a, int n) // возведение в степень через рекурсию (задание 4)
+{
+	int x{};
+	if (n == 1)
+		return a;
+	else
+		x = a * Exponentiation(a, --n);
+	return x;
+}
+
 /*int GameBullsCows(int Num)
 {
 	int NumAttempts{ 0 }; // надо понять как вывести верное количество попыток
@@ -193,7 +204,7 @@ int main_1() // Тело программы для задания 1, для ра
 	return 0;
 }
 
-int main()
+int main_2() // Тело программы для задания 2, для работы заменить main_2 на main
 {
 	setlocale(LC_ALL, "ru");
 	srand(time(NULL));
@@ -201,10 +212,36 @@ int main()
 	int SearchNum[SIZE]{};
 	int MussUser[SIZE]{};
 	GenNum(SearchNum, SIZE);
-	PrintNum(SearchNum, SIZE); // позже надо закомитить
+	//PrintNum(SearchNum, SIZE); // позже надо закомитить
 	bool BoolMass[SIZE]{}; /*специальный массив для исключения конкрентной порядковой цифры если она уже ранее прошла проверку на Корову, в противном случае Быки не корректно будут считаться.
 	Например если заказдонное число 1041 и пользователь вводит 1111, то программа будет выводить 2 коровы и 6 быков, а должно выводить 2 коровы и 0 быков */
 	std::cout <<"Количество попыток = " << GameBullsCows(SearchNum, MussUser, SIZE, BoolMass) << std::endl;
+
+	return 0;
+}
+
+int main_4() // Тело программы для задания 4, для работы заменить main_4 на main
+{
+	setlocale(LC_ALL, "ru");
+
+	int a{}; // возводимое число
+	int n{}; //степень
+	std::cout << "Введите возводимое число = ";
+	std::cin >> a;
+	std::cout << "Введите в какую степень возводите = ";
+	std::cin >> n;
+	std::cout << "Результат возведения числа " << a << " в степень " << n << " = " << Exponentiation(a, n) << std::endl;
+
+	return 0;
+}
+
+int main() // Тело программы для задания 5, для работы заменить main_5 на main
+{
+	setlocale(LC_ALL, "ru");
+
+	char Z{'*'};
+	int N{};
+
 
 	return 0;
 }
