@@ -72,7 +72,7 @@ char Sum_Column_Array(char Mass[5][10], int line, int num_column);
 char Sum_Array(char Mass[5][10], int line, int column);
 template<typename T>
 void MenuMain(T Mass[5][10], int line, int column);
-void MenuTypeDate();
+int MenuTypeDate(int Menu_Type_Date);
 template<typename T>
 void MenuActiv(T Mass[5][10], int line, int column);
 
@@ -281,16 +281,8 @@ void MenuMain(T Mass[5][10], int line, int column) // главное меню
 }
 */
 
-void MenuTypeDate() // меню выбора типа данных
+int MenuTypeDate(int Menu_Type_Date) // меню выбора типа данных
 {
-    int Menu_Type_Date{};
-    int line{ 5 };
-    int column{ 10 };
-    long Mass_long[5][10]{};
-    int Mass_int[5][10]{};
-    double Mass_double[5][10]{};
-    char Mass_char[5][10]{};
-    short Mass_short[5][10]{};
     do
     {
         std::cout << "Выберите тип данных" << std::endl;
@@ -303,19 +295,19 @@ void MenuTypeDate() // меню выбора типа данных
         switch (Menu_Type_Date)
         {
         case 1:
-            MenuActiv(Mass_long, line, column);
+            return 1;
             break;
         case 2:
-            MenuActiv(Mass_int, line, column);
+            return 2;
             break;
         case 3:
-            MenuActiv(Mass_double, line, column);
+            return 3;
             break;
         case 4:
-            MenuActiv(Mass_char, line, column);
+            return 4;
             break;
         case 5:
-            MenuActiv(Mass_short, line, column);
+            return 5;
             break;
         default:
             std::cout << "Вы не выбрали тип данных! Повторите выбор ";
@@ -398,6 +390,12 @@ int main()
 
     int Line{ 5 };
     int Column{ 10 };
+    int Menu_Type_Date{}; // отвечает за выбор типа данных
+    long Mass_long[5][10]{}; // тип данных 1
+    int Mass_int[5][10]{}; // тип данных 2
+    double Mass_double[5][10]{}; // тип данных 3
+    char Mass_char[5][10]{}; // тип данных 4
+    short Mass_short[5][10]{}; // тип данных 5
 
     int Menu{};
     do
@@ -410,10 +408,27 @@ int main()
         switch (Menu)
         {
         case 1:
-            MenuTypeDate();
+            Menu_Type_Date = MenuTypeDate(Menu_Type_Date);
             break;
         case 2: 
-            //MenuActiv(Mass, Line, Column);
+            switch (Menu_Type_Date)
+            {
+            case 1:
+                MenuActiv(Mass_long, Line, Column);
+                break;
+            case 2:
+                MenuActiv(Mass_int, Line, Column);
+                break;
+            case 3:
+                MenuActiv(Mass_double, Line, Column);
+                break;
+            case 4:
+                MenuActiv(Mass_char, Line, Column);
+                break;
+            case 5:
+                MenuActiv(Mass_short, Line, Column);
+                break;
+            }
             break;
         case 3:
             return 0;
