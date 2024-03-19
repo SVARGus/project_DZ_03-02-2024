@@ -37,13 +37,19 @@
 #include <iostream>
 
 int CommonDivisor(int Num1, int Num2); // 1
-void GenNum(int Mass[], int size); // 2
-void PrintNum(int Mass[], int size); // 2
+void GenNum(int Mass[], int size, int x = 10); // 2 и 7
+void PrintNum(int Mass[], int size); // 2 и 7
 int CowsNum(int MassSearch[], int Muss[], int size, bool BoolMass[]); // 2
 int BullsNum(int MassSearch[], int Muss[], int size, bool BoolMass[]); // 2
 void MussNumUser(int NumUser, int Muss[], int size); // 2
 int GameBullsCows(int MassSearch[], int Muss[], int size, bool BoolMass[], int NumAttempts); // 2
 int Exponentiation(int a, int n); // 4
+void PrintChar(char x, int n); // 5
+int SumAB(int a, int b); // 6
+int MinNum(int a, int b); // 6
+int MaxNum(int a, int b); // 6
+int SearchISumMuss(int Muss[], int Size, int MinSum, int i = 0, int Key = 0, int SizeSum = 10); // 7
+int SumMuss10(int Muss[], int i, int k = 0); // 7
 
 
 int CommonDivisor(int Num1, int Num2) //Функция рекурсии по заданию 1, Использовал алгоритм Евклида
@@ -57,19 +63,19 @@ int CommonDivisor(int Num1, int Num2) //Функция рекурсии по з�
 	CommonDivisor(Num2, NumX);
 }
 
-void GenNum(int Mass[], int size) //функция генерации одномерного массива по заданию 2
+void GenNum(int Mass[], int size, int x) //функция генерации одномерного массива по заданию 2 и 7
 {
 	for (int i = 0; i < size; i++)
 	{
-		Mass[i] = rand() % 10;
+		Mass[i] = rand() % x;
 	}
 }
 
-void PrintNum(int Mass[], int size) //функция вывода одномерного массива для задания 2
+void PrintNum(int Mass[], int size) //функция вывода одномерного массива для задания 2 и 7
 {
 	for (int i = 0; i < size; i++)
 	{
-		std::cout << Mass[i];
+		std::cout << Mass[i] << " ";
 	}
 	std::cout << std::endl;
 }
@@ -144,6 +150,50 @@ int Exponentiation(int a, int n) // возведение в степень че�
 	return x;
 }
 
+void PrintChar(char x, int n) // вывод звезд в ряд N раз (задание 5)
+{
+	if (n == 0)
+		return;
+	PrintChar(x, --n);
+	std::cout << "* ";
+}
+
+int SumAB(int a, int b) // Сумма чисел от А до В (задание 6)
+{
+	if (a < b)
+		return a + SumAB(a+1, b);
+}
+
+int MinNum(int a, int b) // Определение минимального числа из двух чисел (Для задания 6)
+{
+	return (a < b) ? a : b;
+}
+
+int MaxNum(int a, int b) // Определение максимального числа из двух чисел (Для задания 6)
+{
+	return (a > b) ? a : b;
+}
+
+int SearchISumMuss(int Muss[], int Size, int MinSum, int i, int Key, int SizeSum) // Определение индекса массива с минимальной суммой последовательных чисел i+9 (задание 7)
+{
+	if (MinSum > SumMuss10(Muss, i))
+	{
+		Key = i;
+		MinSum = SumMuss10(Muss, i);
+		//std::cout << "Key " << Key << " Min " << MinSum << std::endl; // временный вывод позиции с минимальной суммой
+	}
+	if (i == Size - SizeSum)
+		return Key;
+	else
+		SearchISumMuss(Muss, Size, MinSum, i + 1, Key);
+}
+
+int SumMuss10(int Muss[], int i, int k) // Сумма 10 последовательных чисел массива включая i (Задание 7)
+{
+	if (++k <= 10)
+		return Muss[i] + SumMuss10(Muss, i + 1, k);
+}
+
 /*int GameBullsCows(int Num)
 {
 	int NumAttempts{ 0 }; // надо понять как вывести верное количество попыток
@@ -188,7 +238,7 @@ int Exponentiation(int a, int n) // возведение в степень че�
 
 int main_1() // Тело программы для задания 1, для работы заменить main_1 на main
 {
-	setlocale(LC_ALL, "ru");
+	/*setlocale(LC_ALL, "ru");*/
 
 	int Num1{};
 	int Num2{};
@@ -206,8 +256,9 @@ int main_1() // Тело программы для задания 1, для ра
 
 int main_2() // Тело программы для задания 2, для работы заменить main_2 на main
 {
-	setlocale(LC_ALL, "ru");
-	srand(time(NULL));
+	/*setlocale(LC_ALL, "ru");
+	srand(time(NULL));*/
+
 	const int SIZE{ 4 };
 	int SearchNum[SIZE]{};
 	int MussUser[SIZE]{};
@@ -222,7 +273,7 @@ int main_2() // Тело программы для задания 2, для ра
 
 int main_4() // Тело программы для задания 4, для работы заменить main_4 на main
 {
-	setlocale(LC_ALL, "ru");
+	/*setlocale(LC_ALL, "ru");*/
 
 	int a{}; // возводимое число
 	int n{}; //степень
@@ -235,13 +286,86 @@ int main_4() // Тело программы для задания 4, для ра
 	return 0;
 }
 
-int main() // Тело программы для задания 5, для работы заменить main_5 на main
+int main_5() // Тело программы для задания 5, для работы заменить main_5 на main
 {
-	setlocale(LC_ALL, "ru");
+	/*setlocale(LC_ALL, "ru");*/
 
 	char Z{'*'};
 	int N{};
+	std::cout << "Сколько раз вывести звезд в ряд? ";
+	std::cin >> N;
+	PrintChar(Z, N);
 
+	return 0;
+}
+
+int main_6() // Тело программы для задания 6, для работы заменить main_6 на main
+{
+	/*setlocale(LC_ALL, "ru");*/
+
+	int A{};
+	int B{};
+	std::cout << "Введите число A = ";
+	std::cin >> A;
+	std::cout << "Введите число B = ";
+	std::cin >> B;
+	std::cout << "Сумма чисел от " << MinNum(A, B) << " до " << MaxNum(A, B) << " = " << SumAB(MinNum(A, B), MaxNum(A, B)) << std::endl;
+
+	return 0;
+}
+
+int main_7() // Тело программы для задания 7, для работы заменить main_7 на main
+{
+	/*setlocale(LC_ALL, "ru");
+	srand(time(NULL));*/
+
+	const int SIZE{ 100 };
+	int Muss100[SIZE]{};
+	GenNum(Muss100, SIZE, 20);
+	PrintNum(Muss100, SIZE); // вывод массива, временно или оставить
+	std::cout << std::endl;
+	int MinSum = SumMuss10(Muss100, 0);
+	//std::cout << "Минимальная сумма " << MinSum << std::endl; // временный вывод суммы с 0 позиции
+	std::cout << "Позиция с минимальной суммой 10 послеждовательных чисел = " << SearchISumMuss(Muss100, SIZE, MinSum) << std::endl;
+
+	return 0;
+}
+
+int main()
+{
+	setlocale(LC_ALL, "ru");
+	srand(time(NULL));
+
+	int Menu{};
+	do
+	{
+		std::cout << "Выбирете ДЗ для его выполнения с 1 по 7, 0 - выход: ";
+		std::cin >> Menu;
+		switch (Menu)
+		{
+		case 1:
+			main_1();
+			break;
+		case 2:
+			main_2();
+			break;
+		case 3:
+			std::cout << "Задание с шахмотной доской пока не выполнено, ожидайте обновления )))" << std::endl;
+			break;
+		case 4:
+			main_4();
+			break;
+		case 5:
+			main_5();
+			break;
+		case 6:
+			main_6();
+			break;
+		case 7:
+			main_7();
+			break;
+		}
+	} while (Menu != 0);
 
 	return 0;
 }
