@@ -46,7 +46,8 @@ int SizeNewMuss_Past_1(int* muss1, int* muss2, int size1, int size2, int* muss3 
 int NoRepeatNumMuss(int* muss, int size, int j); // 1
 int SizeNewMuss_Past_2(int* muss1, int* muss2, int size1, int size2, int* muss3 = 0, int size3 = 0); // 2
 void DateEntryMass(int* muss, int size); // 5
-void DelitNum(int muss[], int size, int del); // 5
+void DelitNum(int* muss, int size, int del); // 5
+int PrimeNum(int* muss, int k); // 6
 
 
 void GenMuss(int* muss, int size, int k) // Случайная генерация одномерного массива (Задание 1-5)
@@ -143,14 +144,43 @@ void DateEntryMass(int* muss, int size) // Ввод данных в массив
 	}
 }
 
-void DelitNum(int muss[], int size, int del) // Функция удаления данных масива (задание 5). Если false - удалить четные, если true - удалить не четные.
+void DelitNum(int* muss, int size, int del) // Функция удаления данных масива (задание 5). Если false - удалить четные, если true - удалить не четные.
 {
 	for (int i = 0; i < size; i++)
 	{
 		if (muss[i] % 2 == del)
 			muss[i] = 0;
-		else
-			muss[i] = 0;
+	}
+}
+
+int PrimeNum(int* muss, int k) // Функция определения является ли значение массива простым числом или нет (если на выходе 0 - то является, если на выходе 1 - то не является) (Задание 6)
+{
+	for (int i = 2; i < muss[k]; i++)
+	{
+		if (muss[k] % i == 0)
+		{
+			return 0;
+		}
+	}
+	return 1;
+}
+
+void* CreatMussNotPrimeNum(int* muss, int size, int* muss2) // Функция зполнения массива без простых чисел из другого массива
+{
+	int newsize{};
+	for (int i = 0; i < size; i++)
+	{
+		if (PrimeNum(muss, i) == 1)
+			newsize++;
+	}
+	muss2 = new int[newsize];
+	for (int i = 0, k = 0; i < size; i++)
+	{
+		if (PrimeNum(muss, i) == 1)
+		{
+			muss2[k] = muss[i];
+			k++;
+		}
 	}
 }
 
@@ -292,7 +322,7 @@ int main_4() // Задание 4. Для работы заменить main_4 н
 	return 0;
 }
 
-int main() // Задание 5. Для работы заменить main_5 на main
+int main_5() // Задание 5. Для работы заменить main_5 на main
 {
 	setlocale(LC_ALL, "ru");
 	srand(time(NULL));
@@ -326,6 +356,26 @@ int main() // Задание 5. Для работы заменить main_5 на
 			break;
 		}
 	} while (Menu != 5);
+	delete[] Muss;
+
+	return 0;
+}
+
+int main() // Задание 6. Для работы заменить main_6 на main
+{
+	setlocale(LC_ALL, "ru");
+	srand(time(NULL));
+
+	int Size{};
+	std::cout << "Введите размер массива = ";
+	std::cin >> Size;
+	int* Muss = new int[Size];
+	std::cout << "Сгенерируем новый массив и выведем его на экарн: ";
+	GenMuss(Muss, Size);
+	PrintMuss(Muss, Size);
+	int* Muss2{nullptr};
+	CreatMussNotPrimeNum(Muss, Size, Muss2);
+	
 
 	return 0;
 }
