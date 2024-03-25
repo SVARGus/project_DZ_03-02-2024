@@ -40,21 +40,23 @@
 
 #include <iostream>
 
-void GenMuss(int* muss, int size, int k = 11); // 1-5
-void PrintMuss(int* muss, int size); // 1-5
+void GenMuss(int* muss, int size, int k = 11, int minus = 0); // 1-6
+void PrintMuss(int* muss, int size); // 1-6
 int SizeNewMuss_Past_1(int* muss1, int* muss2, int size1, int size2, int* muss3 = 0, int size3 = 0); // 1
 int NoRepeatNumMuss(int* muss, int size, int j); // 1
 int SizeNewMuss_Past_2(int* muss1, int* muss2, int size1, int size2, int* muss3 = 0, int size3 = 0); // 2
 void DateEntryMass(int* muss, int size); // 5
 void DelitNum(int* muss, int size, int del); // 5
 int PrimeNum(int* muss, int k); // 6
+void CreatMussNotPrimeNum(int* muss, int size, int* &muss2); // 6
+void BreakMussPMZ(int* muss, int size, int*& mussZ, int* sizeZ, int*& mussP, int* sizeP, int*& mussM, int* sizeM); // 7
 
 
-void GenMuss(int* muss, int size, int k) // Случайная генерация одномерного массива (Задание 1-5)
+void GenMuss(int* muss, int size, int k, int minus) // Случайная генерация одномерного массива (Задание 1-5), k отвечает за диапазон генерации (по умолчанию от 0 до 10), minus отвечает за генерацию отрицательных чисел (по умолчанию 0)
 {
 	for (int i = 0; i < size; i++)
 	{
-		muss[i] = rand() % k;
+		muss[i] = rand() % k + minus;
 	}
 }
 
@@ -165,21 +167,57 @@ int PrimeNum(int* muss, int k) // Функция определения явля
 	return 1;
 }
 
-void* CreatMussNotPrimeNum(int* muss, int size, int* muss2) // Функция зполнения массива без простых чисел из другого массива
+void CreatMussNotPrimeNum(int* muss, int size, int* &muss2) // Функция зполнения массива без простых чисел из другого массива (Задание 6)
 {
 	int newsize{};
 	for (int i = 0; i < size; i++)
 	{
-		if (PrimeNum(muss, i) == 1)
+		if (PrimeNum(muss, i) == 0)
 			newsize++;
 	}
 	muss2 = new int[newsize];
 	for (int i = 0, k = 0; i < size; i++)
 	{
-		if (PrimeNum(muss, i) == 1)
+		if (PrimeNum(muss, i) == 0)
 		{
 			muss2[k] = muss[i];
 			k++;
+		}
+	}
+	//return muss2[0];
+}
+
+/*Функция разбивающая содержимое получаемого массива на три разных массива (1 - нулевые значения, 2 - положительные значения, 3 отрицательные значения. (задание 7)*/
+void BreakMussPMZ(int* muss, int size, int* &mussZ, int* sizeZ, int* &mussP, int* sizeP, int* &mussM, int* sizeM)
+{
+	for (int i = 0; i < size; i++)
+	{
+		if (muss[i] < 0)
+			*sizeM += 1;
+		else if (muss[i] > 0)
+			*sizeP += 1;
+		else
+			*sizeZ += 1;
+	}
+	mussZ = new int[*sizeZ];
+	mussP = new int[*sizeP];
+	mussM = new int[*sizeM];
+	for (int i = 0, z = 0, p = 0, m = 0; i < size; i++)
+	{
+		if (muss[i] < 0)
+		{
+			mussM[m] = muss[i];
+			m++;
+		}
+		else if (muss[i] > 0)
+		{
+			mussP[p] = muss[i];
+			p++;
+		}
+		else
+		{
+			mussZ[z] = muss[i];
+			z++;
 		}
 	}
 }
@@ -361,7 +399,7 @@ int main_5() // Задание 5. Для работы заменить main_5 н
 	return 0;
 }
 
-int main() // Задание 6. Для работы заменить main_6 на main
+int main_6() // Задание 6. Для работы заменить main_6 на main
 {
 	setlocale(LC_ALL, "ru");
 	srand(time(NULL));
@@ -371,11 +409,98 @@ int main() // Задание 6. Для работы заменить main_6 на
 	std::cin >> Size;
 	int* Muss = new int[Size];
 	std::cout << "Сгенерируем новый массив и выведем его на экарн: ";
-	GenMuss(Muss, Size);
+	GenMuss(Muss, Size, 101);
 	PrintMuss(Muss, Size);
 	int* Muss2{nullptr};
 	CreatMussNotPrimeNum(Muss, Size, Muss2);
-	
+	int Size2{};
+	for (int i = 0; i < Size; i++)
+	{
+		if (PrimeNum(Muss, i) == 0)
+			Size2++;
+	}
+	std::cout << "Теперь выведем массив без простых чисел: ";
+	PrintMuss(Muss2, Size2);
+	delete[] Muss;
+	delete[] Muss2;
+
+	return 0;
+}
+
+int main_7() // Задание 7. Для работы заменить main_7 на main
+{
+	setlocale(LC_ALL, "ru");
+	srand(time(NULL));
+	const int SIZE{ 30 };
+	int Muss1[SIZE];
+	std::cout << "Сгенерируем массив с положительными и отрицательными числами и выведем на экран:" << std::endl;
+	GenMuss(Muss1, SIZE, 51, -25);
+	PrintMuss(Muss1, SIZE);
+	int* MussZero{ nullptr };
+	int* MussPlus{ nullptr };
+	int* MussMinus{ nullptr };
+	int SizeZero{};
+	int SizePlus{};
+	int SizeMinus{};
+	BreakMussPMZ(Muss1, SIZE, MussZero, &SizeZero, MussPlus, &SizePlus, MussMinus, &SizeMinus);
+	std::cout << "Выведем массив с нулями: ";
+	PrintMuss(MussZero, SizeZero);
+	std::cout << "Выведем массив с положительными элементами: ";
+	PrintMuss(MussPlus, SizePlus);
+	std::cout << "Выведем массив с отрицательными элемнтами: ";
+	PrintMuss(MussMinus, SizeMinus);
+
+	return 0;
+}
+
+int main()
+{
+	setlocale(LC_ALL, "ru");
+	srand(time(NULL));
+	int Menu{};
+	std::cout << "Меню выполнения домашнего задания. Выберети вариант от 1 до 7, а 0 это выход: ";
+	do
+	{
+		std::cin >> Menu;
+		switch (Menu)
+		{
+		case 1:
+			std::cout << "Задание 1:\nДаны два массива : А[M] и B[N](M и N вводятся с клавиатуры).\nНеобходимо создать третий массив минимально возможного размера,\nв котором нужно собрать элементы массива A, которыене включаются в массив B, без повторений." << std::endl;
+			main_1();
+			std::cout << std::endl;
+			break;
+		case 2:
+			std::cout << "Задание 2:\nДаны два массива : А[M] и B[N](M и N вводятся с клавиатуры).\nНеобходимо создать третий массив минимально возможного размера, \nв котором нужно собрать элементы массивов A и B, которые не являются общими д ля них, без повторений." << std::endl;
+			main_2();
+			std::cout << std::endl;
+			break;
+		case 3:
+			std::cout << "Задание 3:\nДаны два массива : А[M] и B[N](M и N вводятся с клавиатуры).\nНеобходимо создать третий массив минимально возможного размера,\nв котором нужно собрать элементы обоих массивов." << std::endl;
+			main_3();
+			std::cout << std::endl;
+			break;
+		case 4:
+			std::cout << "Задание 4:\nДаны два массива : А[M] и B[N](M и N вводятся с клавиатуры).\nНеобходимо создать третий массив минимально возможного раз мера,\nв котором нужно собрать общие элементы двух массивов без повторений." << std::endl;
+			main_4();
+			std::cout << std::endl;
+			break;
+		case 5:
+			std::cout << "Задание 5:\nДан массив : А[M](M вводи тся с клавиатуры).\nНеобходимо удалить из массива четные или нечетные значения.\nПользователь вводит данные в массив, а также с помощью меню решает, что нужно удалить." << std::endl;
+			main_5();
+			std::cout << std::endl;
+			break;
+		case 6:
+			std::cout << "Задание 6:\nНаписать функцию, которая получает указатель на динамический массив и его размер.\nФункция должна удалить из массива все простые числа и вернуть указатель на новый динамический массив." << std::endl;
+			main_6();
+			std::cout << std::endl;
+			break;
+		case 7:
+			std::cout << "Задание 7:\nНаписать функцию, которая получает указатель на статический массив и его размер.\nФункция распределяет положительные, отрицательные и нулевые элементы в отдельные динамические массивы." << std::endl;
+			main_7();
+			std::cout << std::endl;
+			break;
+		}
+	} while (Menu != 0);
 
 	return 0;
 }
