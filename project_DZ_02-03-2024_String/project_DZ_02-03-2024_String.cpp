@@ -39,39 +39,154 @@
 */
 
 #include <iostream>
-#include <string.h>
+#include <cstring>
 
-// список Атрибутов функции
+// список Прототипов функций
 
-
+void DelPoint(char* mass, int point); // 1
+void DelCharPoint(char* mass, char point); // 2
+void SetPositionSymbol(char* mass, int point, char symbol); // 3
 
 // Реализация функций
 
-//void SearchNewSizeMessage(char*& Message, int Size) // Функция привидения размера Строкового массива к фактически заполненному, до первого детерменирующего нуля - '\0'
-//{
-//	int NewSize{};
-//	for (int i = 0; i < Size && Message[i] != '\0'; i++, NewSize++)
-//	{
-//		if (Message[i] == '\0')
-//			++NewSize;
-//	}
-//	char *str1[NewSize];
-//	strcpy(*str1, *Message);
-//	del Message[];
-//}
+void DelPoint(char* mass, int point) // Функция удаления определенного символа с заданным номером (Задание 1)
+{
+	int size = strlen(mass);
+	if (point <= size)
+	{
+		for (int i = point, j = point+1; i <= size; i++, j++)
+			mass[i] = mass[j];
+	}
+	else
+		std::cout << "Удаляемый номер символа " << point << " за пределами размера текста!" << std::endl;
+}
 
+void DelCharPoint(char* mass, char point) // Функция удаления определенного заданного символа (Задание 2)
+{
+	int size = strlen(mass);
+	for (int i = 0, j = 0; j <= size; i++, j++)
+	{
+		if (mass[i] != point)
+			mass[j] = mass[i];
+		else
+			--j;
+	}
+}
+
+void SetPositionSymbol(char* mass, int point, char symbol) // Функция замены указанной позиции заданным символом (Задание 3)
+{
+	int size = strlen(mass);
+	if (point <= size)
+		mass[point] = symbol;
+	else
+		std::cout << "Заменяемый символ под номером " << point << " за пределами размера текста!" << std::endl;
+
+}
 
 
 // Основное тело программы с функциями заданий по типу int main_i(), где i это номер задания
 
-int main() // Задание 1. для работы заменить main_1 на main.
+int main_1() // Задание 1. для работы заменить main_1 на main.
+{
+	setlocale(LC_ALL, "ru");
+		
+	char Message[]{ "Жил-был ежик-бегун. Он любил бегать по лесу и собирать грибы. Однажды он решил пробежать марафон. Но не тут то было. Оказалось, что он забыл надеть кроссовки." };
+	std::cout << "Давайте удалим определенное значение из предложенного текста: " << Message << std::endl;
+	int Point{};
+	int MenuDel{};
+	do
+	{
+		std::cout << "Укажите позицию: ";
+		std::cin >> Point;
+		DelPoint(Message, Point);
+		std::cout << Message << std::endl;
+		std::cout << "Хотите еще удалить символ? если да - нажмите 1, нет - 0: " << std::endl;
+		std::cin >> MenuDel;
+	} while (MenuDel != 0);
+
+	return 0;
+}
+
+int main_2() // Задание 2. для работы заменить main_2 на main.
+{
+	setlocale(LC_ALL, "ru");
+	/*
+	Почемуто если в массиве кирилица и при вводе знака для удаления он не удаляется, унжно уточнить и разобраться
+	*/
+	char Message[]{ "Once upon a time there was a hedgehog runner. He loved to run through the woods and pick mushrooms. One day he decided to run a marathon. But that was not the case." };
+	std::cout << "Давайте удалим определенное символ из предложенного текста: " << Message << std::endl;
+	char Point{};
+	int MenuDel{};
+	do
+	{
+		std::cout << "Укажите символ: ";
+		std::cin >> Point;
+		DelCharPoint(Message, Point);
+		std::cout << Message << std::endl;
+		std::cout << "Хотите еще удалить символ? если да - нажмите 1, нет - 0: " << std::endl;
+		std::cin >> MenuDel;
+	} while (MenuDel != 0);
+
+	return 0;
+}
+
+int main_3() // Задание 3. для работы заменить main_3 на main.
 {
 	setlocale(LC_ALL, "ru");
 
-	int SizeMessage{ 256 }; // По умолчанию размер массива строки установлен с ограничением 255 символами + детерменирующий ноль
-	char Message[SizeMessage]{ nullptr };
-	char* PtrM = Message;
-	std::cin >> *PtrM;
+	char Message[]{ "Жил-был ежик-бегун. Он любил бегать по лесу и собирать грибы. Однажды он решил пробежать марафон. Но не тут то было. Оказалось, что он забыл надеть кроссовки." };
+	std::cout << "Давайте вставим символ вопределенное место предложенного текста: " << Message << std::endl;
+	int Point{};
+	char Symbol{};
+	int MenuDel{};
+	do
+	{
+		std::cout << "Укажите символ: ";
+		std::cin >> Symbol;
+		std::cout << "И куда вставить: ";
+		std::cin >> Point;
+		SetPositionSymbol(Message, Point, Symbol);
+		std::cout << Message << std::endl;
+		std::cout << "Хотите еще заменить символ? если да - нажмите 1, нет - 0: " << std::endl;
+		std::cin >> MenuDel;
+	} while (MenuDel != 0);
+
+	return 0;
+}
+
+
+int main_Menu() // Главное меню заданий
+{
+	//int MenuLibStrF{};
+	int Menu{};
+	std::cout << "Выберети какое задание хотите выполнить от 1 до 9, 0 - это выход. А 10 выбор использования библиотеки cstring (1) или нет (0)" << std::endl;
+	do
+	{
+		switch (Menu)
+		{
+		case 1:
+			break;
+		case 2:
+			break;
+		case 3:
+			break;
+		case 4:
+			break;
+		case 5:
+			break;
+		case 6:
+			break;
+		case 7:
+			break;
+		case 8:
+			break;
+		case 9:
+			break;
+		/*case 10:
+			std::cin >> MenuLibStrF;
+			break;*/
+		}
+	} while (Menu != 0);
 
 	return 0;
 }
