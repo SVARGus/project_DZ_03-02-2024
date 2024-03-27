@@ -39,12 +39,39 @@
 */
 
 #include <iostream>
+#include <string.h>
 
-int main()
+// список Атрибутов функции
+
+
+
+// Реализация функций
+
+//void SearchNewSizeMessage(char*& Message, int Size) // Функция привидения размера Строкового массива к фактически заполненному, до первого детерменирующего нуля - '\0'
+//{
+//	int NewSize{};
+//	for (int i = 0; i < Size && Message[i] != '\0'; i++, NewSize++)
+//	{
+//		if (Message[i] == '\0')
+//			++NewSize;
+//	}
+//	char *str1[NewSize];
+//	strcpy(*str1, *Message);
+//	del Message[];
+//}
+
+
+
+// Основное тело программы с функциями заданий по типу int main_i(), где i это номер задания
+
+int main() // Задание 1. для работы заменить main_1 на main.
 {
 	setlocale(LC_ALL, "ru");
 
-
+	int SizeMessage{ 256 }; // По умолчанию размер массива строки установлен с ограничением 255 символами + детерменирующий ноль
+	char Message[SizeMessage]{ nullptr };
+	char* PtrM = Message;
+	std::cin >> *PtrM;
 
 	return 0;
 }
