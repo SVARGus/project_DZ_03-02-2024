@@ -46,8 +46,9 @@
 void DelPoint(char* mass, int point); // 1
 void DelCharPoint(char* mass, char point); // 2
 void SetPositionSymbol(char* mass, int point, char symbol); // 3
-void ReplaceSymbolMass(char* mass, char searchsymbol, char symbol); // 4
+void ReplaceSymbolMass(char* mass, char searchsymbol, char symbol); // 4, 7
 int SearchSymbol(char* mass, shar symbol, int i); // 5
+void VolumSymbol(char* mass, int* VolumABC, int* VolumNum, int* VolumSymbol); // 6, 8
 
 // Реализация функций
 
@@ -85,7 +86,7 @@ void SetPositionSymbol(char* mass, int point, char symbol) // Функция з�
 
 }
 
-void ReplaceSymbolMass(char* mass, char searchsymbol, char symbol) // Функция замены символов в тексте (задание 4) ТРЕБУЕТСЯ ПРОВЕРИТЬ ОТДЕЛЬНО!!!! 
+void ReplaceSymbolMass(char* mass, char searchsymbol, char symbol) // Функция замены символов в тексте (задание 4 и 7) ТРЕБУЕТСЯ ПРОВЕРИТЬ ОТДЕЛЬНО!!!! 
 {
 	int size = strlen(mass);
 	for (int i = 0; i <= size; i++)
@@ -103,6 +104,19 @@ int SearchSymbol(char* mass, shar symbol, int i) // Функция подсче�
 			return 1 + SearchSymbol(mass, symbol, ++i)
 	}
 	return 0;
+}
+
+void VolumSymbol(char* mass, int* VolumABC, int* VolumNum, int* VolumSymbol) // Функция для вычисления количества символов, бук и цифр (задание 6 и 8) ТРЕБУЕТСЯ ПРОВЕРИТЬ ОТДЕЛЬНО!!!!
+{
+	for (int i = 0; i <= strlen(mass); i++)
+	{
+		if (mass[i] >= 48 && mass[i] <= 57)
+			VolumNum++;
+		else if ((mass[i] >= 65 && mass[i] <= 90) || (mass[i] >= 97 && mass[i] <= 122))
+			VolumABC++;
+		else
+			VolumSymbol++;
+	}
 }
 
 // Основное тело программы с функциями заданий по типу int main_i(), где i это номер задания
@@ -212,13 +226,56 @@ int main_5() // Задание 5. для работы заменить main_5 н
 	return 0;
 }
 
-int main() // Задание 6. для работы заменить main_6 на main. ТРЕБУЕТСЯ ПРОВЕРИТЬ ОТДЕЛЬНО!!!! 
+int main_6() // Задание 6. для работы заменить main_6 на main. ТРЕБУЕТСЯ ПРОВЕРИТЬ ОТДЕЛЬНО!!!! 
 {
 	setlocale(LC_ALL, "ru");
 
-
+	const int SIZE{ 100 };
+	char Message[SIZE]{};
+	std::cout << "Введите любое предложение на латинице длиной не более " << SIZE - 1 << std::endl;
+	std::cin >> Message;
+	std::cout << "Ваш введенная строка: " << Message << std::endl;
+	int VolumABC{};
+	int VolumNum{};
+	int VolumSymbol{};
+	VolumSymbol(Message, &VolumABC, &VolumNum, &VolumSymbol);
+	std::cout << "В строке количество букв = " << VolumABC << ". Количество цифр = " << VolumNum << ". Количество прочих символов = " << VolumSymbol << std::endl;
 
 	return 0;
+}
+
+int main_7() // Задание 7. для работы заменить main_7 на main. Аналог 4 Задания. ТРЕБУЕТСЯ ПРОВЕРИТЬ ОТДЕЛЬНО!!!!
+{
+	setlocale(LC_ALL, "ru");
+
+	char Message[]{ "Once upon a time there was a hedgehog runner. He loved to run through the woods and pick mushrooms. One day he decided to run a marathon. But that was not the case." };
+	std::cout << "Ваше предложение: " << Message << std::endl;
+	char SymbolSearch{' '};
+	char Symbol{'\t'};
+	ReplaceSymbolMass(Message, SymbolSearch, Symbol);
+	std::cout << "Произведен замену пробелов на табуляцию и выведем вновь текст: " << Message << std::endl;
+
+	return 0;
+}
+
+int main_8() // Задание 8. для работы заменить main_8 на main. Аналог 6 Задания. ТРЕБУЕТСЯ ПРОВЕРИТЬ ОТДЕЛЬНО!!!!
+{
+	setlocale(LC_ALL, "ru");
+
+	char Message[]{ "She makes $20,000 a month to make 1-minute YouTube videos. Inside Google’s strategy to beat TikTok" };
+	std::cout << "Строка текста: " << Message << std::endl;
+	int VolumABC{};
+	int VolumNum{};
+	int VolumSymbol{};
+	VolumSymbol(Message, &VolumABC, &VolumNum, &VolumSymbol);
+	std::cout << "В строке количество букв = " << VolumABC << ". Количество цифр = " << VolumNum << ". Количество прочих символов = " << VolumSymbol << std::endl;
+
+	return 0;
+}
+
+int main() // Задание 9. для работы заменить main_9 на main.
+{
+
 }
 
 int main_Menu() // Главное меню заданий
