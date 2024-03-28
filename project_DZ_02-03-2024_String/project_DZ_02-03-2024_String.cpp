@@ -46,6 +46,8 @@
 void DelPoint(char* mass, int point); // 1
 void DelCharPoint(char* mass, char point); // 2
 void SetPositionSymbol(char* mass, int point, char symbol); // 3
+void ReplaceSymbolMass(char* mass, char searchsymbol, char symbol); // 4
+int SearchSymbol(char* mass, shar symbol, int i); // 5
 
 // Реализация функций
 
@@ -83,6 +85,25 @@ void SetPositionSymbol(char* mass, int point, char symbol) // Функция з�
 
 }
 
+void ReplaceSymbolMass(char* mass, char searchsymbol, char symbol) // Функция замены символов в тексте (задание 4) ТРЕБУЕТСЯ ПРОВЕРИТЬ ОТДЕЛЬНО!!!! 
+{
+	int size = strlen(mass);
+	for (int i = 0; i <= size; i++)
+	{
+		if (mass[i] == searchsymbol)
+			mass[i] = symbol;
+	}
+}
+
+int SearchSymbol(char* mass, shar symbol, int i) // Функция подсчета количества введенного символа, реализовал через рекурсию, i при первом запуске по умолчанию 0 (задание 5) ТРЕБУЕТСЯ ПРОВЕРИТЬ ОТДЕЛЬНО!!!! 
+{
+	for (; i <= strlen(mass); i++)
+	{
+		if (mass[i] == symbol)
+			return 1 + SearchSymbol(mass, symbol, ++i)
+	}
+	return 0;
+}
 
 // Основное тело программы с функциями заданий по типу int main_i(), где i это номер задания
 
@@ -154,12 +175,57 @@ int main_3() // Задание 3. для работы заменить main_3 н
 	return 0;
 }
 
+int main_4() // Задание 4. для работы заменить main_4 на main. ТРЕБУЕТСЯ ПРОВЕРИТЬ ОТДЕЛЬНО!!!! 
+{
+	setlocale(LC_ALL, "ru");
+
+	const int SIZE{ 100 };
+	char Message[SIZE]{};
+	std::cout << "Введите любое предложение длиной не более " << SIZE - 1 << " и обязательно используйте символы '.' и ','" << std::endl;
+	std::cin >> Message;
+	std::cout << "Ваше предложение: " << Message << std::endl;
+	char SymbolSearch{};
+	std::cout << "Какой символ из текста вы хотите заменить? ";
+	std::cin >> SymbolSearch;
+	char Symbol{};
+	std::cout << "И на какой? ";
+	std::cin >> Symbol;
+	ReplaceSymbolMass(Message, SymbolSearch, Symbol);
+	std::cout << "Произведен замену символов и выведем вновь текст: " << Message << std::endl;
+
+	return 0;
+}
+
+int main_5() // Задание 5. для работы заменить main_5 на main. ТРЕБУЕТСЯ ПРОВЕРИТЬ ОТДЕЛЬНО!!!! 
+{
+	setlocale(LC_ALL, "ru");
+
+	const int SIZE{ 51 };
+	char Message[SIZE]{};
+	std::cout << "Введите любые символы в количестве не более " << SIZE - 1 << std::endl;
+	std::cin >> Message;
+	std::cout << "Теперь давайте виберем какой символ будем искать в ранее введенных символах: ";
+	char SymbolSearch{};
+	std::cin >> SymbolSearch;
+	std::cout << "Искомый символ " << SymbolSearch << " встречается в массиве символво " << << " раз." << std::endl;
+
+	return 0;
+}
+
+int main() // Задание 6. для работы заменить main_6 на main. ТРЕБУЕТСЯ ПРОВЕРИТЬ ОТДЕЛЬНО!!!! 
+{
+	setlocale(LC_ALL, "ru");
+
+
+
+	return 0;
+}
 
 int main_Menu() // Главное меню заданий
 {
 	//int MenuLibStrF{};
 	int Menu{};
-	std::cout << "Выберети какое задание хотите выполнить от 1 до 9, 0 - это выход. А 10 выбор использования библиотеки cstring (1) или нет (0)" << std::endl;
+	std::cout << "Выберети какое задание хотите выполнить от 1 до 10, 0 - это выход." << std::endl;
 	do
 	{
 		switch (Menu)
@@ -182,9 +248,8 @@ int main_Menu() // Главное меню заданий
 			break;
 		case 9:
 			break;
-		/*case 10:
-			std::cin >> MenuLibStrF;
-			break;*/
+		case 10:
+			break;
 		}
 	} while (Menu != 0);
 
