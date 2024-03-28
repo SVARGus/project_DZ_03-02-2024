@@ -47,8 +47,8 @@ void DelPoint(char* mass, int point); // 1
 void DelCharPoint(char* mass, char point); // 2
 void SetPositionSymbol(char* mass, int point, char symbol); // 3
 void ReplaceSymbolMass(char* mass, char searchsymbol, char symbol); // 4, 7
-int SearchSymbol(char* mass, shar symbol, int i); // 5
-void VolumSymbol(char* mass, int* VolumABC, int* VolumNum, int* VolumSymbol); // 6, 8
+int SearchSymbol(char* mass, char symbol, int i = 0); // 5
+void VolumSymbol(char* mass, int* VolumABC, int* VolumNum, int* VolumSymbol1); // 6, 8
 
 // Реализация функций
 
@@ -86,7 +86,7 @@ void SetPositionSymbol(char* mass, int point, char symbol) // Функция з�
 
 }
 
-void ReplaceSymbolMass(char* mass, char searchsymbol, char symbol) // Функция замены символов в тексте (задание 4 и 7) ТРЕБУЕТСЯ ПРОВЕРИТЬ ОТДЕЛЬНО!!!! 
+void ReplaceSymbolMass(char* mass, char searchsymbol, char symbol) // Функция замены символов в тексте (задание 4 и 7)
 {
 	int size = strlen(mass);
 	for (int i = 0; i <= size; i++)
@@ -96,26 +96,27 @@ void ReplaceSymbolMass(char* mass, char searchsymbol, char symbol) // Функц
 	}
 }
 
-int SearchSymbol(char* mass, shar symbol, int i) // Функция подсчета количества введенного символа, реализовал через рекурсию, i при первом запуске по умолчанию 0 (задание 5) ТРЕБУЕТСЯ ПРОВЕРИТЬ ОТДЕЛЬНО!!!! 
+int SearchSymbol(char* mass, char symbol, int i) // Функция подсчета количества введенного символа, реализовал через рекурсию, i при первом запуске по умолчанию 0 (задание 5)
 {
 	for (; i <= strlen(mass); i++)
 	{
 		if (mass[i] == symbol)
-			return 1 + SearchSymbol(mass, symbol, ++i)
+			return 1 + SearchSymbol(mass, symbol, ++i);
 	}
 	return 0;
 }
 
-void VolumSymbol(char* mass, int* VolumABC, int* VolumNum, int* VolumSymbol) // Функция для вычисления количества символов, бук и цифр (задание 6 и 8) ТРЕБУЕТСЯ ПРОВЕРИТЬ ОТДЕЛЬНО!!!!
+void VolumSymbol(char* mass, int* VolumABC, int* VolumNum, int* VolumSymbol1) // Функция для вычисления количества символов, бук и цифр (задание 6 и 8)
 {
-	for (int i = 0; i <= strlen(mass); i++)
+	int size = strlen(mass);
+	for (int i = 0; i <= size; i++)
 	{
 		if (mass[i] >= 48 && mass[i] <= 57)
-			VolumNum++;
+			*VolumNum += 1;
 		else if ((mass[i] >= 65 && mass[i] <= 90) || (mass[i] >= 97 && mass[i] <= 122))
-			VolumABC++;
+			*VolumABC += 1;
 		else
-			VolumSymbol++;
+			*VolumSymbol1 += 1;
 	}
 }
 
@@ -189,7 +190,7 @@ int main_3() // Задание 3. для работы заменить main_3 н
 	return 0;
 }
 
-int main_4() // Задание 4. для работы заменить main_4 на main. ТРЕБУЕТСЯ ПРОВЕРИТЬ ОТДЕЛЬНО!!!! 
+int main_4() // Задание 4. для работы заменить main_4 на main.
 {
 	setlocale(LC_ALL, "ru");
 
@@ -210,7 +211,7 @@ int main_4() // Задание 4. для работы заменить main_4 н
 	return 0;
 }
 
-int main_5() // Задание 5. для работы заменить main_5 на main. ТРЕБУЕТСЯ ПРОВЕРИТЬ ОТДЕЛЬНО!!!! 
+int main_5() // Задание 5. для работы заменить main_5 на main.
 {
 	setlocale(LC_ALL, "ru");
 
@@ -221,30 +222,30 @@ int main_5() // Задание 5. для работы заменить main_5 н
 	std::cout << "Теперь давайте виберем какой символ будем искать в ранее введенных символах: ";
 	char SymbolSearch{};
 	std::cin >> SymbolSearch;
-	std::cout << "Искомый символ " << SymbolSearch << " встречается в массиве символво " << << " раз." << std::endl;
+	std::cout << "Искомый символ " << SymbolSearch << " встречается в массиве символво " << SearchSymbol(Message, SymbolSearch) << " раз." << std::endl;
 
 	return 0;
 }
 
-int main_6() // Задание 6. для работы заменить main_6 на main. ТРЕБУЕТСЯ ПРОВЕРИТЬ ОТДЕЛЬНО!!!! 
+int main_6() // Задание 6. для работы заменить main_6 на main.
 {
 	setlocale(LC_ALL, "ru");
 
 	const int SIZE{ 100 };
 	char Message[SIZE]{};
 	std::cout << "Введите любое предложение на латинице длиной не более " << SIZE - 1 << std::endl;
-	std::cin >> Message;
+	std::cin >> Message; // При вводе текста с использованием пробела, пробел программа считает окончанием ввода текста (Как с этим бороться или это особенность такая?)
 	std::cout << "Ваш введенная строка: " << Message << std::endl;
-	int VolumABC{};
-	int VolumNum{};
-	int VolumSymbol{};
-	VolumSymbol(Message, &VolumABC, &VolumNum, &VolumSymbol);
-	std::cout << "В строке количество букв = " << VolumABC << ". Количество цифр = " << VolumNum << ". Количество прочих символов = " << VolumSymbol << std::endl;
+	int VolumABC{}; // количество букв
+	int VolumNum{}; // количество цифр
+	int VolumSymbol1{}; // количество символов
+	VolumSymbol(Message, &VolumABC, &VolumNum, &VolumSymbol1);
+	std::cout << "В строке количество букв = " << VolumABC << ". Количество цифр = " << VolumNum << ". Количество прочих символов = " << VolumSymbol1 << std::endl;
 
 	return 0;
 }
 
-int main_7() // Задание 7. для работы заменить main_7 на main. Аналог 4 Задания. ТРЕБУЕТСЯ ПРОВЕРИТЬ ОТДЕЛЬНО!!!!
+int main_7() // Задание 7. для работы заменить main_7 на main. Аналог 4 Задания.
 {
 	setlocale(LC_ALL, "ru");
 
@@ -258,7 +259,7 @@ int main_7() // Задание 7. для работы заменить main_7 н
 	return 0;
 }
 
-int main_8() // Задание 8. для работы заменить main_8 на main. Аналог 6 Задания. ТРЕБУЕТСЯ ПРОВЕРИТЬ ОТДЕЛЬНО!!!!
+int main_9() // Задание 8. для работы заменить main_8 на main. Аналог 6 Задания.
 {
 	setlocale(LC_ALL, "ru");
 
@@ -266,49 +267,64 @@ int main_8() // Задание 8. для работы заменить main_8 н
 	std::cout << "Строка текста: " << Message << std::endl;
 	int VolumABC{};
 	int VolumNum{};
-	int VolumSymbol{};
-	VolumSymbol(Message, &VolumABC, &VolumNum, &VolumSymbol);
-	std::cout << "В строке количество букв = " << VolumABC << ". Количество цифр = " << VolumNum << ". Количество прочих символов = " << VolumSymbol << std::endl;
+	int VolumSymbol1{}; // что делать если имя переменной совподает с именем функции?
+	VolumSymbol(Message, &VolumABC, &VolumNum, &VolumSymbol1);
+	std::cout << "В строке количество букв = " << VolumABC << ". Количество цифр = " << VolumNum << ". Количество прочих символов = " << VolumSymbol1 << std::endl;
 
 	return 0;
 }
 
 int main() // Задание 9. для работы заменить main_9 на main.
 {
+	setlocale(LC_ALL, "ru");
 
-}
 
-int main_Menu() // Главное меню заданий
-{
-	//int MenuLibStrF{};
-	int Menu{};
-	std::cout << "Выберети какое задание хотите выполнить от 1 до 10, 0 - это выход." << std::endl;
-	do
-	{
-		switch (Menu)
-		{
-		case 1:
-			break;
-		case 2:
-			break;
-		case 3:
-			break;
-		case 4:
-			break;
-		case 5:
-			break;
-		case 6:
-			break;
-		case 7:
-			break;
-		case 8:
-			break;
-		case 9:
-			break;
-		case 10:
-			break;
-		}
-	} while (Menu != 0);
 
 	return 0;
 }
+
+//int main_Menu() // Главное меню заданий
+//{
+//	setlocale(LC_ALL, "ru");
+//	//int MenuLibStrF{};
+//	int Menu{};
+//	std::cout << "Выберети какое задание хотите выполнить от 1 до 10, 0 - это выход." << std::endl;
+//	do
+//	{
+//		std::cin >> Menu;
+//		switch (Menu)
+//		{
+//		case 1:
+//			main_1();
+//			break;
+//		case 2:
+//			main_2();
+//			break;
+//		case 3:
+//			main_3();
+//			break;
+//		case 4:
+//			main_4();
+//			break;
+//		case 5:
+//			main_5();
+//			break;
+//		case 6:
+//			main_6();
+//			break;
+//		case 7:
+//			main_7();
+//			break;
+//		case 8:
+//			main_8();
+//			break;
+//		case 9:
+//			main_9();
+//			break;
+//		case 10:
+//			break;
+//		}
+//	} while (Menu != 0);
+//
+//	return 0;
+//}
