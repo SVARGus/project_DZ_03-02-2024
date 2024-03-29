@@ -49,6 +49,7 @@ void SetPositionSymbol(char* mass, int point, char symbol); // 3
 void ReplaceSymbolMass(char* mass, char searchsymbol, char symbol); // 4, 7
 int SearchSymbol(char* mass, char symbol, int i = 0); // 5
 void VolumSymbol(char* mass, int* VolumABC, int* VolumNum, int* VolumSymbol1); // 6, 8
+int Volum_Words(char* mass); // 9
 
 // Реализация функций
 
@@ -111,13 +112,27 @@ void VolumSymbol(char* mass, int* VolumABC, int* VolumNum, int* VolumSymbol1) //
 	int size = strlen(mass);
 	for (int i = 0; i <= size; i++)
 	{
-		if (mass[i] >= 48 && mass[i] <= 57)
+		if (mass[i] >= 48 && mass[i] <= 57) // Надо попробовать переделать код и проверить: (mass[i] >= '0' && mass[i] <= '9')
 			*VolumNum += 1;
-		else if ((mass[i] >= 65 && mass[i] <= 90) || (mass[i] >= 97 && mass[i] <= 122))
+		else if ((mass[i] >= 65 && mass[i] <= 90) || (mass[i] >= 97 && mass[i] <= 122)) // Надо попробовать переделать код и проверить: ((mass[i] >= 'a' && mass[i] <= 'z') || (mass[i] >= 'A' && mass[i] <= 'Z')
 			*VolumABC += 1;
 		else
 			*VolumSymbol1 += 1;
 	}
+}
+
+int Volum_Words(char* mass) // Функция подсчета количества слов в предложении (Задание 9). НАДО ПРОВЕРИТЬ РАБОТУ!!!!
+{
+	int sum{};
+	for (int i = 0; i <= strlen(mass); i++)
+	{
+		// Как упростить условия? Надо подумать и поискать решения
+		if (((mass[i] >= 'a' && mass[i] <= 'z') || (mass[i] >= 'A' && mass[i] <= 'Z') || mass[i] == ''') != ((mass[i+1] >= 'a' && mass[i+1] <= 'z') || (mass[i+1] >= 'A' && mass[i+1] <= 'Z') || mass[i+1] == '''))
+		{
+			sum++;
+		}
+	}
+	return sum;
 }
 
 // Основное тело программы с функциями заданий по типу int main_i(), где i это номер задания
@@ -259,7 +274,7 @@ int main_7() // Задание 7. для работы заменить main_7 н
 	return 0;
 }
 
-int main_9() // Задание 8. для работы заменить main_8 на main. Аналог 6 Задания.
+int main_8() // Задание 8. для работы заменить main_8 на main. Аналог 6 Задания.
 {
 	setlocale(LC_ALL, "ru");
 
@@ -274,11 +289,39 @@ int main_9() // Задание 8. для работы заменить main_8 н
 	return 0;
 }
 
-int main() // Задание 9. для работы заменить main_9 на main.
+int main_9() // Задание 9. для работы заменить main_9 на main. НАДО ПРОВЕРИТЬ РАБОТУ!!!!
 {
 	setlocale(LC_ALL, "ru");
 
+	const int SIZE{ 101 };
+	char Message[SIZE]{};
+	std::cout << "Введите любое предложение: ";
+	std::cin.getline (Message, SIZE-1); // после проверки добавить давнный вариант в Задание 6.
+	int VolumeWords{};
+	Volum_Words(Message);
+	std::cout << "В веденном предложении " << VolumeWords << " слов." << std::endl;
 
+	return 0;
+}
+
+int main() // Задание 10. для работы заменить main_10 на main. НАДО ПРОВЕРИТЬ РАБОТУ!!!!
+{
+	setlocale(LC_ALL, "ru");
+
+	const int SIZE{ 101 };
+	char Message[SIZE]{};
+	int Menu{};
+	do
+	{
+		std::cout << "Введите слово для проверки на полиндром: ";
+		std::cin >> Message;
+		if (true) // Вписать функцию и сравнить результат, если равно 1, то слово полиндром, в противном случае нет
+			std::cout << "Слово " << Message << " - ПОЛИНДРОМ" << std::endl;
+		else
+			std::cout << "Слово " << Message << " - не является полиндромом" << std::endl;
+		std::cout << "Проверить новое слово? 1 - да: ";
+		std::cin >> Menu;
+	} while (Menu == 1);
 
 	return 0;
 }
@@ -322,6 +365,7 @@ int main() // Задание 9. для работы заменить main_9 на
 //			main_9();
 //			break;
 //		case 10:
+//			main_9();
 //			break;
 //		}
 //	} while (Menu != 0);
