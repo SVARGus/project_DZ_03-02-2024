@@ -40,6 +40,7 @@
 
 #include <iostream>
 #include <cstring>
+#include <windows.h> 
 
 // список Прототипов функций
 
@@ -50,6 +51,7 @@ void ReplaceSymbolMass(char* mass, char searchsymbol, char symbol); // 4, 7
 int SearchSymbol(char* mass, char symbol, int i = 0); // 5
 void VolumSymbol(char* mass, int* VolumABC, int* VolumNum, int* VolumSymbol1); // 6, 8
 int Volum_Words(char* mass); // 9
+int Palindrome(char* mass); // 10
 
 // Реализация функций
 
@@ -121,25 +123,36 @@ void VolumSymbol(char* mass, int* VolumABC, int* VolumNum, int* VolumSymbol1) //
 	}
 }
 
-int Volum_Words(char* mass) // Функция подсчета количества слов в предложении (Задание 9). НАДО ПРОВЕРИТЬ РАБОТУ!!!!
+int Volum_Words(char* mass) // Функция подсчета количества слов в предложении (Задание 9).
 {
 	int sum{};
 	for (int i = 0; i <= strlen(mass); i++)
 	{
 		// Как упростить условия? Надо подумать и поискать решения
-		if (((mass[i] >= 'a' && mass[i] <= 'z') || (mass[i] >= 'A' && mass[i] <= 'Z') || mass[i] == ''') != ((mass[i+1] >= 'a' && mass[i+1] <= 'z') || (mass[i+1] >= 'A' && mass[i+1] <= 'Z') || mass[i+1] == '''))
+		if (((mass[i] >= 'a' && mass[i] <= 'z') || (mass[i] >= 'A' && mass[i] <= 'Z') || mass[i] == '\'' || mass[i] == ' ') != ((mass[i + 1] >= 'a' && mass[i + 1] <= 'z') || (mass[i + 1] >= 'A' && mass[i + 1] <= 'Z') || mass[i + 1] == '\''))
 		{
-			sum++;
+			if (mass[i+1] < 0 || mass[i + 1] > 9)
+				sum++;
 		}
 	}
 	return sum;
+}
+
+int Palindrome(char* mass) // Функция определения на Палиндром (Задание 10)
+{
+	for (int i = 0, j = strlen(mass) - 1; i <= j; i++, j--)
+	{
+		if (mass[i] != mass[j])
+			return 0;
+	}
+	return 1;
 }
 
 // Основное тело программы с функциями заданий по типу int main_i(), где i это номер задания
 
 int main_1() // Задание 1. для работы заменить main_1 на main.
 {
-	setlocale(LC_ALL, "ru");
+	/*setlocale(LC_ALL, "ru");*/
 		
 	char Message[]{ "Жил-был ежик-бегун. Он любил бегать по лесу и собирать грибы. Однажды он решил пробежать марафон. Но не тут то было. Оказалось, что он забыл надеть кроссовки." };
 	std::cout << "Давайте удалим определенное значение из предложенного текста: " << Message << std::endl;
@@ -160,10 +173,8 @@ int main_1() // Задание 1. для работы заменить main_1 н
 
 int main_2() // Задание 2. для работы заменить main_2 на main.
 {
-	setlocale(LC_ALL, "ru");
-	/*
-	Почемуто если в массиве кирилица и при вводе знака для удаления он не удаляется, унжно уточнить и разобраться
-	*/
+	/*setlocale(LC_ALL, "ru");*/
+	
 	char Message[]{ "Once upon a time there was a hedgehog runner. He loved to run through the woods and pick mushrooms. One day he decided to run a marathon. But that was not the case." };
 	std::cout << "Давайте удалим определенное символ из предложенного текста: " << Message << std::endl;
 	char Point{};
@@ -183,7 +194,9 @@ int main_2() // Задание 2. для работы заменить main_2 н
 
 int main_3() // Задание 3. для работы заменить main_3 на main.
 {
-	setlocale(LC_ALL, "ru");
+	/*setlocale(LC_ALL, "ru");
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);*/
 
 	char Message[]{ "Жил-был ежик-бегун. Он любил бегать по лесу и собирать грибы. Однажды он решил пробежать марафон. Но не тут то было. Оказалось, что он забыл надеть кроссовки." };
 	std::cout << "Давайте вставим символ вопределенное место предложенного текста: " << Message << std::endl;
@@ -207,12 +220,14 @@ int main_3() // Задание 3. для работы заменить main_3 н
 
 int main_4() // Задание 4. для работы заменить main_4 на main.
 {
-	setlocale(LC_ALL, "ru");
+	/*setlocale(LC_ALL, "ru");
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);*/
 
 	const int SIZE{ 100 };
 	char Message[SIZE]{};
 	std::cout << "Введите любое предложение длиной не более " << SIZE - 1 << " и обязательно используйте символы '.' и ','" << std::endl;
-	std::cin >> Message;
+	std::cin.getline(Message, SIZE - 1);
 	std::cout << "Ваше предложение: " << Message << std::endl;
 	char SymbolSearch{};
 	std::cout << "Какой символ из текста вы хотите заменить? ";
@@ -228,7 +243,7 @@ int main_4() // Задание 4. для работы заменить main_4 н
 
 int main_5() // Задание 5. для работы заменить main_5 на main.
 {
-	setlocale(LC_ALL, "ru");
+	/*setlocale(LC_ALL, "ru");*/
 
 	const int SIZE{ 51 };
 	char Message[SIZE]{};
@@ -244,12 +259,12 @@ int main_5() // Задание 5. для работы заменить main_5 н
 
 int main_6() // Задание 6. для работы заменить main_6 на main.
 {
-	setlocale(LC_ALL, "ru");
+	//setlocale(LC_ALL, "ru");
 
 	const int SIZE{ 100 };
 	char Message[SIZE]{};
 	std::cout << "Введите любое предложение на латинице длиной не более " << SIZE - 1 << std::endl;
-	std::cin >> Message; // При вводе текста с использованием пробела, пробел программа считает окончанием ввода текста (Как с этим бороться или это особенность такая?)
+	std::cin.getline(Message, SIZE - 1);
 	std::cout << "Ваш введенная строка: " << Message << std::endl;
 	int VolumABC{}; // количество букв
 	int VolumNum{}; // количество цифр
@@ -262,7 +277,7 @@ int main_6() // Задание 6. для работы заменить main_6 н
 
 int main_7() // Задание 7. для работы заменить main_7 на main. Аналог 4 Задания.
 {
-	setlocale(LC_ALL, "ru");
+	/*setlocale(LC_ALL, "ru");*/
 
 	char Message[]{ "Once upon a time there was a hedgehog runner. He loved to run through the woods and pick mushrooms. One day he decided to run a marathon. But that was not the case." };
 	std::cout << "Ваше предложение: " << Message << std::endl;
@@ -276,7 +291,7 @@ int main_7() // Задание 7. для работы заменить main_7 н
 
 int main_8() // Задание 8. для работы заменить main_8 на main. Аналог 6 Задания.
 {
-	setlocale(LC_ALL, "ru");
+	/*setlocale(LC_ALL, "ru");*/
 
 	char Message[]{ "She makes $20,000 a month to make 1-minute YouTube videos. Inside Google’s strategy to beat TikTok" };
 	std::cout << "Строка текста: " << Message << std::endl;
@@ -289,24 +304,27 @@ int main_8() // Задание 8. для работы заменить main_8 н
 	return 0;
 }
 
-int main_9() // Задание 9. для работы заменить main_9 на main. НАДО ПРОВЕРИТЬ РАБОТУ!!!!
+int main_9() // Задание 9. для работы заменить main_9 на main.
 {
-	setlocale(LC_ALL, "ru");
+	/*setlocale(LC_ALL, "ru");*/
 
 	const int SIZE{ 101 };
-	char Message[SIZE]{};
+	char Message[SIZE]{"grf HR kRk f'f 88 jRh"};
 	std::cout << "Введите любое предложение: ";
-	std::cin.getline (Message, SIZE-1); // после проверки добавить давнный вариант в Задание 6.
+	std::cin.getline (Message, SIZE-1);
+	//std::cout << Message << std::endl; // Временный вариант использовал при отладке, чтобы каждый раз не вводить текст вручную.
 	int VolumeWords{};
-	Volum_Words(Message);
+	VolumeWords = Volum_Words(Message);
 	std::cout << "В веденном предложении " << VolumeWords << " слов." << std::endl;
 
 	return 0;
 }
 
-int main() // Задание 10. для работы заменить main_10 на main. НАДО ПРОВЕРИТЬ РАБОТУ!!!!
+int main_10() // Задание 10. для работы заменить main_10 на main.
 {
-	setlocale(LC_ALL, "ru");
+	/*setlocale(LC_ALL, "ru");
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);*/
 
 	const int SIZE{ 101 };
 	char Message[SIZE]{};
@@ -314,11 +332,11 @@ int main() // Задание 10. для работы заменить main_10 н
 	do
 	{
 		std::cout << "Введите слово для проверки на полиндром: ";
-		std::cin >> Message;
-		if (true) // Вписать функцию и сравнить результат, если равно 1, то слово полиндром, в противном случае нет
-			std::cout << "Слово " << Message << " - ПОЛИНДРОМ" << std::endl;
+		std::cin.getline(Message, SIZE - 1);
+		if (Palindrome(Message) == 1)
+			std::cout << "Слово " << Message << " - ПАЛИНДРОМ" << std::endl;
 		else
-			std::cout << "Слово " << Message << " - не является полиндромом" << std::endl;
+			std::cout << "Слово " << Message << " - не является палиндромом" << std::endl;
 		std::cout << "Проверить новое слово? 1 - да: ";
 		std::cin >> Menu;
 	} while (Menu == 1);
@@ -326,49 +344,61 @@ int main() // Задание 10. для работы заменить main_10 н
 	return 0;
 }
 
-//int main_Menu() // Главное меню заданий
-//{
-//	setlocale(LC_ALL, "ru");
-//	//int MenuLibStrF{};
-//	int Menu{};
-//	std::cout << "Выберети какое задание хотите выполнить от 1 до 10, 0 - это выход." << std::endl;
-//	do
-//	{
-//		std::cin >> Menu;
-//		switch (Menu)
-//		{
-//		case 1:
-//			main_1();
-//			break;
-//		case 2:
-//			main_2();
-//			break;
-//		case 3:
-//			main_3();
-//			break;
-//		case 4:
-//			main_4();
-//			break;
-//		case 5:
-//			main_5();
-//			break;
-//		case 6:
-//			main_6();
-//			break;
-//		case 7:
-//			main_7();
-//			break;
-//		case 8:
-//			main_8();
-//			break;
-//		case 9:
-//			main_9();
-//			break;
-//		case 10:
-//			main_9();
-//			break;
-//		}
-//	} while (Menu != 0);
-//
-//	return 0;
-//}
+int main() // Главное меню заданий
+{
+	setlocale(LC_ALL, "ru");
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
+
+	int Menu{};
+	do
+	{
+		std::cout << "Выберети какое задание хотите выполнить от 1 до 10, 0 - это выход." << std::endl;
+		std::cin >> Menu;
+		switch (Menu)
+		{
+		case 1:
+			main_1();
+			std::cout << std::endl << std::endl;
+			break;
+		case 2:
+			main_2();
+			std::cout << std::endl << std::endl;
+			break;
+		case 3:
+			main_3();
+			std::cout << std::endl << std::endl;
+			break;
+		case 4:
+			main_4();
+			std::cout << std::endl << std::endl;
+			break;
+		case 5:
+			main_5();
+			std::cout << std::endl << std::endl;
+			break;
+		case 6:
+			main_6();
+			std::cout << std::endl << std::endl;
+			break;
+		case 7:
+			main_7();
+			std::cout << std::endl << std::endl;
+			break;
+		case 8:
+			main_8();
+			std::cout << std::endl << std::endl;
+			break;
+		case 9:
+			main_9();
+			std::cout << std::endl << std::endl;
+			break;
+		case 10:
+			main_10();
+			std::cout << std::endl << std::endl;
+			break;
+		}
+	} while (Menu != 0);
+
+	return 0;
+}
