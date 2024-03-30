@@ -248,7 +248,7 @@ int main_5() // Задание 5. для работы заменить main_5 н
 	const int SIZE{ 51 };
 	char Message[SIZE]{};
 	std::cout << "Введите любые символы в количестве не более " << SIZE - 1 << std::endl;
-	std::cin >> Message;
+	std::cin.getline(Message, SIZE - 1);
 	std::cout << "Теперь давайте виберем какой символ будем искать в ранее введенных символах: ";
 	char SymbolSearch{};
 	std::cin >> SymbolSearch;
@@ -355,6 +355,7 @@ int main() // Главное меню заданий
 	{
 		std::cout << "Выберети какое задание хотите выполнить от 1 до 10, 0 - это выход." << std::endl;
 		std::cin >> Menu;
+		std::cin.ignore();
 		switch (Menu)
 		{
 		case 1:
