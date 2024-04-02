@@ -5,11 +5,12 @@
 
 #include <iostream>
 
-void Creat_Multi_Array(int**& Array, int SizeLine, int SizeColumn); // 1, 2
-void Gen_Multi_Array(int** Array, int SizeLine, int SizeColumn); // 1, 2
-void Print_Multi_Array(int** Array, int SizeLine, int SizeColumn); // 1, 2
+void Creat_Multi_Array(int**& Array, int SizeLine, int SizeColumn); // 1, 2, 3
+void Gen_Multi_Array(int** Array, int SizeLine, int SizeColumn); // 1, 2, 3
+void Print_Multi_Array(int** Array, int SizeLine, int SizeColumn); // 1, 2, 3
 void Add_Column_Multi_Array(int**& Array, int SizeLine, int* SizeColumn, int ColumnX); // 1
 void Del_Column_Multi_Array(int**& Array, int SizeLine, int* SizeColumn, int ColumnX); // 2
+void Shift_Array(int** Array, int SizeLine, int SizeColumn, int SizeShift, int Shift); // 3
 
 
 void Creat_Multi_Array(int**& Array, int SizeLine, int SizeColumn) //Функция создания двумерного динамического массива (Задание 1, 2)
@@ -83,24 +84,95 @@ void Del_Column_Multi_Array(int**& Array, int SizeLine, int* SizeColumn, int Col
 }
 // функции удаления и добавления столбца по своей суте идентичны и при желании их можно обьеденить и добавить вводимую переменную которая будет определяться в теле программы через switch (-1 и 1)
 
-void Shift_Array(int** Array, int SizeLine, int SizeColumn, int SizeShift, int Shift)
+void Shift_Array(int** Array, int SizeLine, int SizeColumn, int SizeShift, int Shift) // Функция сдвига двумерного динамического массива (Задание 3) НАДО ПРОВЕРИТЬ!!!
 {
+	enum Direction { RIGHT = 1, LEFT, DOWN, UP };
 	int* NewArrayLine{ nullptr };
-	NewArrayLine = Array[0];
-	for (int i = 0; i < SizeLine; i++)
+	int NewColumX{};
+	do
 	{
-		if (i < SizeLine - 1)
+		switch (Shift)
 		{
-			Array[i] = Array[i + 1];
+		case RIGHT:
+			for (int i = 0; i < SizeLine; i++)
+			{
+				NewColumX = Array[i][SizeColumn - 1];
+				for (int j = SizeColumn - 1; j >= 0; j--)
+				{
+					if (j > 0)
+						Array[i][j] = Array[i][j - 1];
+					else
+						Array[i][j] = NewColumX;
+				}
+			}
+			break;
+		case LEFT:
+			for (int i = 0; i < SizeLine; i++)
+			{
+				NewColumX = Array[i][0];
+				for (int j = 0; j < SizeColumn; j++)
+				{
+					if (j < SizeColumn - 1)
+						Array[i][j] = Array[i][j + 1];
+					else
+						Array[i][j] = NewColumX;
+				}
+			}
+			break;
+		case DOWN:
+			NewArrayLine = Array[SizeLine - 1];
+			for (int i = SizeLine - 1; i >= 0; i--)
+			{
+				if (i > 0)
+					Array[i] = Array[i - 1];
+				else
+					Array[i] = NewArrayLine;
+			}
+			break;
+		case UP:
+			NewArrayLine = Array[0];
+			for (int i = 0; i < SizeLine; i++)
+			{
+				if (i < SizeLine - 1)
+					Array[i] = Array[i + 1];
+				else
+					Array[i] = NewArrayLine;
+			}
+			break;
+		default:
+			std::cout << "Не корректный ввод варианта. Повторите ввод - ";
+			std::cin >> Shift;
+			break;
 		}
-		else
-		{
-			Array[i] = NewArrayLine;
-		}
-		
+	} while (Shift < 0 || Shift > 5);
+	
+	if (SizeShift > 1)
+	{
+		--SizeShift;
+		Shift_Array(Array, SizeLine, SizeColumn, SizeShift, Shift);
 	}
-
 }
+
+void Matrix_Transpose(int** Array, int* SizeLine, int* SizeColumn)
+{
+	/*
+	Описание транспонирование матрицы по шагам (решил сначала написать алгоритм действий и потом реализовать, позде описание оставить!!!):
+	1) сначала транспонируем квадратную часть матрицы по наименьшему размеру матрицы
+	2) Делаем условие если Столбцов больше чем строк, то выполняем действие 2.1, иначе 2.2, а также условие где количество срок равно количествуо столбцов и делаем выход из функции!!!
+	2.1) Создаем временную новую матрицу где количество строк равно количеству столбцев и временные размеры матрицы.
+	- Записываем адреса строк от 0 до нового количества столбцов.
+	- Создаем добавленные строки по размеру нового количества столбцов.
+	- начинаем заполнять транспонируя столбец из старой матрицы в послеюднюю строку и продолжаем пока не дойдем по условиям до  #строки > #столбца (в нашем случае Line>=Column, так как 1 страка у нас под 0)
+		-- Далее создаем временный указатель на одномерный массив по размеру новой строки. Записываем в него данные из уже транспонированного квадрата в следующую строку
+		-- Продолжаем поочередно переписывать пока не дойдемдо конца (0 строка)
+	- Удяляем старую матрицу по схеме (удаление данных столбцов, а потом удаление строк с указателями) предотварщения утечки данных.
+	- Присваиваем адрес старому указателю на новую мтрицу. (Временный указатель после выхода из функции удалится)
+	- Меняем данные матрицы по ранее перданному указателю на новые размеры матрицы.
+	2.2)
+
+	*/
+}
+
 
 int main_1() // Задание 1. (готово)
 {
@@ -154,7 +226,7 @@ int main_2() // Задание 2. (готово)
 	return 0;
 }
 
-int main() // Задание 3. Циклический сдвиг
+int main_3() // Задание 3. Циклический сдвиг НУЖНО ПРОВЕРИТЬ!!!
 {
 	setlocale(LC_ALL, "ru");
 	srand(time(NULL));
@@ -173,29 +245,23 @@ int main() // Задание 3. Циклический сдвиг
 	int SizeShift{};
 	std::cout << "Выберети количество сдигов ";
 	std::cin >> SizeShift;
-	enum Direction{RIGHT=1, LEFT, DOWN, UP};
 	std::cout << "Вариант сдвига: \n1 - В право\n2 - В лево\n3 - В низ\n4 - В верх" << std::endl;
 	std::cout << "Ваш вариант - ";
 	int Shift{};
 	std::cin >> Shift;
-	do
-	{
-		switch (Shift)
-		{
-		case RIGHT:
-			break;
-		case LEFT:
-			break;
-		case DOWN:
-			break;
-		case UP:
-			break;
-		default:
-			std::cout << "Не корректный ввод варианта. Повторите ввод - ";
-			std::cin >> Shift;
-			break;
-		}
-	} while (Shift < 0 || Shift > 5);
+	Shift_Array(ptrArray, SizeLine, SizeColumn, SizeShift, Shift);
+	std::cout << "После сдвига выведем получившийся результат:" << std::endl;
+	Print_Multi_Array(ptrArray, SizeLine, SizeColumn);
+
+	return 0;
+}
+
+int main() // Задание 4. Транспонирование матрицы
+{
+	setlocale(LC_ALL, "ru");
+	srand(time(NULL));
+
+
 
 	return 0;
 }
