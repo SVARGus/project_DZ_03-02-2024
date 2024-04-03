@@ -11,6 +11,10 @@ void Print_Multi_Array(int** Array, int SizeLine, int SizeColumn); // 1, 2, 3
 void Add_Column_Multi_Array(int**& Array, int SizeLine, int* SizeColumn, int ColumnX); // 1
 void Del_Column_Multi_Array(int**& Array, int SizeLine, int* SizeColumn, int ColumnX); // 2
 void Shift_Array(int** Array, int SizeLine, int SizeColumn, int SizeShift, int Shift); // 3
+void Matrix_TransposeX2(int** Array, int SizeLine, int SizeColumn); // 4
+void swap(int* ptr1, int* ptr2); // 4
+void Matrix_Transpose(int** &Array, int* SizeLine, int* SizeColumn); // 4
+void DelArray(int**& Array, int SizeLine);
 
 
 void Creat_Multi_Array(int**& Array, int SizeLine, int SizeColumn) //Функция создания двумерного динамического массива (Задание 1, 2)
@@ -84,7 +88,7 @@ void Del_Column_Multi_Array(int**& Array, int SizeLine, int* SizeColumn, int Col
 }
 // функции удаления и добавления столбца по своей суте идентичны и при желании их можно обьеденить и добавить вводимую переменную которая будет определяться в теле программы через switch (-1 и 1)
 
-void Shift_Array(int** Array, int SizeLine, int SizeColumn, int SizeShift, int Shift) // Функция сдвига двумерного динамического массива (Задание 3) НАДО ПРОВЕРИТЬ!!!
+void Shift_Array(int** Array, int SizeLine, int SizeColumn, int SizeShift, int Shift) // Функция сдвига двумерного динамического массива (Задание 3)
 {
 	enum Direction { RIGHT = 1, LEFT, DOWN, UP };
 	int* NewArrayLine{ nullptr };
@@ -153,7 +157,28 @@ void Shift_Array(int** Array, int SizeLine, int SizeColumn, int SizeShift, int S
 	}
 }
 
-void Matrix_Transpose(int** Array, int* SizeLine, int* SizeColumn)
+void Matrix_TransposeX2(int** Array, int SizeLine, int SizeColumn) // Транспонирование квадратной матрицы (Задание 4) (Проверил - работает!!!)
+{
+	int Temp{};
+	for (int i = 0; i < SizeLine; i++)
+	{
+		for (int j = 1; j < SizeLine; j++)
+		{
+			if (j > i)
+				swap(&Array[i][j], &Array[j][i]);
+		}
+	}
+}
+
+void swap(int* ptr1, int* ptr2) // Функция замены значений двух указателей (Задание 4) для транспонирования квадратной матрицы
+{
+	int x{};
+	x = *ptr1;
+	*ptr1 = *ptr2;
+	*ptr2 = x;
+}
+
+void Matrix_Transpose(int** &Array, int* SizeLine, int* SizeColumn) // Транспонирование двумерной матрицы любого размера: квадратная и прямоугольная (Задание 4). В процессе!!!
 {
 	/*
 	Описание транспонирование матрицы по шагам (решил сначала написать алгоритм действий и потом реализовать, позде описание оставить!!!):
@@ -168,9 +193,45 @@ void Matrix_Transpose(int** Array, int* SizeLine, int* SizeColumn)
 	- Удяляем старую матрицу по схеме (удаление данных столбцов, а потом удаление строк с указателями) предотварщения утечки данных.
 	- Присваиваем адрес старому указателю на новую мтрицу. (Временный указатель после выхода из функции удалится)
 	- Меняем данные матрицы по ранее перданному указателю на новые размеры матрицы.
-	2.2)
-
+	2.2) 
 	*/
+	if (*SizeLine == *SizeColumn)
+	{
+		Matrix_TransposeX2(Array, *SizeLine, *SizeColumn); // Проверил, работает.
+	}
+	else if (*SizeLine < *SizeColumn)
+	{
+		int NewSizeLine = *SizeColumn;
+		int NeWSizeColumn = *SizeLine;
+		int** NewArray{ nullptr };
+		Creat_Multi_Array(NewArray, NewSizeLine, NeWSizeColumn);
+		Matrix_TransposeX2(Array, *SizeLine, *SizeColumn);
+		for (int i = 0; i < *SizeLine; i++)
+		{
+			for (int j = 0; j < *SizeLine; j++)
+				NewArray[i][j] = Array[i][j]; // Записываем в новую матрицу уже транспонированную квадратную часть изначальной матрицы
+		}
+		for (int i = *SizeLine; i < NewSizeLine; i++)
+		{
+			for (int j = 0; j < NeWSizeColumn; j++)
+				NewArray[i][j] = Array[j][i];
+		}
+		DelArray(Array, *SizeLine);
+		Array = NewArray;
+		*SizeColumn = NeWSizeColumn;
+		*SizeLine = NewSizeLine;
+	}
+	else
+	{
+
+	}
+}
+
+void DelArray(int**& Array, int SizeLine) // Функция удаления массива
+{
+	for (int i = 0; i < SizeLine; i++)
+		delete[]Array[i];
+	delete[]Array;
 }
 
 
@@ -226,7 +287,7 @@ int main_2() // Задание 2. (готово)
 	return 0;
 }
 
-int main_3() // Задание 3. Циклический сдвиг НУЖНО ПРОВЕРИТЬ!!!
+int main_3() // Задание 3. Циклический сдвиг
 {
 	setlocale(LC_ALL, "ru");
 	srand(time(NULL));
@@ -261,7 +322,21 @@ int main() // Задание 4. Транспонирование матрицы
 	setlocale(LC_ALL, "ru");
 	srand(time(NULL));
 
-
+	int SizeLine{}; // Размер массива, количество строк
+	int SizeColumn{}; // Размер массива, количество столбцов
+	int** ptrArray{ nullptr };
+	std::cout << "Выберети размер массива. Количество строк = ";
+	std::cin >> SizeLine;
+	std::cout << "Количество столбцов = ";
+	std::cin >> SizeColumn;
+	Creat_Multi_Array(ptrArray, SizeLine, SizeColumn); // Создание двумерного массива
+	Gen_Multi_Array(ptrArray, SizeLine, SizeColumn);
+	std::cout << "Заполним двумерный массив случайными числами и выведем на экран:" << std::endl;
+	Print_Multi_Array(ptrArray, SizeLine, SizeColumn);
+	std::cout << "Теперь транспонируем матрицу двумерного массива и выведем на экран:" << std::endl;
+	Matrix_Transpose(ptrArray, &SizeLine, &SizeColumn);
+	//Matrix_TransposeX2(ptrArray, SizeLine, SizeColumn); //Временный вариант транспонирования квадратной матрицы
+	Print_Multi_Array(ptrArray, SizeLine, SizeColumn);
 
 	return 0;
 }
