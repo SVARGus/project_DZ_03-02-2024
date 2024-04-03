@@ -4,6 +4,8 @@
 */
 
 #include <iostream>
+#include <cstring>
+#include <windows.h> 
 
 void Creat_Multi_Array(int**& Array, int SizeLine, int SizeColumn); // 1, 2, 3
 void Gen_Multi_Array(int** Array, int SizeLine, int SizeColumn); // 1, 2, 3
@@ -14,7 +16,9 @@ void Shift_Array(int** Array, int SizeLine, int SizeColumn, int SizeShift, int S
 void Matrix_TransposeX2(int** Array, int SizeLine, int SizeColumn); // 4
 void swap(int* ptr1, int* ptr2); // 4
 void Matrix_Transpose(int** &Array, int* SizeLine, int* SizeColumn); // 4
-void DelArray(int**& Array, int SizeLine); // 1-5
+void DelArray(int**& Array, int SizeLine); // 1-4
+template<typename T>
+void Creat3D_Multi_Array(T***& Array, int SizeLine, int SizeColumn); // 5
 
 
 void Creat_Multi_Array(int**& Array, int SizeLine, int SizeColumn) //Функция создания двумерного динамического массива (Задание 1, 2)
@@ -23,6 +27,20 @@ void Creat_Multi_Array(int**& Array, int SizeLine, int SizeColumn) //Функц�
 	for (int i = 0; i < SizeLine; i++)
 	{
 		Array[i] = new int[SizeColumn];
+	}
+}
+
+template<typename T>
+void Creat3D_Multi_Array(T***& Array, int SizeLine, int SizeColumn) //Функция создания трехмерного динамического массива (Задание 5), без создания
+{
+	Array = new T** [SizeLine];
+	for (int i = 0; i < SizeLine; i++)
+	{
+		Array[i] = new T*[SizeColumn];
+		for (int j = 0; j < SizeColumn; j++)
+		{
+			Array[i][j] = nullptr;
+		}
 	}
 }
 
@@ -160,9 +178,10 @@ void Shift_Array(int** Array, int SizeLine, int SizeColumn, int SizeShift, int S
 void Matrix_TransposeX2(int** Array, int SizeLine, int SizeColumn) // Транспонирование квадратной матрицы (Задание 4) (Проверил - работает!!!)
 {
 	int Temp{};
-	for (int i = 0; i < SizeLine; i++)
+	int Min = (SizeLine < SizeColumn) ? SizeLine : SizeColumn;
+	for (int i = 0; i < Min; i++)
 	{
-		for (int j = 1; j < SizeLine; j++)
+		for (int j = 1; j < Min; j++)
 		{
 			if (j > i)
 				swap(&Array[i][j], &Array[j][i]);
@@ -178,7 +197,7 @@ void swap(int* ptr1, int* ptr2) // Функция замены значений 
 	*ptr2 = x;
 }
 
-void Matrix_Transpose(int** &Array, int* SizeLine, int* SizeColumn) // Транспонирование двумерной матрицы любого размера: квадратная и прямоугольная (Задание 4). Надо переделать после проверки!!!
+void Matrix_Transpose(int** &Array, int* SizeLine, int* SizeColumn) // Транспонирование двумерной матрицы любого размера: квадратная и прямоугольная (Задание 4).
 {
 	/*
 	Описание транспонирование матрицы по шагам (решил сначала написать алгоритм действий и потом реализовать, позде описание оставить!!!):
@@ -199,44 +218,34 @@ void Matrix_Transpose(int** &Array, int* SizeLine, int* SizeColumn) // Тран�
 	{
 		Matrix_TransposeX2(Array, *SizeLine, *SizeColumn); // Проверил, работает.
 	}
-	else if (*SizeLine < *SizeColumn)
-	{
-		int NewSizeLine = *SizeColumn; // Нужно выносить определение новой переменной и указателя за условия? (при условии что в другом условии название идентично)
-		int NeWSizeColumn = *SizeLine;
-		int** NewArray{ nullptr };
-		Creat_Multi_Array(NewArray, NewSizeLine, NeWSizeColumn);
-		Matrix_TransposeX2(Array, *SizeLine, *SizeColumn);
-		for (int i = 0; i < *SizeLine; i++)
-		{
-			for (int j = 0; j < *SizeLine; j++)
-				NewArray[i][j] = Array[i][j]; // Записываем в новую матрицу уже транспонированную квадратную часть изначальной матрицы
-		}
-		for (int i = *SizeLine; i < NewSizeLine; i++)
-		{
-			for (int j = 0; j < NeWSizeColumn; j++)
-				NewArray[i][j] = Array[j][i];
-		}
-		DelArray(Array, *SizeLine);
-		Array = NewArray;
-		*SizeColumn = NeWSizeColumn;
-		*SizeLine = NewSizeLine;
-	}
-	else // *SizeLine > *SizeColumn
+	else
 	{
 		int NewSizeLine = *SizeColumn;
 		int NeWSizeColumn = *SizeLine;
+		int Min = (*SizeLine < *SizeColumn) ? *SizeLine : *SizeColumn;
 		int** NewArray{ nullptr };
 		Creat_Multi_Array(NewArray, NewSizeLine, NeWSizeColumn);
 		Matrix_TransposeX2(Array, *SizeLine, *SizeColumn);
-		for (int i = 0; i < *SizeLine; i++)
+		for (int i = 0; i < Min; i++)
 		{
-			for (int j = 0; j < *SizeColumn; j++)
-				NewArray[i][j] = Array[i][j];
+			for (int j = 0; j < Min; j++)
+				NewArray[i][j] = Array[i][j]; // Записываем в новую матрицу уже транспонированную квадратную часть изначальной матрицы
 		}
-		for (int i = 0; i < NewSizeLine; i++) // строка 236-240 отличается от предыдущего условия, надо переписать для оптимизации.
+		if (*SizeLine < *SizeColumn)
 		{
-			for (int j = *SizeColumn; j < NeWSizeColumn; j++)
-				NewArray[i][j] = Array[j][i];
+			for (int i = *SizeLine; i < NewSizeLine; i++)
+			{
+				for (int j = 0; j < NeWSizeColumn; j++)
+					NewArray[i][j] = Array[j][i];
+			}
+		}
+		else
+		{
+			for (int i = 0; i < NewSizeLine; i++)
+			{
+				for (int j = *SizeColumn; j < NeWSizeColumn; j++)
+					NewArray[i][j] = Array[j][i];
+			}
 		}
 		DelArray(Array, *SizeLine);
 		Array = NewArray;
@@ -250,6 +259,17 @@ void DelArray(int**& Array, int SizeLine) // Функция удаления м�
 	for (int i = 0; i < SizeLine; i++)
 		delete[]Array[i];
 	delete[]Array;
+}
+
+void Insert_3D_Multi_Array(char***& Array, int SizeLine, int SizeColumn, char* Name, char* Phone) 
+{
+	bool Flag{};
+	int SizeName = strlen(Name);
+	int SizePhone = strlen(Phone);
+	for (int i = 0; i < length; i++)
+	{
+
+	}
 }
 
 
@@ -361,5 +381,18 @@ int main_4() // Задание 4. Транспонирование матриц�
 
 int main() // Задание 5.
 {
+	setlocale(LC_ALL, "ru");
+	srand(time(NULL));
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
 
+	int SizeLine{2}; // Размер массива, количество строк
+	int SizeColumn{10}; // Размер массива, количество столбцов
+	char*** ptrArray{ nullptr };
+	Creat3D_Multi_Array(ptrArray, SizeLine, SizeColumn);
+	//char* ArrayName[] = new char* { "Jon", "Alex", "Den", "Piter", "Jordan", "Olivia", "Clara", "Sara", "Klarisa", "Anton" };
+	char Name[] = "Jon Alex Den Piter Jordan Olivia Clara Sara Klarisa Anton"; // Массив имен чтобы каждый раз не вводить.
+	char Phone[] = "79784524513 77051363415 79024263570 79011108191 79532877598 79341152699 79588331866 79339942050 79045453738 79084437628"; // Массив телефонов чтобы каждый раз не вводить.
+
+	return 0;
 }
