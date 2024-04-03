@@ -14,7 +14,7 @@ void Shift_Array(int** Array, int SizeLine, int SizeColumn, int SizeShift, int S
 void Matrix_TransposeX2(int** Array, int SizeLine, int SizeColumn); // 4
 void swap(int* ptr1, int* ptr2); // 4
 void Matrix_Transpose(int** &Array, int* SizeLine, int* SizeColumn); // 4
-void DelArray(int**& Array, int SizeLine);
+void DelArray(int**& Array, int SizeLine); // 1-5
 
 
 void Creat_Multi_Array(int**& Array, int SizeLine, int SizeColumn) //Функция создания двумерного динамического массива (Задание 1, 2)
@@ -178,7 +178,7 @@ void swap(int* ptr1, int* ptr2) // Функция замены значений 
 	*ptr2 = x;
 }
 
-void Matrix_Transpose(int** &Array, int* SizeLine, int* SizeColumn) // Транспонирование двумерной матрицы любого размера: квадратная и прямоугольная (Задание 4). В процессе!!!
+void Matrix_Transpose(int** &Array, int* SizeLine, int* SizeColumn) // Транспонирование двумерной матрицы любого размера: квадратная и прямоугольная (Задание 4). Надо переделать после проверки!!!
 {
 	/*
 	Описание транспонирование матрицы по шагам (решил сначала написать алгоритм действий и потом реализовать, позде описание оставить!!!):
@@ -193,7 +193,7 @@ void Matrix_Transpose(int** &Array, int* SizeLine, int* SizeColumn) // Тран�
 	- Удяляем старую матрицу по схеме (удаление данных столбцов, а потом удаление строк с указателями) предотварщения утечки данных.
 	- Присваиваем адрес старому указателю на новую мтрицу. (Временный указатель после выхода из функции удалится)
 	- Меняем данные матрицы по ранее перданному указателю на новые размеры матрицы.
-	2.2) 
+	2.2) Нужно сделать зеркально. Также подумать как сделать через рекурсию.
 	*/
 	if (*SizeLine == *SizeColumn)
 	{
@@ -201,7 +201,7 @@ void Matrix_Transpose(int** &Array, int* SizeLine, int* SizeColumn) // Тран�
 	}
 	else if (*SizeLine < *SizeColumn)
 	{
-		int NewSizeLine = *SizeColumn;
+		int NewSizeLine = *SizeColumn; // Нужно выносить определение новой переменной и указателя за условия? (при условии что в другом условии название идентично)
 		int NeWSizeColumn = *SizeLine;
 		int** NewArray{ nullptr };
 		Creat_Multi_Array(NewArray, NewSizeLine, NeWSizeColumn);
@@ -221,9 +221,27 @@ void Matrix_Transpose(int** &Array, int* SizeLine, int* SizeColumn) // Тран�
 		*SizeColumn = NeWSizeColumn;
 		*SizeLine = NewSizeLine;
 	}
-	else
+	else // *SizeLine > *SizeColumn
 	{
-
+		int NewSizeLine = *SizeColumn;
+		int NeWSizeColumn = *SizeLine;
+		int** NewArray{ nullptr };
+		Creat_Multi_Array(NewArray, NewSizeLine, NeWSizeColumn);
+		Matrix_TransposeX2(Array, *SizeLine, *SizeColumn);
+		for (int i = 0; i < *SizeLine; i++)
+		{
+			for (int j = 0; j < *SizeColumn; j++)
+				NewArray[i][j] = Array[i][j];
+		}
+		for (int i = 0; i < NewSizeLine; i++) // строка 236-240 отличается от предыдущего условия, надо переписать для оптимизации.
+		{
+			for (int j = *SizeColumn; j < NeWSizeColumn; j++)
+				NewArray[i][j] = Array[j][i];
+		}
+		DelArray(Array, *SizeLine);
+		Array = NewArray;
+		*SizeColumn = NeWSizeColumn;
+		*SizeLine = NewSizeLine;
 	}
 }
 
@@ -317,7 +335,7 @@ int main_3() // Задание 3. Циклический сдвиг
 	return 0;
 }
 
-int main() // Задание 4. Транспонирование матрицы
+int main_4() // Задание 4. Транспонирование матрицы
 {
 	setlocale(LC_ALL, "ru");
 	srand(time(NULL));
@@ -339,4 +357,9 @@ int main() // Задание 4. Транспонирование матрицы
 	Print_Multi_Array(ptrArray, SizeLine, SizeColumn);
 
 	return 0;
+}
+
+int main() // Задание 5.
+{
+
 }
