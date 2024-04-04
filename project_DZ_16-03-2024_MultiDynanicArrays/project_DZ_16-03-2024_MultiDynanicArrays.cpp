@@ -19,6 +19,10 @@ void Matrix_Transpose(int** &Array, int* SizeLine, int* SizeColumn); // 4
 void DelArray(int**& Array, int SizeLine); // 1-4
 template<typename T>
 void Creat3D_Multi_Array(T***& Array, int SizeLine, int SizeColumn); // 5
+bool foo(char* Name, int i); // 5
+void Insert_3D_Multi_Array(char***& Array, int SizeLine, int SizeColumn, char* Name, char* Phone); // 5
+void Print3D_Multi_Array(char*** Array, int SizeLine, int SizeColumn); // 5
+
 
 
 void Creat_Multi_Array(int**& Array, int SizeLine, int SizeColumn) //Функция создания двумерного динамического массива (Задание 1, 2)
@@ -254,21 +258,83 @@ void Matrix_Transpose(int** &Array, int* SizeLine, int* SizeColumn) // Тран�
 	}
 }
 
-void DelArray(int**& Array, int SizeLine) // Функция удаления массива
+void DelArray(int**& Array, int SizeLine) // Функция удаления двумерного динамического массива
 {
 	for (int i = 0; i < SizeLine; i++)
 		delete[]Array[i];
 	delete[]Array;
 }
 
-void Insert_3D_Multi_Array(char***& Array, int SizeLine, int SizeColumn, char* Name, char* Phone) 
+bool foo(char* Name, int i) // функция поднятия флага для задания 5
 {
-	bool Flag{};
+	if (A <= Name[i] <= Z)
+		return true;
+	else if (a <= Name[i] <= z)
+		return true;
+	else if (0 <= Name[i] < = 9)
+		return true;
+	return false;
+}
+
+// Данную функцию (в месте с foo) можно добавить задание по поиску количество слов
+void Insert_3D_Multi_Array(char***& Array, int SizeLine, int SizeColumn, char* Name, char* Phone) // Функция заполнения строк из задания 5 (чтобы каждый раз вручную не вводить данные в массив)
+{
+	//bool Flag{};
+	char NewName[15]{};
+	//int NewSize{};
 	int SizeName = strlen(Name);
 	int SizePhone = strlen(Phone);
-	for (int i = 0; i < length; i++)
+	for (int i = 0, j = 0, k = 0; i < SizeName; i++)
 	{
+		if (foo(Name, i) == 1)
+		{
+			NewName[j] = Name[i];
+			++j;
+		}
+		if (foo(Name, i) == 1 && foo(Name, i+1) != 1)
+		{
+			Array[0][k] = new char[j];
+			for (int x = 0; x < j; x++)
+			{
+				Array[0][k][x] = NewName[x];
+			}
+			++k;
+			j = 0;
+		}
+	}
+	for (int i = 0, j = 0, k = 0; i < SizePhone; i++)
+	{
+		if (foo(Phone, i) == 1)
+		{
+			NewName[j] = Phone[i];
+			++j;
+		}
+		if (foo(Phone, i) == 1 && foo(Phone, i + 1) != 1)
+		{
+			Array[0][k] = new char[j];
+			for (int x = 0; x < j; x++)
+			{
+				Array[0][k][x] = NewName[x];
+			}
+			++k;
+			j = 0;
+		}
+	}
+}
 
+void Print3D_Multi_Array(char*** Array, int SizeLine, int SizeColumn) // Функция вывода для задания 5, но для удобства строки выводятся как столбцы.
+{
+	for (int i = 0; i < SizeColumn; i++)
+	{
+		for (int j = 0; j < SizeLine; j++)
+		{
+			for (int k = 0; k < sizeof(Array[i][j]); k++) // проверить роаботу определения размера, если что вынести за рамки цикла
+			{
+				std::cout << Array[i][j][k];
+			}
+			std::cout << "\t";
+		}
+		std::cout << std::endl;
 	}
 }
 
@@ -393,6 +459,30 @@ int main() // Задание 5.
 	//char* ArrayName[] = new char* { "Jon", "Alex", "Den", "Piter", "Jordan", "Olivia", "Clara", "Sara", "Klarisa", "Anton" };
 	char Name[] = "Jon Alex Den Piter Jordan Olivia Clara Sara Klarisa Anton"; // Массив имен чтобы каждый раз не вводить.
 	char Phone[] = "79784524513 77051363415 79024263570 79011108191 79532877598 79341152699 79588331866 79339942050 79045453738 79084437628"; // Массив телефонов чтобы каждый раз не вводить.
+	Insert_3D_Multi_Array(ptrArray, SizeLine, SizeColumn, Name, Phone);
+	std::wcout << "" << std::endl;
+	Print3D_Multi_Array(ptrArray, SizeLine, SizeColumn); // временный вывод
+	int Menu{};
+	do
+	{
+		std::cout << "Меню взаимодействия с базой имен ителефонов" << std::endl;
+		std::cout << "1) Найти номер телеофна по имени" << std::endl;
+		std::cout << "2) По номеру телефона или части цифр найти кому может принадлежать номер телефона" << std::endl;
+		std::cout << "3) Добавить новые данные в базу" << std::endl;
+		std::cout << "0) Выход" << std::endl;
+		std::cin >> Menu;
+		switch (Menu)
+		{
+		case 1:
+			break;
+		case 2:
+			break;
+		case 3:
+			break;
+		default:
+			break;
+		}
+	} while (Menu != 0);
 
 	return 0;
 }
