@@ -52,6 +52,7 @@ int SearchSymbol(char* mass, char symbol, int i = 0); // 5
 void VolumSymbol(char* mass, int* VolumABC, int* VolumNum, int* VolumSymbol1); // 6, 8
 int Volum_Words(char* mass); // 9
 int Palindrome(char* mass); // 10
+bool foo_flag(char* mass, int i);
 
 // Реализация функций
 
@@ -99,14 +100,15 @@ void ReplaceSymbolMass(char* mass, char searchsymbol, char symbol) // Функц
 	}
 }
 
-int SearchSymbol(char* mass, char symbol, int i) // Функция подсчета количества введенного символа, реализовал через рекурсию, i при первом запуске по умолчанию 0 (задание 5)
+int SearchSymbol(char* mass, char symbol, int i) // Функция подсчета количества введенного символа, реализовал через рекурсию, i при первом запуске по умолчанию 0 (задание 5) Убрал цикл
 {
-	for (; i <= strlen(mass); i++)
+	if (mass[i] == symbol)
+		return 1 + SearchSymbol(mass, symbol, ++i);
+	if (i > strlen(mass))
 	{
-		if (mass[i] == symbol)
-			return 1 + SearchSymbol(mass, symbol, ++i);
+		return 0;
 	}
-	return 0;
+	SearchSymbol(mass, symbol, ++i);
 }
 
 void VolumSymbol(char* mass, int* VolumABC, int* VolumNum, int* VolumSymbol1) // Функция для вычисления количества символов, бук и цифр (задание 6 и 8)
@@ -123,17 +125,35 @@ void VolumSymbol(char* mass, int* VolumABC, int* VolumNum, int* VolumSymbol1) //
 	}
 }
 
+bool foo_flag(char* mass, int i)
+{
+	if ('A' <= mass[i] && mass[i] <= 'Z')
+		return true;
+	else if ('a' <= mass[i] && mass[i] <= 'z')
+		return true;
+	else if ('0' <= mass[i] && mass[i] <= '9')
+		return true;
+	else if (mass[i] == '\'')
+		return true;
+	else
+		return false;
+}
+
 int Volum_Words(char* mass) // Функция подсчета количества слов в предложении (Задание 9).
 {
 	int sum{};
 	for (int i = 0; i <= strlen(mass); i++)
 	{
-		// Как упростить условия? Надо подумать и поискать решения
-		if (((mass[i] >= 'a' && mass[i] <= 'z') || (mass[i] >= 'A' && mass[i] <= 'Z') || mass[i] == '\'' || mass[i] == ' ') != ((mass[i + 1] >= 'a' && mass[i + 1] <= 'z') || (mass[i + 1] >= 'A' && mass[i + 1] <= 'Z') || mass[i + 1] == '\''))
+		// Упростил решение
+		if (foo_flag(mass, i) == true && foo_flag(mass, i + 1) == false)
+		{
+			++sum;
+		}
+		/*if (((mass[i] >= 'a' && mass[i] <= 'z') || (mass[i] >= 'A' && mass[i] <= 'Z') || mass[i] == '\'' || mass[i] == ' ') != ((mass[i + 1] >= 'a' && mass[i + 1] <= 'z') || (mass[i + 1] >= 'A' && mass[i + 1] <= 'Z') || mass[i + 1] == '\''))
 		{
 			if (mass[i+1] < 0 || mass[i + 1] > 9)
 				sum++;
-		}
+		}*/
 	}
 	return sum;
 }
