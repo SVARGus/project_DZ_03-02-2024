@@ -267,14 +267,17 @@ void DelArray(int**& Array, int SizeLine) // Функция удаления д�
 
 bool foo(char* Name, int i) // функция поднятия флага для задания 5
 {
-	if (A <= Name[i] <= Z)
+	if ('A' <= Name[i] && Name[i] <= 'Z')
 		return true;
-	else if (a <= Name[i] <= z)
+	else if ('a' <= Name[i] && Name[i] <= 'z')
 		return true;
-	else if (0 <= Name[i] < = 9)
+	else if ('0' <= Name[i] && Name[i] <= '9')
 		return true;
-	return false;
+	else
+		return false;
 }
+
+
 
 // Данную функцию (в месте с foo) можно добавить задание по поиску количество слов
 void Insert_3D_Multi_Array(char***& Array, int SizeLine, int SizeColumn, char* Name, char* Phone) // Функция заполнения строк из задания 5 (чтобы каждый раз вручную не вводить данные в массив)
@@ -284,20 +287,24 @@ void Insert_3D_Multi_Array(char***& Array, int SizeLine, int SizeColumn, char* N
 	//int NewSize{};
 	int SizeName = strlen(Name);
 	int SizePhone = strlen(Phone);
+	char* NewArray{ nullptr };
 	for (int i = 0, j = 0, k = 0; i < SizeName; i++)
 	{
-		if (foo(Name, i) == 1)
+		if (foo(Name, i) == true)
 		{
 			NewName[j] = Name[i];
 			++j;
 		}
-		if (foo(Name, i) == 1 && foo(Name, i+1) != 1)
+		if (foo(Name, i) == true && foo(Name, i+1) == false)
 		{
-			Array[0][k] = new char[j];
+			//Array[0][k] = new char[j]{};
+			NewArray = new char[j];
 			for (int x = 0; x < j; x++)
 			{
-				Array[0][k][x] = NewName[x];
+				//Array[0][k][x] = NewName[x];
+				NewArray[x] = NewName[x];
 			}
+			Array[0][k] = NewArray;
 			++k;
 			j = 0;
 		}
@@ -311,10 +318,10 @@ void Insert_3D_Multi_Array(char***& Array, int SizeLine, int SizeColumn, char* N
 		}
 		if (foo(Phone, i) == 1 && foo(Phone, i + 1) != 1)
 		{
-			Array[0][k] = new char[j];
+			Array[1][k] = new char[j]{};
 			for (int x = 0; x < j; x++)
 			{
-				Array[0][k][x] = NewName[x];
+				Array[1][k][x] = NewName[x];
 			}
 			++k;
 			j = 0;
@@ -324,9 +331,9 @@ void Insert_3D_Multi_Array(char***& Array, int SizeLine, int SizeColumn, char* N
 
 void Print3D_Multi_Array(char*** Array, int SizeLine, int SizeColumn) // Функция вывода для задания 5, но для удобства строки выводятся как столбцы.
 {
-	for (int i = 0; i < SizeColumn; i++)
+	for (int j = 0; j < SizeColumn; j++)
 	{
-		for (int j = 0; j < SizeLine; j++)
+		for (int i = 0; i < SizeLine; i++)
 		{
 			for (int k = 0; k < sizeof(Array[i][j]); k++) // проверить роаботу определения размера, если что вынести за рамки цикла
 			{
@@ -460,7 +467,7 @@ int main() // Задание 5.
 	char Name[] = "Jon Alex Den Piter Jordan Olivia Clara Sara Klarisa Anton"; // Массив имен чтобы каждый раз не вводить.
 	char Phone[] = "79784524513 77051363415 79024263570 79011108191 79532877598 79341152699 79588331866 79339942050 79045453738 79084437628"; // Массив телефонов чтобы каждый раз не вводить.
 	Insert_3D_Multi_Array(ptrArray, SizeLine, SizeColumn, Name, Phone);
-	std::wcout << "" << std::endl;
+	std::cout << "" << std::endl;
 	Print3D_Multi_Array(ptrArray, SizeLine, SizeColumn); // временный вывод
 	int Menu{};
 	do
