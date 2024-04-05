@@ -284,7 +284,7 @@ void Insert_3D_Multi_Array(char***& Array, int SizeLine, int SizeColumn, char* N
 {
 	//bool Flag{};
 	char NewName[15]{};
-	//int NewSize{};
+	int NewSize{};
 	int SizeName = strlen(Name);
 	int SizePhone = strlen(Phone);
 	char* NewArray{ nullptr };
@@ -295,16 +295,15 @@ void Insert_3D_Multi_Array(char***& Array, int SizeLine, int SizeColumn, char* N
 			NewName[j] = Name[i];
 			++j;
 		}
-		if (foo(Name, i) == true && foo(Name, i+1) == false)
+		if (foo(Name, i) == true && foo(Name, i + 1) == false)
 		{
-			//Array[0][k] = new char[j]{};
-			NewArray = new char[j];
+			NewName[j + 1] = '\0';
+			NewSize = strlen(NewName) + 1;
+			Array[0][k] = new char[NewSize] {};
 			for (int x = 0; x < j; x++)
 			{
-				//Array[0][k][x] = NewName[x];
-				NewArray[x] = NewName[x];
+				Array[0][k][x] = NewName[x];
 			}
-			Array[0][k] = NewArray;
 			++k;
 			j = 0;
 		}
@@ -318,7 +317,9 @@ void Insert_3D_Multi_Array(char***& Array, int SizeLine, int SizeColumn, char* N
 		}
 		if (foo(Phone, i) == 1 && foo(Phone, i + 1) != 1)
 		{
-			Array[1][k] = new char[j]{};
+			NewName[j + 1] = '\0';
+			NewSize = strlen(NewName) + 1;
+			Array[1][k] = new char[NewSize] {};
 			for (int x = 0; x < j; x++)
 			{
 				Array[1][k][x] = NewName[x];
@@ -335,10 +336,7 @@ void Print3D_Multi_Array(char*** Array, int SizeLine, int SizeColumn) // Фун�
 	{
 		for (int i = 0; i < SizeLine; i++)
 		{
-			for (int k = 0; k < sizeof(Array[i][j]); k++) // проверить роаботу определения размера, если что вынести за рамки цикла
-			{
-				std::cout << Array[i][j][k];
-			}
+			std::cout << Array[i][j];
 			std::cout << "\t";
 		}
 		std::cout << std::endl;
