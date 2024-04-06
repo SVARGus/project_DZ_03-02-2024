@@ -18,10 +18,13 @@ void swap(int* ptr1, int* ptr2); // 4
 void Matrix_Transpose(int** &Array, int* SizeLine, int* SizeColumn); // 4
 void DelArray(int**& Array, int SizeLine); // 1-4
 template<typename T>
+void Del3D_Array(T***& Array, int SizeLine, int SizeColumn); // 5
+template<typename T>
 void Creat3D_Multi_Array(T***& Array, int SizeLine, int SizeColumn); // 5
 bool foo(char* Name, int i); // 5
 void Insert_3D_Multi_Array(char***& Array, int SizeLine, int SizeColumn, char* Name, char* Phone); // 5
 void Print3D_Multi_Array(char*** Array, int SizeLine, int SizeColumn); // 5
+char * strcpy( char * destptr, const char * srcptr );
 
 
 
@@ -258,10 +261,24 @@ void Matrix_Transpose(int** &Array, int* SizeLine, int* SizeColumn) // Тран�
 	}
 }
 
-void DelArray(int**& Array, int SizeLine) // Функция удаления двумерного динамического массива
+void DelArray(int**& Array, int SizeLine) // Функция удаления двумерного динамического массива (задание 1-4)
 {
 	for (int i = 0; i < SizeLine; i++)
 		delete[]Array[i];
+	delete[]Array;
+}
+
+template<typename T>
+void Del3D_Array(T***& Array, int SizeLine, int SizeColumn) // Функция удаления трехмерного динамического массива (Задание 5)
+{
+	for (int i = 0; i < SizeLine; i++)
+	{
+		for (int j = 0; j < SizeColumn; j++)
+		{
+			delete[]Array[i][j];
+		}
+		delete[]Array[i];
+	}
 	delete[]Array;
 }
 
@@ -276,8 +293,6 @@ bool foo(char* Name, int i) // функция поднятия флага для
 	else
 		return false;
 }
-
-
 
 // Данную функцию (в месте с foo) можно добавить задание по поиску количество слов
 void Insert_3D_Multi_Array(char***& Array, int SizeLine, int SizeColumn, char* Name, char* Phone) // Функция заполнения строк из задания 5 (чтобы каждый раз вручную не вводить данные в массив)
@@ -337,11 +352,164 @@ void Print3D_Multi_Array(char*** Array, int SizeLine, int SizeColumn) // Фун�
 		for (int i = 0; i < SizeLine; i++)
 		{
 			std::cout << Array[i][j];
+			//std::cout << " " << strlen(Array[i][j]); //временно - удалить потом
 			std::cout << "\t";
 		}
 		std::cout << std::endl;
 	}
 }
+
+// Позже после написания функций для 5 задания добавить их в Прототипы!!! (те что ниже)
+
+bool Flag_Name(char*** Array, int Line, int SizeColumn, char* Name)
+{
+	for (int i = 0; i < SizeColumn; i++)
+	{
+		if (strcmp(Array[Line][i], Name) == 0)
+			return  true;
+	}
+	return false; // обязательно прописывать return false если условие в цикле не выполнилось?
+}
+
+int Search_i_Name(char*** Array, int Line, int SizeColumn, char* Name) // (Задание 5) Поиск в массиве по полному имени (Line = 0) и телефону (Line = 1) и вывод позиции в массиве
+{
+	for (int i = 0; i < SizeColumn; i++)
+	{
+		if (strcmp(Array[Line][i], Name) == 0)
+			return i;
+	}
+	return 0; // Учесть и добавить булевскую проверку не позволяющая запустить данную функцию
+}
+
+void Search_Name(char*** Array, int Line, int SizeColumn, char* Name) // (Задание 5) Поиск в массиве по полностью введенному имени (Line = 0) и телефону (Line = 1)
+{
+	if (Flag_Name(Array, Line, SizeColumn, Name) == false)
+	{
+		std::cout << "Искомые данные не найдены!!! Повторите поиск" << std::endl;
+	}
+	else
+	{
+		int i = Search_i_Name(Array, Line, SizeColumn, Name);
+		std::cout << "Данные найдены: #" << i << " Имя: " << Array[0][i] << " Телефон: " << Array[1][i] << std::endl;
+	}
+}
+
+void Search_Section_Name(char*** Array, int Line, int SizeLine, int SizeColumn, char* Name) // (Задание 5) Поиск в массиве по частично введенному имени или отдельному символу (Line = 0) и телефону (Line = 1)
+{
+	int Size = strlen(Name);
+	std::cout << "Найдены совпадения по ";
+	if (Line == 0)
+		std::cout << "Имени следующие Телефоны: " << std::endl;
+	else
+		std::cout << "номеру телефона следующие Имена: " << std::endl;
+	for (int i = 0; i < SizeColumn; i++)
+	{
+		int SizeArray = strlen(Array[Line][i]);
+		for (int j = 0, k = 0; j < SizeArray && Size <= SizeArray; j++)
+		{
+			if (Array[Line][i][j] != Name[k])
+				k = 0;
+			else
+				++k;
+			if (k == Size)
+			{
+				std::cout << "Данные найдены: #" << i << " Имя: " << Array[0][i] << " Телефон: " << Array[1][i] << std::endl;
+				break;
+			}
+		}
+	}
+} // готово, надо будет проверить!
+
+void Menu_1(char*** Array, int SizeLine, int SizeColumn) // Меню 1 - обычный поиск данных в массиве данных имен и телефонов и вывод на экран
+{
+	char Name[20]{};
+	int Menu1{};
+	std::cout << "1) Искать по полному Имени" << std::endl;
+	std::cout << "2) Искать по нескольким буквам из Имени" << std::endl;
+	std::cout << "3) Искать по целому номеру телефона (11 цифр)" << std::endl;
+	std::cout << "4) Искать по сочетанию нескоьких цифр Телефона" << std::endl;
+	std::cout << "0) Выход" << std::endl;
+	std::cin >> Menu1;
+	do
+	{
+		switch (Menu1)
+		{
+		case 1:
+			std::cin >> Name;
+			//std::cout << " " << strlen(Name); //временно - удалить потом
+			Search_Name(Array, 0, SizeColumn, Name);
+			break;
+		case 2:
+			std::cin >> Name;
+			Search_Section_Name(Array, 0, SizeLine, SizeColumn, Name);
+			break;
+		case 3:
+			std::cin >> Name;
+			//std::cout << " " << strlen(Name); //временно - удалить потом
+			Search_Name(Array, 1, SizeColumn, Name);
+			break;
+		case 4:
+			std::cin >> Name;
+			Search_Section_Name(Array, 1, SizeLine, SizeColumn, Name);
+			break;
+		default:
+			std::cin >> Menu1;
+			break;
+		}
+	} while (Menu1 != 0);
+}
+
+void Modifi_Name(char*** Array, int Line, int SizeLine, int SizeColumn)
+{
+	int Index{};
+	char Name[20]{};
+	if (Line == 0)
+	{
+		std::cout << "Укажите индекс имени который вы хотите изменить: ";
+		std::cin >> Index;
+		std::cout << "Пропишите новое имя для замены: ";
+		std::cin >> Name;
+	}
+	else
+	{
+		std::cout << "Укажите индекс телефона который вы хотите изменить: ";
+		std::cin >> Index;
+		std::cout << "Пропишите новый телефон для замены: ";
+		std::cin >> Name;
+	}
+	delete[]Array[Line][Index];
+	Array[Line][Index] = new char[strlen(Name)+1];
+	#pragma warning(disable:4996); 
+	strcpy(Array[Line][Index], Name); // выдавало ишибку, пришлось подключить перед вызовом #pragma warning(disable:4996);
+	std::cout << "Вывод измененных данных: # " << Index << " Имя: " << Array[0][Index] << " Телефон: " << Array[1][Index] << std::endl;
+}
+
+void Menu_2(char*** Array, int SizeLine, int SizeColumn)
+{
+	char Name[20]{};
+	int Index{};
+	int Menu2{};
+	std::cout << "1) Внести изменение в Имя" << std::endl;
+	std::cout << "2) Внести изменение в Телефон" << std::endl;
+	std::cout << "0) Выход" << std::endl;
+	std::cin >> Menu2;
+	do
+	{
+		switch (Menu2)
+		{
+		case 1:
+			Modifi_Name(Array, 0, SizeLine, SizeColumn);
+			break;
+		case 2:
+			Modifi_Name(Array, 1, SizeLine, SizeColumn);
+			break;
+		default:
+			std::cin >> Menu2;
+			break;
+		}
+	} while (Menu2 != 0);
+}
+
 
 
 int main_1() // Задание 1. (готово)
@@ -366,6 +534,7 @@ int main_1() // Задание 1. (готово)
 	Add_Column_Multi_Array(ptrArray, SizeLine, &SizeColumn, ColumnX);
 	std::cout << "Теперь выведем массив с добавленным столбцем" << std::endl;
 	Print_Multi_Array(ptrArray, SizeLine, SizeColumn);
+	DelArray(ptrArray, SizeLine);
 
 	return 0;
 }
@@ -392,6 +561,7 @@ int main_2() // Задание 2. (готово)
 	Del_Column_Multi_Array(ptrArray, SizeLine, &SizeColumn, ColumnX);
 	std::cout << "Теперь выведем массив" << std::endl;
 	Print_Multi_Array(ptrArray, SizeLine, SizeColumn);
+	DelArray(ptrArray, SizeLine);
 
 	return 0;
 }
@@ -422,6 +592,7 @@ int main_3() // Задание 3. Циклический сдвиг
 	Shift_Array(ptrArray, SizeLine, SizeColumn, SizeShift, Shift);
 	std::cout << "После сдвига выведем получившийся результат:" << std::endl;
 	Print_Multi_Array(ptrArray, SizeLine, SizeColumn);
+	DelArray(ptrArray, SizeLine);
 
 	return 0;
 }
@@ -446,6 +617,7 @@ int main_4() // Задание 4. Транспонирование матриц�
 	Matrix_Transpose(ptrArray, &SizeLine, &SizeColumn);
 	//Matrix_TransposeX2(ptrArray, SizeLine, SizeColumn); //Временный вариант транспонирования квадратной матрицы
 	Print_Multi_Array(ptrArray, SizeLine, SizeColumn);
+	DelArray(ptrArray, SizeLine);
 
 	return 0;
 }
@@ -471,16 +643,18 @@ int main() // Задание 5.
 	do
 	{
 		std::cout << "Меню взаимодействия с базой имен ителефонов" << std::endl;
-		std::cout << "1) Найти номер телеофна по имени" << std::endl;
-		std::cout << "2) По номеру телефона или части цифр найти кому может принадлежать номер телефона" << std::endl;
-		std::cout << "3) Добавить новые данные в базу" << std::endl;
+		std::cout << "1) Найти данные по имени или номеру телефона" << std::endl; // готово
+		std::cout << "2) Внести изменения в данные" << std::endl; // готово
+		std::cout << "3) Добавить новые данные в базу" << std::endl; // Осталось доделать добавление данных
 		std::cout << "0) Выход" << std::endl;
 		std::cin >> Menu;
 		switch (Menu)
 		{
 		case 1:
+			Menu_1(ptrArray, SizeLine, SizeColumn);
 			break;
 		case 2:
+			Menu_2(ptrArray, SizeLine, SizeColumn);
 			break;
 		case 3:
 			break;
@@ -488,6 +662,9 @@ int main() // Задание 5.
 			break;
 		}
 	} while (Menu != 0);
+
+
+	Del3D_Array(ptrArray, SizeLine, SizeColumn);
 
 	return 0;
 }
