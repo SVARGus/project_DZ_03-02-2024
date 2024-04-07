@@ -2,9 +2,30 @@
 Домашнее задание СДБ 311. Домашнее задание от 16.03.2024
 				Многомерные динамические массивы
 */
+/*
+Задание 1:
+Написать функцию, добавляющую столбец двухмерному массиву в указанную позицию.
+
+Задание 2:
+Написать функцию, удаляющую столбец двухмерного массива по указанному номеру.
+
+Задание 3:
+Дана матрица порядка MxN (M строк, N столбцов). 
+Необходимо заполнить ее значениями и написать функцию, осуществляющую циклический сдвиг строк и/или столбцов массива указанное количество раз и в указанную сторону.
+
+Задание 4:
+Транспонирование матрицы – это операция, после которой столбцы прежней матрицы становятся строками, 
+а строки столбцами. Напишите функцию транспонирования матрицы.
+
+Задание 5:
+Создайте динамический массив, хранящий в первой строке имя, а во второй - телефон.
+Организуйте поиск по имени и по номеру телефона и возмо жность ввода и изменения данных.
+*/
+
 
 #include <iostream>
 #include <cstring>
+//#include <string.h>
 #include <windows.h> 
 
 void Creat_Multi_Array(int**& Array, int SizeLine, int SizeColumn); // 1, 2, 3
@@ -22,10 +43,17 @@ void Del3D_Array(T***& Array, int SizeLine, int SizeColumn); // 5
 template<typename T>
 void Creat3D_Multi_Array(T***& Array, int SizeLine, int SizeColumn); // 5
 bool foo(char* Name, int i); // 5
-void Insert_3D_Multi_Array(char***& Array, int SizeLine, int SizeColumn, char* Name, char* Phone); // 5
+void Insert_3D_Multi_Array(char*** Array, int SizeLine, int SizeColumn, char* Name, char* Phone); // 5
 void Print3D_Multi_Array(char*** Array, int SizeLine, int SizeColumn); // 5
-char * strcpy( char * destptr, const char * srcptr );
-
+bool Flag_Name(char*** Array, int Line, int SizeColumn, char* Name); // 5
+int Search_i_Name(char*** Array, int Line, int SizeColumn, char* Name); // 5
+void Search_Name(char*** Array, int Line, int SizeColumn, char* Name); // 5
+void Search_Section_Name(char*** Array, int Line, int SizeLine, int SizeColumn, char* Name); // 5
+void Menu_1(char*** Array, int SizeLine, int SizeColumn); // 5
+void Modifi_Name(char*** Array, int Line, int SizeLine, int SizeColumn); // 5
+void Menu_2(char*** Array, int SizeLine, int SizeColumn); // 5
+void Rise_3D_Multi_Array(char*** Array, int* SizeColumn, char* Name, char* Phone); // 5
+void Menu_3(char*** Array, int SizeLine, int* SizeColumn); // 5
 
 
 void Creat_Multi_Array(int**& Array, int SizeLine, int SizeColumn) //Функция создания двумерного динамического массива (Задание 1, 2)
@@ -294,8 +322,7 @@ bool foo(char* Name, int i) // функция поднятия флага для
 		return false;
 }
 
-// Данную функцию (в месте с foo) можно добавить задание по поиску количество слов
-void Insert_3D_Multi_Array(char***& Array, int SizeLine, int SizeColumn, char* Name, char* Phone) // Функция заполнения строк из задания 5 (чтобы каждый раз вручную не вводить данные в массив)
+void Insert_3D_Multi_Array(char*** Array, int SizeLine, int SizeColumn, char* Name, char* Phone) // Функция заполнения строк из задания 5 (чтобы каждый раз вручную не вводить данные в массив)
 {
 	//bool Flag{};
 	char NewName[15]{};
@@ -359,8 +386,6 @@ void Print3D_Multi_Array(char*** Array, int SizeLine, int SizeColumn) // Фун�
 	}
 }
 
-// Позже после написания функций для 5 задания добавить их в Прототипы!!! (те что ниже)
-
 bool Flag_Name(char*** Array, int Line, int SizeColumn, char* Name)
 {
 	for (int i = 0; i < SizeColumn; i++)
@@ -418,7 +443,7 @@ void Search_Section_Name(char*** Array, int Line, int SizeLine, int SizeColumn, 
 			}
 		}
 	}
-} // готово, надо будет проверить!
+}
 
 void Menu_1(char*** Array, int SizeLine, int SizeColumn) // Меню 1 - обычный поиск данных в массиве данных имен и телефонов и вывод на экран
 {
@@ -436,7 +461,6 @@ void Menu_1(char*** Array, int SizeLine, int SizeColumn) // Меню 1 - обы�
 		{
 		case 1:
 			std::cin >> Name;
-			//std::cout << " " << strlen(Name); //временно - удалить потом
 			Search_Name(Array, 0, SizeColumn, Name);
 			break;
 		case 2:
@@ -445,7 +469,6 @@ void Menu_1(char*** Array, int SizeLine, int SizeColumn) // Меню 1 - обы�
 			break;
 		case 3:
 			std::cin >> Name;
-			//std::cout << " " << strlen(Name); //временно - удалить потом
 			Search_Name(Array, 1, SizeColumn, Name);
 			break;
 		case 4:
@@ -480,7 +503,7 @@ void Modifi_Name(char*** Array, int Line, int SizeLine, int SizeColumn)
 	delete[]Array[Line][Index];
 	Array[Line][Index] = new char[strlen(Name)+1];
 	#pragma warning(disable:4996); 
-	strcpy(Array[Line][Index], Name); // выдавало ишибку, пришлось подключить перед вызовом #pragma warning(disable:4996);
+	strcpy(Array[Line][Index], Name); // выдавало ишибку, пришлось подключить перед вызовом #pragma warning(disable:4996); strcpy_s не работает почемуто
 	std::cout << "Вывод измененных данных: # " << Index << " Имя: " << Array[0][Index] << " Телефон: " << Array[1][Index] << std::endl;
 }
 
@@ -492,9 +515,9 @@ void Menu_2(char*** Array, int SizeLine, int SizeColumn)
 	std::cout << "1) Внести изменение в Имя" << std::endl;
 	std::cout << "2) Внести изменение в Телефон" << std::endl;
 	std::cout << "0) Выход" << std::endl;
-	std::cin >> Menu2;
 	do
 	{
+		std::cin >> Menu2;
 		switch (Menu2)
 		{
 		case 1:
@@ -503,11 +526,72 @@ void Menu_2(char*** Array, int SizeLine, int SizeColumn)
 		case 2:
 			Modifi_Name(Array, 1, SizeLine, SizeColumn);
 			break;
-		default:
-			std::cin >> Menu2;
-			break;
 		}
 	} while (Menu2 != 0);
+}
+
+void Rise_3D_Multi_Array(char*** Array, int *SizeColumn, char* Name, char* Phone)
+{
+#pragma warning(disable:4996);
+	int NewSizeColume = *SizeColumn + 1;
+	int Size{};
+	char** NewArray = new char* [NewSizeColume];
+	for (int i = 0; i < NewSizeColume; i++)
+	{
+		if (i < *SizeColumn)
+		{
+			Size = strlen(Array[0][i]) + 1;
+			NewArray[i] = new char[Size]; 
+			strcpy(NewArray[i], Array[0][i]);
+		}
+		else
+		{
+			Size = strlen(Name) + 1;
+			NewArray[i] = new char[Size];
+			strcpy(NewArray[i], Name);
+		}
+	}
+	for (int i = 0; i < *SizeColumn; i++)
+	{
+		delete[]Array[0][i];
+	}
+	delete[]Array[0];
+	Array[0] = NewArray;
+
+	NewArray = new char* [NewSizeColume];
+	for (int i = 0; i < NewSizeColume; i++)
+	{
+		if (i < *SizeColumn)
+		{
+			Size = strlen(Array[1][i]) + 1;
+			NewArray[i] = new char[Size];
+			strcpy(NewArray[i], Array[1][i]);
+		}
+		else
+		{
+			Size = strlen(Phone) + 1;
+			NewArray[i] = new char[Size];
+			strcpy(NewArray[i], Phone);
+		}
+	}
+	for (int i = 0; i < *SizeColumn; i++)
+	{
+		delete[]Array[1][i];
+	}
+	delete[]Array[1];
+	Array[1] = NewArray;
+	*SizeColumn = NewSizeColume;
+}
+
+void Menu_3(char*** Array, int SizeLine, int *SizeColumn)
+{
+	char Name[20]{};
+	char Phone[20]{};
+	std::cout << "Введите Имя: ";
+	std::cin >> Name;
+	std::cout << "Введите Телефон: ";
+	std::cin >> Phone;
+	Rise_3D_Multi_Array(Array, SizeColumn, Name, Phone);
 }
 
 
@@ -622,7 +706,7 @@ int main_4() // Задание 4. Транспонирование матриц�
 	return 0;
 }
 
-int main() // Задание 5.
+int main_5() // Задание 5.
 {
 	setlocale(LC_ALL, "ru");
 	srand(time(NULL));
@@ -657,14 +741,57 @@ int main() // Задание 5.
 			Menu_2(ptrArray, SizeLine, SizeColumn);
 			break;
 		case 3:
+			Menu_3(ptrArray, SizeLine, &SizeColumn);
 			break;
 		default:
 			break;
 		}
 	} while (Menu != 0);
 
+	Print3D_Multi_Array(ptrArray, SizeLine, SizeColumn); // временный вывод для просмотра изменений во всем массиве
 
 	Del3D_Array(ptrArray, SizeLine, SizeColumn);
+
+	return 0;
+}
+
+int main()
+{
+	setlocale(LC_ALL, "ru");
+	int Menu{};
+	do
+	{
+		std::cout << "Меню выполнения домашнего задания. Выберети вариант от 1 до 5, а 0 это выход: ";
+		std::cin >> Menu;
+		switch (Menu)
+		{
+		case 1:
+			std::cout << "Написать функцию, добавляющую столбец двухмерному массиву в указанную позицию." << std::endl;
+			main_1();
+			std::cout << std::endl;
+			break;
+		case 2:
+			std::cout << "Написать функцию, удаляющую столбец двухмерного массива по указанному номеру." << std::endl;
+			main_2();
+			std::cout << std::endl;
+			break;
+		case 3:
+			std::cout << "Дана матрица порядка MxN (M строк, N столбцов). \nНеобходимо заполнить ее значениями и написать функцию, осуществляющую циклический сдвиг \nстрок и/или столбцов массива указанное количество раз и в указанную сторону." << std::endl;
+			main_3();
+			std::cout << std::endl;
+			break;
+		case 4:
+			std::cout << "Транспонирование матрицы – это операция, после которой столбцы прежней матрицы становятся строками, \nа строки столбцами. Напишите функцию транспонирования матрицы." << std::endl;
+			main_4();
+			std::cout << std::endl;
+			break;
+		case 5:
+			std::cout << "Создайте динамический массив, хранящий в первой строке имя, а во второй - телефон.\nОрганизуйте поиск по имени и по номеру телефона и возмо жность ввода и изменения данных." << std::endl;
+			main_5();
+			std::cout << std::endl;
+			break;
+		}
+	} while (Menu != 0);
 
 	return 0;
 }
