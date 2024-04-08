@@ -1,0 +1,46 @@
+# Исключить все файлы с расширением .sln
+*.sln
+
+# Исключить все файлы с расширением .vcxproj
+*.vcxproj
+
+# Исключить все файлы с расширением .filters
+*.filters
+
+# Исключить все файлы с расширением .user
+*.user
+
+# Исключить файл
+desktop.ini
+
+# Игнорировать внутренние папки и все содержимое
+project_DZ_02-03-2024_Pointers/.vs/
+project_DZ_02-03-2024_Pointers/project_.56457ef0/
+project_DZ_02-03-2024_Pointers/x64/
+
+project_DZ_02-03-2024_String/.vs/
+project_DZ_02-03-2024_String/project_.930e7389/
+project_DZ_02-03-2024_String/x64/
+
+project_DZ_03-02-2024/.vs/
+project_DZ_03-02-2024/project_.8ba75bea/
+project_DZ_03-02-2024/x64/
+
+project_DZ_16-03-2024_MultiDynanicArrays/.vs/
+project_DZ_16-03-2024_MultiDynanicArrays/project_.6fa99347/
+project_DZ_16-03-2024_MultiDynanicArrays/x64/
+
+project_DZ_16-03-2024_Struct/.vs/
+project_DZ_16-03-2024_Struct/project_.548c2710/
+project_DZ_16-03-2024_Struct/x64/
+
+project_DZ_24-02-2024/.vs/
+project_DZ_24-02-2024/project_.7f75d928/
+project_DZ_24-02-2024/x64/
+
+project_DZ_24-02-2024_Pointers/.vs/
+project_DZ_24-02-2024_Pointers/project_.97f3ecab/
+project_DZ_24-02-2024_Pointers/x64/
+
+# отслеживать файлы типа .cpp
+!*.cpp

@@ -160,12 +160,12 @@ Car_Characteristic Add_Date_Car(Car_Characteristic* ListCar, int* FillSize) // �
 void Expan_Car_Array(Car_Characteristic* ListCar, int* PtrS) // Функция увеличения размера массива на 10. Нужно проверить!!!
 {
 	int NewSize = *PtrS + 10;
-	Car_Characteristic* NewListCar = Car_Characteristic[NewSize];
+	Car_Characteristic* NewListCar = new Car_Characteristic[NewSize];
 	for (int i = 0; i < *PtrS; i++)
 	{
 		NewListCar[i] = ListCar[i];
 	}
-	delete[]ListCar[];
+	delete[]ListCar;
 	ListCar = NewListCar;
 	*PtrS = NewSize;
 }
@@ -174,7 +174,7 @@ void Add_Car(Car_Characteristic* ListCar, int *FillSize, int *PtrS) //Функц
 {
 	if (*FillSize >= *PtrS)
 	{
-		Expan_Car_Array(ListCar, *PtrS) // Сдесь будет функция увеличения размера массива в случае если будет перполнение массива(напишу позже)
+		Expan_Car_Array(ListCar, PtrS); // Сдесь будет функция увеличения размера массива в случае если будет перполнение массива(напишу позже)
 	}
 	ListCar[*FillSize] = Add_Date_Car(ListCar, FillSize);
 	*FillSize += 1; // на выходе из функции увеличивается - проверено!
@@ -216,10 +216,15 @@ void Menu_Print_Car(Car_Characteristic* ListCar, int FillSize) // Меню ча�
 		break;
 	}
 }
-template<typename T>
-void Search_Car(Car_Characteristic* ListCar.T, int FillSize, T Name) // Функция поиска Не уверен что правильно, надо поискать как правильно передать. НЕ ГОТОВА!!!
-{
 
+
+/*
+Надо задать глобальный ENUM {BRAND, COLOR,...} и уже его передавать в функцию м в функции сделать switch по энаму (попробовать еще локальный енам)
+*/
+template<class D>
+void Search_Car(Car_Characteristic* ListCar, int FillSize, D* Name) // Функция поиска Не уверен что правильно, надо поискать как правильно передать. НЕ ГОТОВА!!!
+{
+	return;
 }
 
 /*
@@ -245,7 +250,7 @@ void Menu_Search_in_Car(Car_Characteristic* ListCar, int FillSize, int X = 0) //
 	switch (MenuF)
 	{
 	case 1:
-		
+		Search_Car(ListCar->Brand, FillSize, Name);
 		break;
 	case 2:
 		
@@ -275,7 +280,7 @@ void Menu_Search_in_Car(Car_Characteristic* ListCar, int FillSize, int X = 0) //
 		int Index{};
 		std::cout << "Укажите Индекс данных которые хотите изменить: ";
 		std::cin >> Index;
-		Add_Date_Car(ListCar, Index); // Вохможно надо указать &Index, так как в функции уже прописан 
+		Add_Date_Car(ListCar, &Index); // Вохможно надо указать &Index, так как в функции уже прописан 
 	}
 }
 
