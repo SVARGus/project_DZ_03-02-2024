@@ -98,7 +98,7 @@ Car_Characteristic Add_Date_Car(Car_Characteristic* ListCar, int* FillSize) // �
 {
 	int MenuF{};
 	int MenuDate{};
-	std::cout << "Ввести только часть данных (1) или полные данные (2): " << std::endl;
+	std::cout << "Ввести (Изменить) только часть данных (1) или полные данные (2): " << std::endl;
 	std::cin >> MenuF;
 	switch (MenuF)
 	{
@@ -157,11 +157,24 @@ Car_Characteristic Add_Date_Car(Car_Characteristic* ListCar, int* FillSize) // �
 	return ListCar[*FillSize];
 }
 
+void Expan_Car_Array(Car_Characteristic* ListCar, int* PtrS) // Функция увеличения размера массива на 10. Нужно проверить!!!
+{
+	int NewSize = *PtrS + 10;
+	Car_Characteristic* NewListCar = Car_Characteristic[NewSize];
+	for (int i = 0; i < *PtrS; i++)
+	{
+		NewListCar[i] = ListCar[i];
+	}
+	delete[]ListCar[];
+	ListCar = NewListCar;
+	*PtrS = NewSize;
+}
+
 void Add_Car(Car_Characteristic* ListCar, int *FillSize, int *PtrS) //Функция добавления данных в пустую ячейку (+ надо реализовать увеличение массива в случае если новые данные могут переполнить массив)
 {
 	if (*FillSize >= *PtrS)
 	{
-		// Сдесь будет функция увеличения размера массива в случае если будет перполнение массива(напишу позже)
+		Expan_Car_Array(ListCar, *PtrS) // Сдесь будет функция увеличения размера массива в случае если будет перполнение массива(напишу позже)
 	}
 	ListCar[*FillSize] = Add_Date_Car(ListCar, FillSize);
 	*FillSize += 1; // на выходе из функции увеличивается - проверено!
@@ -201,6 +214,68 @@ void Menu_Print_Car(Car_Characteristic* ListCar, int FillSize) // Меню ча�
 		break;
 	default:
 		break;
+	}
+}
+template<typename T>
+void Search_Car(Car_Characteristic* ListCar.T, int FillSize, T Name) // Функция поиска Не уверен что правильно, надо поискать как правильно передать. НЕ ГОТОВА!!!
+{
+
+}
+
+/*
+Функция поиска в массиве данных Машин. Будет выводит полный список найденных данных. 
+Но если X != 0, то пользователь может выбрать кокретный элемент для взаимеодействия с другими функциями (будет выводить i для ListCar[i])
+*/
+void Menu_Search_in_Car(Car_Characteristic* ListCar, int FillSize, int X = 0) // Функция Меню поиска в массиве данных Машин.Не готова!!! НАДО ПРОВЕРИТЬ!!!
+{
+	char Name[15]{};
+	double NumD{};
+	int NumI{};
+	int MenuF{};
+	std::cout << "Укажите по каким данным хотите произвести поиск:" << std::endl;
+	std::cout << "\t1) Брэнд машины" << std::endl;
+	std::cout << "\t2) Цвет" << std::endl;
+	std::cout << "\t3) Длина машины" << std::endl;
+	std::cout << "\t4) Клиренс машины" << std::endl;
+	std::cout << "\t5) Обьем двигателя" << std::endl;
+	std::cout << "\t6) Диаметр колеса" << std::endl;
+	std::cout << "\t7) Коробка передачи" << std::endl;
+	std::cout << "\t8) Индекс" << std::endl;
+	std::cin >> MenuF;
+	switch (MenuF)
+	{
+	case 1:
+		
+		break;
+	case 2:
+		
+		break;
+	case 3:
+		
+		break;
+	case 4:
+		
+		break;
+	case 5:
+		
+		break;
+	case 6:
+		
+		break;
+	case 7:
+		
+		break;
+	case 8:
+
+		break;
+	}
+
+	if (X != 0)
+	{
+		int Index{};
+		std::cout << "Укажите Индекс данных которые хотите изменить: ";
+		std::cin >> Index;
+		Add_Date_Car(ListCar, Index); // Вохможно надо указать &Index, так как в функции уже прописан 
 	}
 }
 
@@ -243,7 +318,15 @@ int main()
 	Car_Characteristic Kia{ "Kia", "Yellow", 3.7, 145, 1.5, 600, "AT" };
 	Car_Characteristic* ListCar = new Car_Characteristic[Size]; // Динамический массив структуры
 	ListCar[0] = Ford; ListCar[1] = Kia; ListCar[2] = Tuareg; ListCar[3] = Mersedes; ListCar[4] = Reno;
-	int FillSize{ 5 };
+	// Начало временного кода
+	Car_Characteristic Ford2{ "Ford2", "Blue", 3.7, 145, 1.5, 600, "AT" };
+	Car_Characteristic Reno2{ "Reno2", "Read", 3.9, 140, 1.6, 650, "AT" };
+	Car_Characteristic Mersedes2{ "Mersedes2", "Black", 4.5, 120, 2.5, 700, "AT" };
+	Car_Characteristic Tuareg2{ "Tuareg2", "Green", 3.5, 120, 1.2, 500, "AT" };
+	Car_Characteristic Kia2{ "Kia2", "Yellow", 3.7, 145, 1.5, 600, "AT" };
+	ListCar[5] = Ford2; ListCar[6] = Kia2; ListCar[7] = Tuareg2; ListCar[8] = Mersedes2; ListCar[9] = Reno2;
+	// конец временного кода
+	int FillSize{ 5 }; // для временного кода заменить на 10, чтобы проверить увеличение массива при добавлении новой строки
 	int Menu{};
 	do
 	{
