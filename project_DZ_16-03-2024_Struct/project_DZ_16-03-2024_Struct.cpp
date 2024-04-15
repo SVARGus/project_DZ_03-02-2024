@@ -63,12 +63,12 @@ struct Car_Characteristic // Задание 2. Структура Автомоб
 
 //		ПРОТОТИПЫ ФУНКЦИЙ		//
 
-Complex_Number Arithmetic(Complex_Number Z1, Complex_Number Z2, char Arit); // 1
+Complex_Number Arithmetic(const Complex_Number Z1, const Complex_Number Z2, char Arit); // 1
 
 
 //		РЕАЛИЗАЦИЯ ФУНКЦИЙ		//
 
-Complex_Number Arithmetic(Complex_Number Z1, Complex_Number Z2, char Arit) // Арифмитическая функция с комплексными числами (Задание 1)
+Complex_Number Arithmetic(const Complex_Number Z1, const Complex_Number Z2, char Arit) // Арифмитическая функция с комплексными числами (Задание 1)
 {
 	Complex_Number Result;
 	if (Arit == '+')
@@ -250,7 +250,7 @@ void Menu_Search_in_Car(Car_Characteristic* ListCar, int FillSize, int X = 0) //
 	switch (MenuF)
 	{
 	case 1:
-		Search_Car(ListCar->Brand, FillSize, Name);
+		Search_Car(ListCar.Brand, FillSize, Name);
 		break;
 	case 2:
 		
@@ -331,7 +331,7 @@ int main()
 	Car_Characteristic Kia2{ "Kia2", "Yellow", 3.7, 145, 1.5, 600, "AT" };
 	ListCar[5] = Ford2; ListCar[6] = Kia2; ListCar[7] = Tuareg2; ListCar[8] = Mersedes2; ListCar[9] = Reno2;
 	// конец временного кода
-	int FillSize{ 5 }; // для временного кода заменить на 10, чтобы проверить увеличение массива при добавлении новой строки
+	int FillSize{ 10 }; // для временного кода заменить на 10, чтобы проверить увеличение массива при добавлении новой строки
 	int Menu{};
 	do
 	{
