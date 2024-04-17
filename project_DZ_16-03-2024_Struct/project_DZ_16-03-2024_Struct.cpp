@@ -27,6 +27,7 @@
 
 #include <iostream>
 #include <Windows.h>
+#include <cstring>
 
 //Complex_Number Arithmetic(Complex_Number Z1, Complex_Number Z2, char Arit); // Изначально прототип обьявил до обьявления типа данных по структуре
 
@@ -64,6 +65,12 @@ struct Car_Characteristic // Задание 2. Структура Автомоб
 //		ПРОТОТИПЫ ФУНКЦИЙ		//
 
 Complex_Number Arithmetic(const Complex_Number Z1, const Complex_Number Z2, char Arit); // 1
+Car_Characteristic Add_Date_Car(Car_Characteristic* ListCar, const int* FillSize);
+void Expan_Car_Array(Car_Characteristic*& ListCar, int* PtrS);
+void Add_Car(Car_Characteristic*& ListCar, int* FillSize, int* PtrS);
+void Print_Car(Car_Characteristic* ListCar, int FillSize, int X = 0);
+void Menu_Print_Car(Car_Characteristic* ListCar, int FillSize);
+void Menu_Search_in_Car(Car_Characteristic* ListCar, int FillSize, int X = 0);
 
 
 //		РЕАЛИЗАЦИЯ ФУНКЦИЙ		//
@@ -184,7 +191,7 @@ void Print_Car(Car_Characteristic* ListCar, int FillSize, int X = 0) // Функ
 {
 	for (int i = X; i < FillSize; i++)
 	{
-		std::cout << "# " << i + 1 << "\tБрэнд Машины: " << ListCar[i].Brand << std::endl;
+		std::cout << "# " << i << "\tБрэнд Машины: " << ListCar[i].Brand << std::endl;
 		std::cout << "\t\tЦвет Машины: " << ListCar[i].Color << std::endl;
 		std::cout << "\t\tДлина Машины: " << ListCar[i].LenghtM << std::endl;
 		std::cout << "\t\tКлиренс Машины: " << ListCar[i].CleranceMM << std::endl;
@@ -207,10 +214,10 @@ void Menu_Print_Car(Car_Characteristic* ListCar, int FillSize) // Меню ча�
 		Print_Car(ListCar, FillSize);
 		break;
 	case 2:
-		std::cout << "Укажите конкретную позицию в базе данных для вывода"; // Позже можно реализовать дополнительно поиск по отдельному элементу и его вывод если будет найден
+		std::cout << "Укажите конкретную позицию в базе данных для вывода "; // Позже можно реализовать дополнительно поиск по отдельному элементу и его вывод если будет найден
 		std::cin >> I;
 
-		Print_Car(ListCar, I - 1, I);
+		Print_Car(ListCar, I + 1, I);
 		break;
 	default:
 		break;
@@ -246,10 +253,10 @@ void Menu_Search_in_Car(Car_Characteristic* ListCar, int FillSize, int X = 0) //
 		std::cin >> Name;
 		for (int i = 0; i < FillSize; i++)
 		{
-			if (ListCar[i].Brand == Name)
+			if (strcmp(ListCar[i].Brand, Name) == 0)
 			{
 				std::cout << "Найдены следующие машины: " << std::endl;
-				Print_Car(ListCar, i, i + 1);
+				Print_Car(ListCar, i + 1, i);
 				++I;
 			}
 		}
@@ -264,7 +271,7 @@ void Menu_Search_in_Car(Car_Characteristic* ListCar, int FillSize, int X = 0) //
 			if (ListCar[i].Color == Name)
 			{
 				std::cout << "Найдены следующие машины: " << std::endl;
-				Print_Car(ListCar, i, i + 1);
+				Print_Car(ListCar, i + 1, i);
 				++I;
 			}
 		}
@@ -279,7 +286,7 @@ void Menu_Search_in_Car(Car_Characteristic* ListCar, int FillSize, int X = 0) //
 			if (ListCar[i].LenghtM == NumD)
 			{
 				std::cout << "Найдены следующие машины: " << std::endl;
-				Print_Car(ListCar, i, i + 1);
+				Print_Car(ListCar, i+1, i);
 				++I;
 			}
 		}
@@ -294,7 +301,7 @@ void Menu_Search_in_Car(Car_Characteristic* ListCar, int FillSize, int X = 0) //
 			if (ListCar[i].CleranceMM == NumI)
 			{
 				std::cout << "Найдены следующие машины: " << std::endl;
-				Print_Car(ListCar, i, i + 1);
+				Print_Car(ListCar, i + 1, i);
 				++I;
 			}
 		}
@@ -309,7 +316,7 @@ void Menu_Search_in_Car(Car_Characteristic* ListCar, int FillSize, int X = 0) //
 			if (ListCar[i].EngineVolumeL == NumD)
 			{
 				std::cout << "Найдены следующие машины: " << std::endl;
-				Print_Car(ListCar, i, i + 1);
+				Print_Car(ListCar, i + 1, i);
 				++I;
 			}
 		}
@@ -324,7 +331,7 @@ void Menu_Search_in_Car(Car_Characteristic* ListCar, int FillSize, int X = 0) //
 			if (ListCar[i].WheelDiameterMM == NumI)
 			{
 				std::cout << "Найдены следующие машины: " << std::endl;
-				Print_Car(ListCar, i, i + 1);
+				Print_Car(ListCar, i + 1, i);
 				++I;
 			}
 		}
@@ -339,7 +346,7 @@ void Menu_Search_in_Car(Car_Characteristic* ListCar, int FillSize, int X = 0) //
 			if (ListCar[i].Transmission == Name)
 			{
 				std::cout << "Найдены следующие машины: " << std::endl;
-				Print_Car(ListCar, i, i + 1);
+				Print_Car(ListCar, i + 1, i);
 				++I;
 			}
 		}
@@ -349,7 +356,7 @@ void Menu_Search_in_Car(Car_Characteristic* ListCar, int FillSize, int X = 0) //
 	case 8:
 		std::cout << "Укажите порядковый номер машины начиная с 0: ";
 		std::cin >> NumI;
-		Print_Car(ListCar, NumI, NumI + 1);
+		Print_Car(ListCar, NumI+1, NumI);
 		break;
 	}
 
@@ -387,7 +394,7 @@ int main_1() // Задание 1.
 	return 0;
 }
 
-int main()
+int main_2() // Задание 2 и 4
 {
 	setlocale(LC_ALL, "ru");
 
@@ -451,6 +458,7 @@ int main()
 			break;
 		}
 	} while (Menu != 0);
+	delete[]ListCar;
 
 	return 0;
 }
