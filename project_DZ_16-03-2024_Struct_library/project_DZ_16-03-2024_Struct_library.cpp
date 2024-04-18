@@ -20,13 +20,12 @@
 #include <Windows.h>
 #include <cstring>
 #include <chrono>
+#include <cstdio>
 
 struct LibraryB
 {
 	char NameBook[30]; // Название книги
-	char AuthorBook[50]; // Автор книги (состоит из Имени и Фамилии)
-	char FirsNameAuthor[15]; // Имя автора
-	char LastNameAuthor[35]; // Фамилия автора
+	char AuthorBook[52]; // Автор книги (Фамилия и инициалы)
 	char PublishBook[40]; // Издательство
 	char GanreBook[20]; // Жанр книги
 };
@@ -39,46 +38,47 @@ void PrintBook(const LibraryB* LibBook, const int LibrarySize);
 //		РЕАЛИЗАЦИЯ ФУНКЦИЙ		//
 void PrintBook(const LibraryB* LibBook, const int LibrarySize)
 {
-	std::cout	<< "Название Книги  \t\t|\t"
-				<< "Автор книги     \t\t|\t"
-				<< "Издательство    \t\t|\t"
-				<< "Жанр книги      \t\t|" << std::endl;
+	std::cout	<< "Название Книги\t| "
+				<< "Автор книги  \t| "
+				<< "Издательство \t| "
+				<< "Жанр книги   \t|" << std::endl;
+	std::cout << "-------------------------------------------------------------------------------------------------" << std::endl;
 	for (int i = 0; i < LibrarySize; i++) // Донастроить красивый вывод таблицы в консоли
 	{
-		if (strlen(LibBook[i].NameBook) <= 8)
-			std::cout << LibBook[i].NameBook << "\t\t\t|\t";
-		else if (strlen(LibBook[i].NameBook) <= 16)
-			std::cout << LibBook[i].NameBook << "\t\t|\t";
+		if (strlen(LibBook[i].NameBook) <= 7)
+			std::cout << LibBook[i].NameBook << "\t\t| ";
+		else if (strlen(LibBook[i].NameBook) <= 15)
+			std::cout << LibBook[i].NameBook << "\t| ";
 		else
-			std::cout << LibBook[i].NameBook << "\t|\t";
+			std::cout << LibBook[i].NameBook << "| ";
 
-		if (strlen(LibBook[i].AuthorBook) <= 8)
-			std::cout << LibBook[i].AuthorBook << "\t\t\t|\t";
-		else if (strlen(LibBook[i].AuthorBook) <= 16)
-			std::cout << LibBook[i].AuthorBook << "\t\t|\t";
+		if (strlen(LibBook[i].AuthorBook) <= 5)
+			std::cout << LibBook[i].AuthorBook << "\t\t| ";
+		else if (strlen(LibBook[i].AuthorBook) <= 15)
+			std::cout << LibBook[i].AuthorBook << "\t| ";
 		else
-			std::cout << LibBook[i].AuthorBook << "\t|\t";
+			std::cout << LibBook[i].AuthorBook << "| ";
 
-		if (strlen(LibBook[i].PublishBook) <= 8)
-			std::cout << LibBook[i].PublishBook << "\t\t\t|\t";
-		else if (strlen(LibBook[i].PublishBook) <= 16)
-			std::cout << LibBook[i].PublishBook << "\t\t|\t";
+		if (strlen(LibBook[i].PublishBook) <= 7)
+			std::cout << LibBook[i].PublishBook << "\t| ";
+		else if (strlen(LibBook[i].PublishBook) <= 15)
+			std::cout << LibBook[i].PublishBook << "\t| ";
 		else
-			std::cout << LibBook[i].PublishBook << "\t|\t";
+			std::cout << LibBook[i].PublishBook << "| ";
 
-		if (strlen(LibBook[i].GanreBook) <= 8)
-			std::cout << LibBook[i].GanreBook << "\t\t\t|\t" << std::endl;
-		else if (strlen(LibBook[i].GanreBook) <= 16)
-			std::cout << LibBook[i].GanreBook << "\t\t|\t" << std::endl;
+		if (strlen(LibBook[i].GanreBook) <= 5)
+			std::cout << LibBook[i].GanreBook << "\t\t| " << std::endl;
+		else if (strlen(LibBook[i].GanreBook) <= 15)
+			std::cout << LibBook[i].GanreBook << "\t| " << std::endl;
 		else
-			std::cout << LibBook[i].GanreBook << "\t|\t" << std::endl;
+			std::cout << LibBook[i].GanreBook << "|\t" << std::endl;
 	}
 }
 
 void MenuEditLib(LibraryB* LibBook, const int LibrarySize)
 {
 	enum Menu{ ALL = 1, NAME, AUTHOR, PUBLISH, GANRE};
-	int MenuE{};
+	int Menu{};
 	int i{};
 	std::cout << "Укажите какую позицию в базе будете править, от 0 до " << LibrarySize << ": ";
 	std::cin >> i;
@@ -131,14 +131,10 @@ int main()
 		LibBook = new LibraryB[LibrarySize]{};
 		for (int i = 0; i < LibrarySize; i++)
 		{
-			fscanf_s(LibraryF, "%s ", LibBook[i].NameBook);
-			fscanf_s(LibraryF, "%s ", LibBook[i].FirsNameAuthor);
-			fscanf_s(LibraryF, "%s ", LibBook[i].LastNameAuthor);
-			fscanf_s(LibraryF, "%s ", LibBook[i].PublishBook);
-			fscanf_s(LibraryF, "%s ", LibBook[i].GanreBook);
-			strcat(LibBook[i].AuthorBook, LibBook[i].FirsNameAuthor);
-			strcat(LibBook[i].AuthorBook, " ");
-			strcat(LibBook[i].AuthorBook, LibBook[i].LastNameAuthor); // Может проверить запись сразу в полное имя ФИО через "%s %s"?
+			fscanf_s(LibraryF, "%s ", LibBook[i].NameBook, sizeof(LibBook[i].NameBook));
+			fscanf_s(LibraryF, "%s ", LibBook[i].AuthorBook, sizeof(LibBook[i].AuthorBook));
+			fscanf_s(LibraryF, "%s ", LibBook[i].PublishBook, sizeof(LibBook[i].PublishBook));
+			fscanf_s(LibraryF, "%s ", LibBook[i].GanreBook, sizeof(LibBook[i].GanreBook));
 		}
 	}
 	if (fclose(LibraryF) == EOF)
