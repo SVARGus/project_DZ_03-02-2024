@@ -7,12 +7,12 @@
 Задание 3:
 Разработайтепрограмму «Библиотека». Создайте структуру «Книга» ( название,автор, издательство, жанр).
 Создайте массив из 10 книг. Реализуйте для него следующие возможности:
-Редактировать книгу 
-Печать всех книг 
-Поиск книг по автору 
-Поиск книги по названию 
-Сортировка массива по наз ванию книг 
-Сортировка массива по автору 
+Редактировать книгу
+Печать всех книг
+Поиск книг по автору
+Поиск книги по названию
+Сортировка массива по названию книг
+Сортировка массива по автору
 Сортировка массива по издательству
 */
 
@@ -32,18 +32,24 @@ struct LibraryB
 
 //		ПРОТОТИПЫ ФУНКЦИЙ		//
 
-void PrintBook(const LibraryB* LibBook, const int LibrarySize);
+void PrintBook(const LibraryB* LibBook, const int LibrarySize, int X = 0, int i = 0);
+void MenuEditLib(LibraryB* LibBook, const int LibrarySize);
+void SearchLib(const LibraryB* LibBook, const int LibrarySize, int search);
+void BubbleSort(LibraryB* LibBook, const int LibrarySize, int X);
 
 
 //		РЕАЛИЗАЦИЯ ФУНКЦИЙ		//
-void PrintBook(const LibraryB* LibBook, const int LibrarySize)
+void PrintBook(const LibraryB* LibBook, const int LibrarySize, int X, int i) // (YES / YES)
 {
-	std::cout	<< "Название Книги\t| "
-				<< "Автор книги  \t| "
-				<< "Издательство \t| "
-				<< "Жанр книги   \t|" << std::endl;
-	std::cout << "-------------------------------------------------------------------------------------------------" << std::endl;
-	for (int i = 0; i < LibrarySize; i++) // Донастроить красивый вывод таблицы в консоли
+	if (X == 0)
+	{
+		std::cout << "Название Книги\t| "
+			<< "Автор книги  \t| "
+			<< "Издательство \t| "
+			<< "Жанр книги   \t|" << std::endl;
+		std::cout << "-------------------------------------------------------------------------------------------------" << std::endl;
+	}
+	for (; i < LibrarySize; i++) // Донастроить красивый вывод таблицы в консоли
 	{
 		if (strlen(LibBook[i].NameBook) <= 7)
 			std::cout << LibBook[i].NameBook << "\t\t| ";
@@ -75,9 +81,9 @@ void PrintBook(const LibraryB* LibBook, const int LibrarySize)
 	}
 }
 
-void MenuEditLib(LibraryB* LibBook, const int LibrarySize)
+void MenuEditLib(LibraryB* LibBook, const int LibrarySize) // (YES / YES)
 {
-	enum Menu{ ALL = 1, NAME, AUTHOR, PUBLISH, GANRE};
+	enum Menu { ALL = 1, NAME, AUTHOR, PUBLISH, GANRE };
 	int Menu{};
 	int i{};
 	std::cout << "Укажите какую позицию в базе будете править, от 0 до " << LibrarySize << ": ";
@@ -88,12 +94,13 @@ void MenuEditLib(LibraryB* LibBook, const int LibrarySize)
 		<< "\t(3) Имя и Фамилия автора\n"
 		<< "\t(4) Издательство\n"
 		<< "\t(5) Жанр книги\n" << std::endl;
+	std::cin >> Menu;
 	switch (Menu)
 	{
 	case ALL:
 		std::cout << "Укажите название книги: ";
 		std::cin >> LibBook[i].NameBook;
-		std::cout << "Укажите Имя и Фамилию автора: ";
+		std::cout << "Укажите Фамилию и инициалы автора: ";
 		std::cin >> LibBook[i].AuthorBook;
 		std::cout << "Укажите название издательства: ";
 		std::cin >> LibBook[i].PublishBook;
@@ -101,19 +108,148 @@ void MenuEditLib(LibraryB* LibBook, const int LibrarySize)
 		std::cin >> LibBook[i].GanreBook;
 		break;
 	case NAME:
+		std::cout << "Укажите название книги: ";
+		std::cin >> LibBook[i].NameBook;
 		break;
 	case AUTHOR:
+		std::cout << "Укажите Фамилию и инициалы автора: ";
+		std::cin >> LibBook[i].AuthorBook;
 		break;
 	case PUBLISH:
+		std::cout << "Укажите название издательства: ";
+		std::cin >> LibBook[i].PublishBook;
 		break;
 	case GANRE:
+		std::cout << "Укажите название жанра: ";
+		std::cin >> LibBook[i].GanreBook;
 		break;
 	default:
 		break;
 	}
 }
 
+void SearchLib(const LibraryB* LibBook, const int LibrarySize, int search) //Если search = 0 то поиск книги по автору, если = 1 то по названию (YES / YES)
+{
+	char SearchName[52];
+	std::cin >> SearchName;
+	int SizeSearch = strlen(SearchName);
+	int Size{};
+	int X{};
+	switch (search)
+	{
+	case 0:
+		for (int i = 0, Y = 1; i < LibrarySize; i++)
+		{
+			Size = strlen(LibBook[i].AuthorBook);
+			for (int j = 0; j < Size; j++)
+			{
+				if (LibBook[i].AuthorBook[j] == SearchName[0])
+				{
+					for (int l = 0; l < SizeSearch; l++)
+					{
+						if (LibBook[i].AuthorBook[j + l] == SearchName[l]) // поиск не по полному наименованию, а по частичному совпадению
+						{
+							++Y;
+							if (SizeSearch == Y)
+							{
+								PrintBook(LibBook, i + 1, X, i);
+								++X;
+								break;
+							}
+						}
+						else
+							break;
+					}
 
+				}
+			}
+			Y = 1;
+		}
+		if (X == 0)
+			std::cout << "Поиск не дал результатов" << std::endl;
+		break;
+	case 1:
+		for (int i = 0, Y = 1; i < LibrarySize; i++)
+		{
+			Size = strlen(LibBook[i].NameBook);
+			for (int j = 0; j < Size; j++)
+			{
+				if (LibBook[i].NameBook[j] == SearchName[0])
+				{
+					for (int l = 0; l < SizeSearch; l++)
+					{
+						if (LibBook[i].NameBook[j + l] == SearchName[l]) // поиск не по полному наименованию, а по частичному совпадению
+						{
+							++Y;
+							if (SizeSearch == Y)
+							{
+								PrintBook(LibBook, i + 1, X, i);
+								++X;
+							}
+						}
+						else
+							break;
+					}
+
+				}
+			}
+			Y = 1;
+		}
+		if (X == 0)
+			std::cout << "Поиск не дал результатов" << std::endl;
+		break;
+	}
+}
+
+void BubbleSort(LibraryB* LibBook, const int LibrarySize, int X) // (YES / YES)
+{
+	bool swapped{};
+	switch (X)
+	{
+	case 0: // сортировка по названию книги
+		do
+		{
+			swapped = false;
+			for (int i = 0; i < LibrarySize - 1; i++)
+			{
+				if (strcmp(LibBook[i].NameBook, LibBook[i + 1].NameBook) > 0)
+				{
+					std::swap(LibBook[i], LibBook[i + 1]);
+					swapped = true;
+				}
+			}
+		} while (swapped);
+		break;
+	case 1: // сортировка по автору книги
+		do
+		{
+			swapped = false;
+			for (int i = 0; i < LibrarySize - 1; i++)
+			{
+				if (strcmp(LibBook[i].AuthorBook, LibBook[i + 1].AuthorBook) > 0)
+				{
+					std::swap(LibBook[i], LibBook[i + 1]);
+					swapped = true;
+				}
+			}
+		} while (swapped);
+		break;
+	case 2: // сортировка по издательству книги
+		do
+		{
+			swapped = false;
+			for (int i = 0; i < LibrarySize - 1; i++)
+			{
+				if (strcmp(LibBook[i].PublishBook, LibBook[i + 1].PublishBook) > 0)
+				{
+					std::swap(LibBook[i], LibBook[i + 1]);
+					swapped = true;
+				}
+			}
+		} while (swapped);
+		break;
+	}
+}
 int main()
 {
 	setlocale(LC_ALL, "ru");
@@ -143,7 +279,7 @@ int main()
 		std::cout << "Библиотечная база успешно загружена!" << std::endl;
 	Sleep(1500);
 	system("cls");
-	enum LibraryMenu {EXIT = 0, EDITBOOK, PRINTBOOK, SEARCHAUTHOR, SEARCHNAMEBOOK, SORTNAMEBOOK, SORTAUTHOR, SORTPUBLISH};
+	enum LibraryMenu { EXIT = 0, EDITBOOK, PRINTBOOK, SEARCHAUTHOR, SEARCHNAMEBOOK, SORTNAMEBOOK, SORTAUTHOR, SORTPUBLISH };
 	int Menu{};
 	char Ch{};
 	do
@@ -165,7 +301,7 @@ int main()
 			return 0;
 			break;
 		case EDITBOOK:
-			
+			MenuEditLib(LibBook, LibrarySize);
 			system("cls");
 			break;
 		case PRINTBOOK:
@@ -175,23 +311,33 @@ int main()
 			system("cls");
 			break;
 		case SEARCHAUTHOR:
-
+			SearchLib(LibBook, LibrarySize, 0); //Если = 0 то поиск книги по автору, если = 1 то по названию
+			std::cout << "\nДля продолжения нажмите любую клавишу и после Enter ";
+			std::cin >> Ch;
 			system("cls");
 			break;
 		case SEARCHNAMEBOOK:
-
+			SearchLib(LibBook, LibrarySize, 1); //Если = 0 то поиск книги по автору, если = 1 то по названию
+			std::cout << "\nДля продолжения нажмите любую клавишу и после Enter ";
+			std::cin >> Ch;
 			system("cls");
 			break;
 		case SORTNAMEBOOK:
-
+			BubbleSort(LibBook, LibrarySize, 0);
+			std::cout << "\nСписок успешно отсортирован по Названию книг ";
+			Sleep(1500);
 			system("cls");
 			break;
 		case SORTAUTHOR:
-
+			BubbleSort(LibBook, LibrarySize, 1);
+			std::cout << "\nСписок успешно отсортирован по Автору книг";
+			Sleep(1500);
 			system("cls");
 			break;
 		case SORTPUBLISH:
-
+			BubbleSort(LibBook, LibrarySize, 2);
+			std::cout << "\nСписок успешно отсортирован по Издательству книг ";
+			Sleep(1500);
 			system("cls");
 			break;
 		default:
