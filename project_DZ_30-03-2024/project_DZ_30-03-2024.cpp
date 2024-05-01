@@ -1,5 +1,46 @@
 ﻿#include <iostream>
 
+void Print(char ABC[], int SIZE);
+
+
+union MyUnion
+{
+    int Num;
+    char Sumb[4];
+};
+
+int main() // Задание 1
+{
+    setlocale(LC_ALL, "ru");
+
+    MyUnion S;
+    int Menu{};
+    do
+    {
+        std::cout << "1) Ввести целое число;\n2) Просмотреть все байты числа;\n3) Просмотреть выбранный байт числа;\n4) Вывод байтов числа в двоичном и шестнадцатеричном виде.\n0 Выход" << std::endl;
+        std::cout << "Укажите пункт меню: ";
+        std::cin >> Menu;
+        switch (Menu)
+        {
+        case 1:
+            std::cin >> S.Num;
+            break;
+        case 2:
+            std::cout << "Выведем число " << S.Num << " в двоичной системе: " << std::hex << S.Num << std::endl;
+            break;
+        case 3:
+            break;
+        case 4:
+            break;
+        default:
+            break;
+        }
+    } while (Menu != 0);
+
+    return 0;
+}
+
+
 int main_4()
 {
     setlocale(LC_ALL, "ru");
