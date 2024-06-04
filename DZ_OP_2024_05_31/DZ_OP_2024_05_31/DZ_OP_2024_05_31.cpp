@@ -10,22 +10,84 @@
 
 class Fraction
 {
-    int Numeral;
-    int Denominator;
+    int Numeral; // Числитель дроби
+    int Denominator; // Знаменатель дроби
+    int WholePart; // целая часть выделенная из неправельной дроби
 public:
-    void SetNumDen(int Num, int Den) {
-        Numeral = Num;
-        Denominator = Den;
+    void SetNumDen(int Num, int Den) // привидение из неправильной дроби в правильную надо выделить в отдельный метод (функцию)
+    {
+        int varibl{ 1 };
+        if (Num < 0 && Den < 0) // -x/-y = x/y, также -x/y = x/-y, но в нашем случае лучше чтобы знаменатель был положительный всегда, так как пры вычитании и сложении дробей знаменатели обоих дробей должны быть приведены к общему знаменателю!
+        {
+            Num *= -1;
+            Den *= -1;
+        }
+        else if (Num < 0)
+        {
+            Num *= -1;
+            varibl = -1;
+        }
+        else if (Den < 0)
+        {
+            Den *= -1;
+            varibl = -1;
+        }
+        if (Num >= Den)
+        {
+            WholePart = Num / Den;
+            Numeral = Num - WholePart;
+            Denominator = Den;
+        }
+        else
+        {
+            WholePart = 0;
+            Numeral = Num;
+            Denominator = Den;
+        }
+        ReductionFraction();
+        if (WholePart > 0)
+            WholePart *= varibl;
+        else
+            Numeral *= varibl;
     }
-    void GetPrintNumDen() {
+    void ReductionFraction() // сокращение дроби (например дроб 2/4 сократим до 1/2, при этом 2/4 = 1/2.
+    {
+        for (int i = 2; i <= Numeral; )
+        {
+            if (Numeral % i == 0 && Denominator % i == 0)
+            {
+                Numeral /= i;
+                Denominator /= i;
+            }
+            else
+                ++i;
+        }
+    }
+    void WrongFraction() // приведение к неправильной дроби если есть целое число
+    {
+        if (WholePart > 0)
+            Numeral *= WholePart;
+    }
+    double GetResFraction() // для необходимости вывода числа с плавающей запятой
+    {
+        if (WholePart > 0)
+            return (WholePart * Numeral) / Denominator;
+        return Numeral / Denominator;
+    }
+    void PrintNumDen() {
         std::cout << "Числитель = " << Numeral << std::endl;
         std::cout << "Знаменатель = " << Denominator << std::endl;
+        if (WholePart > 0)
+        {
+            std::cout << "Челое число = " << WholePart << std::endl;
+        }
     }
     enum calculate { PLUS = 1, MINUS, DIVIDE, MULTIPLY };
-    double Calculated(int calculate) {
+    int Calculated(int calculate, int Num1, int Den1, int Whol1, int Num2, int Den2, int Whol2) {
         switch (calculate)
         {
         case PLUS:
+
             return Numeral + Denominator;
         case MINUS:
             return Numeral - Denominator;
@@ -73,6 +135,7 @@ int main() // Задание 1 (ЗАВЕРШЕНО)
     setlocale(LC_ALL, "ru");
 
     Fraction Les1;
+    Fraction Les2;
     int Num1{};
     int Num2{};
     std::cout << "Давайте укажем Числитель дроби: ";
@@ -80,7 +143,13 @@ int main() // Задание 1 (ЗАВЕРШЕНО)
     std::cout << "Давайте укажем Знаменатель дроби: ";
     std::cin >> Num2;
     Les1.SetNumDen(Num1, Num2);
-    Les1.GetPrintNumDen();
+    Les1.PrintNumDen();
+    std::cout << "Давайте укажем Числитель дроби: ";
+    std::cin >> Num1;
+    std::cout << "Давайте укажем Знаменатель дроби: ";
+    std::cin >> Num2;
+    Les2.SetNumDen(Num1, Num2);
+    Les2.PrintNumDen();
     std::cout << "Давайте произведем вычисления с Числителями и Знаменателями.\n1) Сложение.\n2) Вычитание.\n3) Деление.\n4) Умножение.\n0) Выход" << std::endl;
     int Menu{};
     do
