@@ -7,49 +7,15 @@
 
 #include <iostream>
 #include <string>
+#include "Fraction.h"
 
-class Fraction
+class Fraction1
 {
     int Numeral; // Числитель дроби
     int Denominator; // Знаменатель дроби
     int WholePart; // целая часть выделенная из неправельной дроби
 public:
-    void SetNumDen(int Num, int Den) // привидение из неправильной дроби в правильную надо выделить в отдельный метод (функцию)
-    {
-        int varibl{ 1 };
-        if (Num < 0 && Den < 0) // -x/-y = x/y, также -x/y = x/-y, но в нашем случае лучше чтобы знаменатель был положительный всегда, так как пры вычитании и сложении дробей знаменатели обоих дробей должны быть приведены к общему знаменателю!
-        {
-            Num *= -1;
-            Den *= -1;
-        }
-        else if (Num < 0)
-        {
-            Num *= -1;
-            varibl = -1;
-        }
-        else if (Den < 0)
-        {
-            Den *= -1;
-            varibl = -1;
-        }
-        if (Num >= Den)
-        {
-            WholePart = Num / Den;
-            Numeral = Num - WholePart;
-            Denominator = Den;
-        }
-        else
-        {
-            WholePart = 0;
-            Numeral = Num;
-            Denominator = Den;
-        }
-        ReductionFraction();
-        if (WholePart > 0)
-            WholePart *= varibl;
-        else
-            Numeral *= varibl;
-    }
+   
     void ReductionFraction() // сокращение дроби (например дроб 2/4 сократим до 1/2, при этом 2/4 = 1/2.
     {
         for (int i = 2; i <= Numeral; )
@@ -134,8 +100,8 @@ int main() // Задание 1 (ЗАВЕРШЕНО)
 {
     setlocale(LC_ALL, "ru");
 
-    Fraction Les1;
-    Fraction Les2;
+    Fraction1 Les1;
+    Fraction1 Les2;
     int Num1{};
     int Num2{};
     std::cout << "Давайте укажем Числитель дроби: ";
