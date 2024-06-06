@@ -11,7 +11,9 @@ public:
 	int getNumeral(); // вывод числителя
 	int getDenominator(); // вывод знаменателя
 	int GCD(); // Нахождение НОД
+	int GCD(Fraction x1, Fraction x2); // Нахождение НОД знаменателей двух дробей
 	int LCM(); // Нахождение НОК
+	int LCM(Fraction x1, Fraction x2); // Нахождение НОК знаменателей двух дробей
 	Fraction setPlusNew(Fraction x1, Fraction x2); // сложение дробей с выводом резултатов в новый объект
 	Fraction setMinusNew(Fraction x1, Fraction x2); // вычетание дробей с выводом резултатов в новый объект
 	Fraction setDivideNew(Fraction x1, Fraction x2); // деление дробей с выводом резултатов в новый объект
