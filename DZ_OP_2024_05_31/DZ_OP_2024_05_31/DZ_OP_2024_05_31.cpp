@@ -9,61 +9,6 @@
 #include <string>
 #include "Fraction.h"
 
-class Fraction1
-{
-    int Numeral; // Числитель дроби
-    int Denominator; // Знаменатель дроби
-    int WholePart; // целая часть выделенная из неправельной дроби
-public:
-   
-    void ReductionFraction() // сокращение дроби (например дроб 2/4 сократим до 1/2, при этом 2/4 = 1/2.
-    {
-        for (int i = 2; i <= Numeral; )
-        {
-            if (Numeral % i == 0 && Denominator % i == 0)
-            {
-                Numeral /= i;
-                Denominator /= i;
-            }
-            else
-                ++i;
-        }
-    }
-    void WrongFraction() // приведение к неправильной дроби если есть целое число
-    {
-        if (WholePart > 0)
-            Numeral *= WholePart;
-    }
-    double GetResFraction() // для необходимости вывода числа с плавающей запятой
-    {
-        if (WholePart > 0)
-            return (WholePart * Numeral) / Denominator;
-        return Numeral / Denominator;
-    }
-    void PrintNumDen() {
-        std::cout << "Числитель = " << Numeral << std::endl;
-        std::cout << "Знаменатель = " << Denominator << std::endl;
-        if (WholePart > 0)
-        {
-            std::cout << "Челое число = " << WholePart << std::endl;
-        }
-    }
-    enum calculate { PLUS = 1, MINUS, DIVIDE, MULTIPLY };
-    int Calculated(int calculate, int Num1, int Den1, int Whol1, int Num2, int Den2, int Whol2) {
-        switch (calculate)
-        {
-        case PLUS:
-
-            return Numeral + Denominator;
-        case MINUS:
-            return Numeral - Denominator;
-        case DIVIDE:
-            return (double)Numeral / Denominator;
-        case MULTIPLY:
-            return Numeral * Denominator;
-        }
-    }
-};
 
 class PhonePage // Проектирование Объекта для телефонной книги
 {
@@ -100,28 +45,54 @@ int main() // Задание 1 (ЗАВЕРШЕНО)
 {
     setlocale(LC_ALL, "ru");
 
-    Fraction1 Les1;
-    Fraction1 Les2;
+    Fraction Les1;
+    Fraction Les2;
     int Num1{};
     int Num2{};
-    std::cout << "Давайте укажем Числитель дроби: ";
+    std::cout << "Давайте укажем Числитель дроби 1: ";
     std::cin >> Num1;
-    std::cout << "Давайте укажем Знаменатель дроби: ";
+    std::cout << "Давайте укажем Знаменатель дроби 1: ";
     std::cin >> Num2;
-    Les1.SetNumDen(Num1, Num2);
-    Les1.PrintNumDen();
-    std::cout << "Давайте укажем Числитель дроби: ";
+    Les1.setNumDen(Num1, Num2);
+    Les1.printFraction();
+    std::cout << "Давайте укажем Числитель дроби 2: ";
     std::cin >> Num1;
-    std::cout << "Давайте укажем Знаменатель дроби: ";
+    std::cout << "Давайте укажем Знаменатель дроби 2: ";
     std::cin >> Num2;
-    Les2.SetNumDen(Num1, Num2);
-    Les2.PrintNumDen();
-    std::cout << "Давайте произведем вычисления с Числителями и Знаменателями.\n1) Сложение.\n2) Вычитание.\n3) Деление.\n4) Умножение.\n0) Выход" << std::endl;
+    Les2.setNumDen(Num1, Num2);
+    Les2.printFraction();
+    std::cout << "Давайте произведем вычисления с двумя дробями и запишем результат в новую дробь.\n1) Сложение.\n2) Вычитание.\n3) Деление.\n4) Умножение.\n0) Выход" << std::endl;
+    Fraction Les3;
+    enum Menu {EXIT, SUM, MINUS, DIVIDE, MULTIPLY};
     int Menu{};
     do
     {
         std::cin >> Menu;
-        std::cout << "Результат вычисления = " << Les1.Calculated(Menu) << std::endl;
+        switch (Menu)
+        {
+        case EXIT:
+            break;
+        case SUM:
+            Les3.setPlusNew(Les1, Les2);
+            std::cout << "Результат вычислений:\n";
+            Les3.printFraction;
+            break;
+        case MINUS:
+            Les3.setMinusNew(Les1, Les2);
+            std::cout << "Результат вычислений:\n";
+            Les3.printFraction;
+            break;
+        case DIVIDE:
+            Les3.setDivideNew(Les1, Les2);
+            std::cout << "Результат вычислений:\n";
+            Les3.printFraction;
+            break;
+        case MULTIPLY:
+            Les3.setMultiplyNew(Les1, Les2);
+            std::cout << "Результат вычислений:\n";
+            Les3.printFraction;
+            break;
+        }
     } while (Menu != 0);
 
     return 0;

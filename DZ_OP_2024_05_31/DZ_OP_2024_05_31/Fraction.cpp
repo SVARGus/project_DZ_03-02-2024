@@ -1,7 +1,7 @@
 #include "Fraction.h"
 #include <iostream>
 
-void Fraction::setNumDem(int num, int den) {
+void Fraction::setNumDen(int num, int den) {
 	Numeral = num;
 	Denominator = den;
 	if (Denominator < 0)
@@ -74,4 +74,22 @@ Fraction Fraction::setMinusNew(Fraction x1, Fraction x2) {
 	Res.Numeral = x1.Numeral * (Res.Denominator / x1.Denominator) - x2.Numeral * (Res.Denominator / x2.Denominator);
 	Res.GCD();
 	return Res;
+}
+Fraction Fraction::setDivideNew(Fraction x1, Fraction x2) {
+	Fraction Res;
+	Res.Numeral = x1.Numeral * x2.Denominator;
+	Res.Denominator = x1.Denominator * x2.Numeral;
+	Res.GCD();
+	return Res;
+}
+Fraction Fraction::setMultiplyNew(Fraction x1, Fraction x2) {
+	Fraction Res;
+	Res.Numeral = x1.Numeral * x2.Numeral;
+	Res.Denominator = x1.Denominator * x2.Denominator;
+	Res.GCD();
+	return Res;
+}
+void Fraction::printFraction() {
+	std::cout << "Числитель дроби = " << Numeral << std::endl;
+	std::cout << "Знаменатель дроби = " << Denominator << std::endl;
 }
