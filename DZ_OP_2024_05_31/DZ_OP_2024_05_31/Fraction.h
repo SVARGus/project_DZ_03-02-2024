@@ -14,10 +14,10 @@ public:
 	int GCD(Fraction x1, Fraction x2); // Нахождение НОД знаменателей двух дробей
 	int LCM(); // Нахождение НОК
 	int LCM(Fraction x1, Fraction x2); // Нахождение НОК знаменателей двух дробей
-	Fraction setPlusNew(Fraction x1, Fraction x2); // сложение дробей с выводом резултатов в новый объект
-	Fraction setMinusNew(Fraction x1, Fraction x2); // вычетание дробей с выводом резултатов в новый объект
-	Fraction setDivideNew(Fraction x1, Fraction x2); // деление дробей с выводом резултатов в новый объект
-	Fraction setMultiplyNew(Fraction x1, Fraction x2); // умножение дробей с выводом резултатов в новый объект
+	void setPlusNew(Fraction x1, Fraction x2); // сложение дробей с выводом резултатов в новый объект
+	void setMinusNew(Fraction x1, Fraction x2); // вычетание дробей с выводом резултатов в новый объект
+	void setDivideNew(Fraction x1, Fraction x2); // деление дробей с выводом резултатов в новый объект
+	void setMultiplyNew(Fraction x1, Fraction x2); // умножение дробей с выводом резултатов в новый объект
 
 	//void setPlus(Fraction x1); // сложение дробей в исходную дробь
 	//void setMinus(Fraction x1); // вычетание дробей в исходную дробь

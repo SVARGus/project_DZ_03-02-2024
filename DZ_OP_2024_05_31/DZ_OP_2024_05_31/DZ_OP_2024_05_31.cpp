@@ -10,35 +10,35 @@
 #include "Fraction.h"
 
 
-class PhonePage // Проектирование Объекта для телефонной книги
-{
-    std::string Name;
-    std::string Phone;
-    unsigned short BirthDay : 6; // использую битовые поля для экономия памяти, может стоит выделить в отдельную структуру
-    unsigned short BirthMounth : 5;
-    unsigned short BirthYear : 12; // возможно не обязательно использовать битовые поля, если только позже добавятся другие поля с определенным битовым размером
-
-public:
-    PhonePage() // Использование конструктора для нулевой инициализации
-    {
-        Name = "NOT Name";
-        Phone = "NOT Phone";
-        BirthDay = 0;
-        BirthMounth = 0;
-        BirthYear = 0;
-    }
-    void SetName(std::string name) {
-        Name = name;
-    }
-    void SetPhone(std::string phone) {
-        Phone = phone;
-    }
-    void PrintPhonePage() {
-        std::cout << "Имя: " << Name << std::endl;
-        std::cout << "Телефон: " << Phone << std::endl;
-        std::cout << "Дата рождения: " << BirthDay << "." << BirthMounth << "." << BirthYear << std::endl;
-    }
-};
+//class PhonePage // Проектирование Объекта для телефонной книги
+//{
+//    std::string Name;
+//    std::string Phone;
+//    unsigned short BirthDay : 6; // использую битовые поля для экономия памяти, может стоит выделить в отдельную структуру
+//    unsigned short BirthMounth : 5;
+//    unsigned short BirthYear : 12; // возможно не обязательно использовать битовые поля, если только позже добавятся другие поля с определенным битовым размером
+//
+//public:
+//    PhonePage() // Использование конструктора для нулевой инициализации
+//    {
+//        Name = "NOT Name";
+//        Phone = "NOT Phone";
+//        BirthDay = 0;
+//        BirthMounth = 0;
+//        BirthYear = 0;
+//    }
+//    void SetName(std::string name) {
+//        Name = name;
+//    }
+//    void SetPhone(std::string phone) {
+//        Phone = phone;
+//    }
+//    void PrintPhonePage() {
+//        std::cout << "Имя: " << Name << std::endl;
+//        std::cout << "Телефон: " << Phone << std::endl;
+//        std::cout << "Дата рождения: " << BirthDay << "." << BirthMounth << "." << BirthYear << std::endl;
+//    }
+//};
 
 
 int main() // Задание 1 (ЗАВЕРШЕНО)
@@ -75,34 +75,25 @@ int main() // Задание 1 (ЗАВЕРШЕНО)
         case SUM:
             Les3.setPlusNew(Les1, Les2);
             std::cout << "Результат вычислений:\n";
-            Les3.printFraction;
+            Les3.printFraction();
             break;
         case MINUS:
             Les3.setMinusNew(Les1, Les2);
             std::cout << "Результат вычислений:\n";
-            Les3.printFraction;
+            Les3.printFraction();
             break;
         case DIVIDE:
             Les3.setDivideNew(Les1, Les2);
             std::cout << "Результат вычислений:\n";
-            Les3.printFraction;
+            Les3.printFraction();
             break;
         case MULTIPLY:
             Les3.setMultiplyNew(Les1, Les2);
             std::cout << "Результат вычислений:\n";
-            Les3.printFraction;
+            Les3.printFraction();
             break;
         }
     } while (Menu != 0);
-
-    return 0;
-}
-
-int main_2() // Задание 2 - Телефонная книга (приложение)
-{
-    setlocale(LC_ALL, "ru");
-
-
 
     return 0;
 }

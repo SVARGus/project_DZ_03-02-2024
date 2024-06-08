@@ -44,50 +44,64 @@ int Fraction::LCM() {
 	return Numeral * Denominator / GCD();
 }
 int Fraction::LCM(Fraction x1, Fraction x2) {
-	return x1.Denominator * x2.Denominator / GCD(Fraction x1, Fraction x2);
+	return x1.Denominator * x2.Denominator / GCD(x1, x2);
 }
 
-Fraction Fraction::setPlusNew(Fraction x1, Fraction x2) {
-	Fraction Res;
+void Fraction::setPlusNew(Fraction x1, Fraction x2) {
 	if (x1.Denominator == x2.Denominator)
 	{
-		Res.Numeral = x1.Numeral + x2.Numeral;
-		Res.Denominator = x1.Denominator;
-		Res.GCD();
-		return Res;
+		Numeral = x1.Numeral + x2.Numeral;
+		Denominator = x1.Denominator;
 	}
-	Res.Denominator = LCM(Fraction x1, Fraction x2);
-	Res.Numeral = x1.Numeral * (Res.Denominator / x1.Denominator) + x2.Numeral * (Res.Denominator / x2.Denominator);
-	Res.GCD();
-	return Res;
+	else
+	{
+		Denominator = LCM(x1, x2);
+		Numeral = x1.Numeral * (Denominator / x1.Denominator) + x2.Numeral * (Denominator / x2.Denominator);
+	}
+	int x = GCD();
+	if (x > 1)
+	{
+		Numeral /= x;
+		Denominator /= x;
+	}
 }
-Fraction Fraction::setMinusNew(Fraction x1, Fraction x2) {
-	Fraction Res;
+void Fraction::setMinusNew(Fraction x1, Fraction x2) {
 	if (x1.Denominator == x2.Denominator)
 	{
-		Res.Numeral = x1.Numeral - x2.Numeral;
-		Res.Denominator = x1.Denominator;
-		Res.GCD();
-		return Res;
+		Numeral = x1.Numeral - x2.Numeral;
+		Denominator = x1.Denominator;
 	}
-	Res.Denominator = LCM(Fraction x1, Fraction x2);
-	Res.Numeral = x1.Numeral * (Res.Denominator / x1.Denominator) - x2.Numeral * (Res.Denominator / x2.Denominator);
-	Res.GCD();
-	return Res;
+	else
+	{
+		Denominator = LCM(x1, x2);
+		Numeral = x1.Numeral * (Denominator / x1.Denominator) - x2.Numeral * (Denominator / x2.Denominator);
+	}
+	int x = GCD();
+	if (x > 1)
+	{
+		Numeral /= x;
+		Denominator /= x;
+	}
 }
-Fraction Fraction::setDivideNew(Fraction x1, Fraction x2) {
-	Fraction Res;
-	Res.Numeral = x1.Numeral * x2.Denominator;
-	Res.Denominator = x1.Denominator * x2.Numeral;
-	Res.GCD();
-	return Res;
+void Fraction::setDivideNew(Fraction x1, Fraction x2) {
+	Numeral = x1.Numeral * x2.Denominator;
+	Denominator = x1.Denominator * x2.Numeral;
+	int x = GCD();
+	if (x > 1)
+	{
+		Numeral /= x;
+		Denominator /= x;
+	}
 }
-Fraction Fraction::setMultiplyNew(Fraction x1, Fraction x2) {
-	Fraction Res;
-	Res.Numeral = x1.Numeral * x2.Numeral;
-	Res.Denominator = x1.Denominator * x2.Denominator;
-	Res.GCD();
-	return Res;
+void Fraction::setMultiplyNew(Fraction x1, Fraction x2) {
+	Numeral = x1.Numeral * x2.Numeral;
+	Denominator = x1.Denominator * x2.Denominator;
+	int x = GCD();
+	if (x > 1)
+	{
+		Numeral /= x;
+		Denominator /= x;
+	}
 }
 void Fraction::printFraction() {
 	std::cout << "Числитель дроби = " << Numeral << std::endl;
