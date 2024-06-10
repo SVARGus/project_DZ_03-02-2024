@@ -9,6 +9,7 @@ class PagePhoneBook
 	char* HomePhone; // Домашний телефон
 	char* WorkPhone; // Рабочий телефон
 	char* CellPhone; // Сотовый телефон
+	char* Email;
 	unsigned short BirthDay : 6; // День рождения
 	unsigned short BirthMounth : 5; // Месяц рождения
 	unsigned short BirthYear : 12; // Год рождения
@@ -22,8 +23,11 @@ public:
 	void setHomePhone(char*);
 	void setWorkPhone(char*);
 	void setCellPhone(char*);
+	void setEmail(char*);
 	void setBirth(unsigned short&, unsigned short&, unsigned short&);
 	void setAddress(char*);
 	void setComment(char*);
+
+
 };
 
