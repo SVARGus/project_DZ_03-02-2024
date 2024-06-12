@@ -1,5 +1,7 @@
 #pragma once
 #include <iostream>
+//#include <stralign.h>
+#include<cstring>
 
 class PagePhoneBook
 {
@@ -28,6 +30,17 @@ public:
 	void setAddress(char*);
 	void setComment(char*);
 
+	PagePhoneBook(); // конструктор по умолчанию
+	PagePhoneBook(char* firstname, char* cellphone);
+	PagePhoneBook(char* firstname, char* lastname, char* cellphone);
+	PagePhoneBook(char* firstname, char* lastname, char* middlename, char* cellphone);
+	PagePhoneBook(char* firstname, char* lastname, char* middlename, char* cellphone, char* email);
+	PagePhoneBook(char* firstname, char* lastname, char* middlename, char* cellphone, char* email, unsigned short day, unsigned short mounth, unsigned short year);
+	PagePhoneBook(char* firstname, char* lastname, char* middlename, char* cellphone, char* email, unsigned short day, unsigned short mounth, unsigned short year, char* adress);
+	PagePhoneBook(char* firstname, char* lastname, char* middlename, char* cellphone, char* workphone, char* email, unsigned short day, unsigned short mounth, unsigned short year, char* adress);
+	PagePhoneBook(char* firstname, char* lastname, char* middlename, char* cellphone, char* workphone, char* homephone, char* email, unsigned short day, unsigned short mounth, unsigned short year, char* adress);
+	PagePhoneBook(char* firstname, char* lastname, char* middlename, char* cellphone, char* workphone, char* homephone, char* email, unsigned short day, unsigned short mounth, unsigned short year, char* adress, char* comment);
 
+	~PagePhoneBook(); // деструктор
 };
 
