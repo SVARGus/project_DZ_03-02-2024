@@ -1,4 +1,5 @@
-#include "PagePhoneBook.h"
+﻿#include "PagePhoneBook.h"
+
 
 #pragma warning(disable:4996)
 void PagePhoneBook::setFirstName(char* name) {
@@ -80,12 +81,124 @@ void PagePhoneBook::setComment(char* comment) {
 }
 #pragma warning(default:4996)
 
+void PagePhoneBook::setAddInPage(bool add) {
+	int Menu{};
+	char name[100]{};
+	unsigned short day{};
+	unsigned short mounth{};
+	unsigned short year{};
+	if (add = 1)
+	{
+		std::cout << "Какие данные изменит:\n1) Фамилия \n2) Отчество \n3) Рабочий телефон \n4) Домашний телефон \n5) Электронная почта \n6) Дата рождения \n7) Адресс \n8) комментарий \n0) Закончить" << std::endl;
+		do
+		{
+			std::cin >> Menu;
+			switch (Menu)
+			{
+			case 1:
+				std::cin >> name;
+				setLastName(name);
+				break;
+			case 2:
+				std::cin >> name;
+				setMiddleName(name);
+				break;
+			case 3:
+				std::cin >> name;
+				setWorkPhone(name);
+				break;
+			case 4:
+				std::cin >> name;
+				setHomePhone(name);
+				break;
+			case 5:
+				std::cin >> name;
+				setEmail(name);
+				break;
+			case 6:
+				std::cout << "День: ";
+				std::cin >> day;
+				std::cout << "Месяц: ";
+				std::cin >> mounth;
+				std::cout << "год: ";
+				std::cin >> year;
+				setBirth(day, mounth, year);
+				break;
+			case 7:
+				std::cin.getline (name,100);
+				setAddress(name);
+				break;
+			case 8:
+				std::cin >> name;
+				setComment(name);
+			}
+		} while (Menu != 0);
+	}
+	else
+	{
+		std::cout << "1) Имя \n2) Сотовый телефон \n3) Фамилия \n4) Отчество \n5) Рабочий телефон \n6) Домашний телефон \n7) Электронная почта \n8) Дата рождения \n9) Адресс \n10) комментарий \n0) Закончить" << std::endl;
+		do
+		{
+			std::cin >> Menu;
+			switch (Menu)
+			{
+			case 1:
+				std::cin >> name;
+				setFirstName(name);
+				break;
+			case 2:
+				std::cin >> name;
+				setCellPhone(name);
+				break;
+			case 3:
+				std::cin >> name;
+				setLastName(name);
+				break;
+			case 4:
+				std::cin >> name;
+				setMiddleName(name);
+				break;
+			case 5:
+				std::cin >> name;
+				setWorkPhone(name);
+				break;
+			case 6:
+				std::cin >> name;
+				setHomePhone(name);
+				break;
+			case 7:
+				std::cin >> name;
+				setEmail(name);
+				break;
+			case 8:
+				std::cout << "День: ";
+				std::cin >> day;
+				std::cout << "Месяц: ";
+				std::cin >> mounth;
+				std::cout << "год: ";
+				std::cin >> year;
+				setBirth(day, mounth, year);
+				break;
+			case 9:
+				std::cin.getline(name, 100);
+				setAddress(name);
+				break;
+			case 10:
+				std::cin >> name;
+				setComment(name);
+			}
+		} while (Menu != 0);
+	}
+}
+
 PagePhoneBook::PagePhoneBook() : FirstName{ nullptr }, LastName{ nullptr }, MiddleName{ nullptr }, CellPhone{ nullptr }, WorkPhone{ nullptr }, HomePhone{ nullptr }, Email{ nullptr }, BirthDay{ 0 }, BirthMounth{ 0 }, BirthYear{ 0 }, Address{ nullptr }, Comment{ nullptr } {
-	std::cout << "���������� �� ���������" << std::endl;
+	std::cout << "Констуктор по умолчанию" << std::endl;
+	Size++;
 }
 
 PagePhoneBook::PagePhoneBook(char* firstname, char* cellphone) 
-	: PagePhoneBook() {
+	: PagePhoneBook() 
+{
 	setFirstName(firstname);
 	setCellPhone(cellphone);
 }
@@ -130,8 +243,54 @@ PagePhoneBook::PagePhoneBook(char* firstname, char* lastname, char* middlename, 
 	setComment(comment);
 }
 
+PagePhoneBook* PagePhoneBook::setPageAppEnd(PagePhoneBook*& Book, const PagePhoneBook* Page) {
+	int size = Size;
+	PagePhoneBook* newbook = new PagePhoneBook[size]{};
+	for (int i = 0; i < size; i++)
+	{
+		if (Book != nullptr && i < size-1)
+			newbook[i] = Book[i];
+		else
+			newbook[i] = Page[0];
+	}
+	if (Book != nullptr)
+		delete[] Book;
+	return newbook;
+}
+PagePhoneBook* PagePhoneBook::setPageDell_i(PagePhoneBook*& Book, int i) {
+	int size = Size - 1;
+	PagePhoneBook* newbook = new PagePhoneBook[size]{};
+	for (int j = 0; j < size; j++)
+	{
+		if (j < i)
+			newbook[j] = Book[j];
+		else
+			newbook[j] = Book[j+1];
+	}
+		delete[] Book;
+	return newbook;
+}
 
-
+void PagePhoneBook::printPageBook() {
+	std::cout << "Имя: " << FirstName << std::endl;
+	if (MiddleName!=nullptr)
+		std::cout << "Отчетство: " << MiddleName << std::endl;
+	if (LastName != nullptr)
+		std::cout << "Фамилия: " << LastName << std::endl;
+	std::cout << "Сотовый телефон: " << CellPhone << std::endl;
+	if (WorkPhone != nullptr)
+		std::cout << "Рабочий телефон: " << WorkPhone << std::endl;
+	if (HomePhone != nullptr)
+		std::cout << "Домашний телефон: " << HomePhone << std::endl;
+	if (Email != nullptr)
+		std::cout << "Электронная почта: " << Email << std::endl;
+	if (BirthDay != 0)
+		std::cout << "Дата рождения: " << BirthDay << "." << BirthMounth << "." << BirthYear << std::endl;
+	if (Address != nullptr)
+		std::cout << "Адресс: " << Address << std::endl;
+	if (Comment != nullptr)
+		std::cout << "Комментарий: " << Comment << std::endl;
+}
 
 PagePhoneBook::~PagePhoneBook() {
 	delete[] FirstName;
@@ -143,6 +302,8 @@ PagePhoneBook::~PagePhoneBook() {
 	delete[] Email;
 	delete[] Address;
 	delete[] Comment;
-	std::cout << "������ �����������" << std::endl;
-	// ����� �������� ������ ���������� ����� � ��������� ����
+	Size--;
+	std::cout << "Маркер деструктора" << std::endl; // Временно для проверки
+	std::cout << "Маркер static Size: " << Size << std::endl; // Временно для проверки
+	// позже дописать запись телефонной книги в отдельный файл
 }
