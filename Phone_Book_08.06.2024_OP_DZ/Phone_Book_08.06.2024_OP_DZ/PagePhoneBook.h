@@ -53,6 +53,8 @@ public:
 	
 	void printPageBook(); // Позже добавить номер страницы книги для вывода
 
+	void sortNameBook(PagePhoneBook*& Book);
+
 	~PagePhoneBook(); // деструктор
 };
 

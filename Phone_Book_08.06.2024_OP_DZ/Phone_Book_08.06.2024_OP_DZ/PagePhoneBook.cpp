@@ -292,6 +292,25 @@ void PagePhoneBook::printPageBook() {
 		std::cout << "Комментарий: " << Comment << std::endl;
 }
 
+void PagePhoneBook::sortNameBook(PagePhoneBook*& Book) {
+	//PagePhoneBook* Swap { nullptr };
+	bool x{0};
+	if (Size == 1)
+		return;
+	do
+	{
+		x = 0;
+		for (int i = 0; i < Size - 1; i++)
+		{
+			if (strcmp(Book[i].FirstName, Book[i + 1].FirstName) < 0)
+			{
+				std::swap(Book[i], Book[i + 1]);
+				x = 1;
+			}
+		}
+	} while (false);
+}
+
 PagePhoneBook::~PagePhoneBook() {
 	delete[] FirstName;
 	delete[] MiddleName;

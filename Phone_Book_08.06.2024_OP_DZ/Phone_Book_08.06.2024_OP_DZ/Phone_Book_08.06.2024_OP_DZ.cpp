@@ -101,7 +101,7 @@ int main()
             }
             break;
         case 5:
-
+            PhoneBook->sortNameBook(PhoneBook);
             break;
        /* case 6:
             break;*/
