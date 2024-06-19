@@ -5,51 +5,72 @@
 void PagePhoneBook::setFirstName(char* name) {
 	if (FirstName != nullptr)
 		delete[] FirstName;
-	int Size = strlen(name) + 1;
-	FirstName = new char[Size];
-	strcpy(FirstName, name);
+	if (name != nullptr)
+	{
+		int Size = strlen(name) + 1;
+		FirstName = new char[Size];
+		strcpy(FirstName, name);
+	}
 }
 void PagePhoneBook::setMiddleName(char* name) {
 	if (MiddleName != nullptr)
 		delete[] MiddleName;
-	int Size = strlen(name) + 1;
-	MiddleName = new char[Size];
-	strcpy(MiddleName, name);
+	if (name != nullptr)
+	{
+		int Size = strlen(name) + 1;
+		MiddleName = new char[Size];
+		strcpy(MiddleName, name);		
+	}
 }
 void PagePhoneBook::setLastName(char* name) {
 	if (LastName != nullptr)
 		delete[] LastName;
-	int Size = strlen(name) + 1;
-	LastName = new char[Size];
-	strcpy(LastName, name);
+	if (name != nullptr)
+	{
+		int Size = strlen(name) + 1;
+		LastName = new char[Size];
+		strcpy(LastName, name);
+	}
 }
 void PagePhoneBook::setHomePhone(char* phone) {
 	if (HomePhone != nullptr)
 		delete[] HomePhone;
-	int Size = strlen(phone) + 1;
-	HomePhone = new char[Size];
-	strcpy(HomePhone, phone);
+	if (name != nullptr)
+	{
+		int Size = strlen(phone) + 1;
+		HomePhone = new char[Size];
+		strcpy(HomePhone, phone);
+	}
 }
 void PagePhoneBook::setWorkPhone(char* phone) {
 	if (WorkPhone != nullptr)
 		delete[] WorkPhone;
-	int Size = strlen(phone) + 1;
-	WorkPhone = new char[Size];
-	strcpy(WorkPhone, phone);
+	if (name != nullptr)
+	{
+		int Size = strlen(phone) + 1;
+		WorkPhone = new char[Size];
+		strcpy(WorkPhone, phone);
+	}
 }
 void PagePhoneBook::setCellPhone(char* phone) {
 	if (CellPhone != nullptr)
 		delete[] CellPhone;
-	int Size = strlen(phone) + 1;
-	CellPhone = new char[Size];
-	strcpy(CellPhone, phone);
+	if (name != nullptr)
+	{
+		int Size = strlen(phone) + 1;
+		CellPhone = new char[Size];
+		strcpy(CellPhone, phone);
+	}
 }
 void PagePhoneBook::setEmail(char* email) {
 	if (Email != nullptr)
 		delete[] Email;
-	int Size = strlen(email) + 1;
-	Email = new char[Size];
-	strcpy(Email, email);
+	if (name != nullptr)
+	{
+		int Size = strlen(email) + 1;
+		Email = new char[Size];
+		strcpy(Email, email);
+	}
 }
 void PagePhoneBook::setBirth(unsigned short& day, unsigned short& mounth, unsigned short& year) {
 	if (day > 0 && day <= 31)
@@ -80,6 +101,8 @@ void PagePhoneBook::setComment(char* comment) {
 	strcpy(Comment, comment);
 }
 #pragma warning(default:4996)
+
+
 
 void PagePhoneBook::setAddInPage(bool add) {
 	int Menu{};
@@ -243,6 +266,47 @@ PagePhoneBook::PagePhoneBook(char* firstname, char* lastname, char* middlename, 
 	setComment(comment);
 }
 
+/* нужно отдельно вынести из класса метод и сделать его функцией в методе.
+Это касается метода добавления страницы в книгу и удаления (setPageAppEnd и setPageDell_i), 
+и добавить в функцию перегрузку метода приравнивания или копирования */
+
+PagePhoneBook::PagePhoneBook(const PagePhoneBook& Book) // ПРОВЕРИТЬ метод глубокого копирования
+{
+	setFirstName(Book.FirstName);
+	setLastName(Book.LastName);
+	setMiddleName(Book.MiddleName);
+	setCellPhone(Book.CellPhone);
+	setWorkPhone(Book.WorkPhone);
+	setHomePhone(Book.HomePhone);
+	setEmail(Book.Email);
+	setBirth(Book.BirthDay, Book.BirthMounth, Book.BirthYear);
+	setAddress(Book.Address);
+	setComment(Book.Comment);
+}
+PagePhoneBook& PagePhoneBook::operator=(const PagePhoneBook& other) // ПРОВЕРИТЬ оператор перегрузки приравнивания
+{
+	if (this == &othet)
+		return *this;
+	PagePhoneBook(other);
+	return *this;
+}
+
+PagePhoneBook* PagePhoneBook::setPageAppEnd(PagePhoneBook& Book, const PagePhoneBook* Page) {
+	int size = Size;
+	PagePhoneBook* newbook = new PagePhoneBook[size]{};
+	for (int i = 0; i < size; i++)
+	{
+		if (Book != nullptr && i < size - 1)
+			newbook[i] = Book[i];
+		else
+			newbook[i] = Page[0];
+	}
+	if (Book != nullptr)
+		delete[] Book;
+	return newbook;
+}
+
+/* Старая Версия - позже удалить
 PagePhoneBook* PagePhoneBook::setPageAppEnd(PagePhoneBook*& Book, const PagePhoneBook* Page) {
 	int size = Size;
 	PagePhoneBook* newbook = new PagePhoneBook[size]{};
@@ -256,7 +320,8 @@ PagePhoneBook* PagePhoneBook::setPageAppEnd(PagePhoneBook*& Book, const PagePhon
 	if (Book != nullptr)
 		delete[] Book;
 	return newbook;
-}
+}*/
+
 PagePhoneBook* PagePhoneBook::setPageDell_i(PagePhoneBook*& Book, int i) {
 	int size = Size - 1;
 	PagePhoneBook* newbook = new PagePhoneBook[size]{};

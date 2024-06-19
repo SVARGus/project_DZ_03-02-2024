@@ -48,7 +48,10 @@ public:
 	PagePhoneBook(char* firstname, char* lastname, char* middlename, char* cellphone, char* workphone, char* homephone, char* email, unsigned short day, unsigned short mounth, unsigned short year, char* adress);
 	PagePhoneBook(char* firstname, char* lastname, char* middlename, char* cellphone, char* workphone, char* homephone, char* email, unsigned short day, unsigned short mounth, unsigned short year, char* adress, char* comment);
 
-	PagePhoneBook* setPageAppEnd(PagePhoneBook*& Book, const PagePhoneBook* Page); // Метод добавляющий в телефонную книгу новый контакт
+	PagePhoneBook(const PagePhoneBook& Book); // Оператор глубокого копирования
+	PagePhoneBook& operator=(const PagePhoneBook& other); // Оператор перегрузки приравнивания
+
+	PagePhoneBook* setPageAppEnd(PagePhoneBook& Book, const PagePhoneBook* Page); // Метод добавляющий в телефонную книгу новый контакт
 	PagePhoneBook* setPageDell_i(PagePhoneBook*& Book, int i); // Метод удаления определенной страницы в телефонной книге
 	
 	void printPageBook(); // Позже добавить номер страницы книги для вывода
