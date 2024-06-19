@@ -21,9 +21,9 @@ int main()
     char Name[15]{}; // Имя
     char Phone[15]{}; // Отчество
     
-    unsigned short BirthDay; // День рождения
-    unsigned short BirthMounth; // Месяц рождения
-    unsigned short BirthYear; // Год рождения
+    unsigned short BirthDay{}; // День рождения
+    unsigned short BirthMounth{}; // Месяц рождения
+    unsigned short BirthYear{}; // Год рождения
     
 
     PagePhoneBook* first{ nullptr }; // возможно лишнее
@@ -59,8 +59,8 @@ int main()
                 first->setAddInPage();
             std::cout << "Маркер static Size: " << PagePhoneBook::getSize() << std::endl; // Временно для проверки
             
-            PhoneBook = PhoneBook->setPageAppEnd(PhoneBook, first); // некорректно работает
-            first = nullptr;
+            PhoneBook = setPageAppEnd(PhoneBook, first); // Отрабатывает отлично
+            //first = nullptr;
             break;
         case 2:
             std::cout << "изменить контакт под # ";
@@ -75,7 +75,7 @@ int main()
             std::cout << "Удалить контакт под номером # ";
             std::cin >> i;
             if (i < PagePhoneBook::getSize())
-                PhoneBook = PhoneBook->setPageDell_i(PhoneBook, i); // добавить метод удаления контакта со сдвигом
+                PhoneBook = setPageDell_i(PhoneBook, i); // добавить метод удаления контакта со сдвигом
             else
                 std::cout << "Данный контакт отсутствует в записной книжке!" << std::endl;
             break;
@@ -101,7 +101,7 @@ int main()
             }
             break;
         case 5:
-            PhoneBook->sortNameBook(PhoneBook);
+            sortNameBook(PhoneBook);
             break;
        /* case 6:
             break;*/

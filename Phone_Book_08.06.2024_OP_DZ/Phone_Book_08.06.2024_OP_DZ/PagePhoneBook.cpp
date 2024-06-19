@@ -35,7 +35,7 @@ void PagePhoneBook::setLastName(char* name) {
 void PagePhoneBook::setHomePhone(char* phone) {
 	if (HomePhone != nullptr)
 		delete[] HomePhone;
-	if (name != nullptr)
+	if (phone != nullptr)
 	{
 		int Size = strlen(phone) + 1;
 		HomePhone = new char[Size];
@@ -45,7 +45,7 @@ void PagePhoneBook::setHomePhone(char* phone) {
 void PagePhoneBook::setWorkPhone(char* phone) {
 	if (WorkPhone != nullptr)
 		delete[] WorkPhone;
-	if (name != nullptr)
+	if (phone != nullptr)
 	{
 		int Size = strlen(phone) + 1;
 		WorkPhone = new char[Size];
@@ -55,7 +55,7 @@ void PagePhoneBook::setWorkPhone(char* phone) {
 void PagePhoneBook::setCellPhone(char* phone) {
 	if (CellPhone != nullptr)
 		delete[] CellPhone;
-	if (name != nullptr)
+	if (phone != nullptr)
 	{
 		int Size = strlen(phone) + 1;
 		CellPhone = new char[Size];
@@ -65,14 +65,14 @@ void PagePhoneBook::setCellPhone(char* phone) {
 void PagePhoneBook::setEmail(char* email) {
 	if (Email != nullptr)
 		delete[] Email;
-	if (name != nullptr)
+	if (email != nullptr)
 	{
 		int Size = strlen(email) + 1;
 		Email = new char[Size];
 		strcpy(Email, email);
 	}
 }
-void PagePhoneBook::setBirth(unsigned short& day, unsigned short& mounth, unsigned short& year) {
+void PagePhoneBook::setBirth(unsigned short day, unsigned short mounth, unsigned short year) {
 	if (day > 0 && day <= 31)
 		BirthDay = day;
 	else
@@ -89,19 +89,28 @@ void PagePhoneBook::setBirth(unsigned short& day, unsigned short& mounth, unsign
 void PagePhoneBook::setAddress(char* address) {
 	if (Address != nullptr)
 		delete[] Address;
-	int Size = strlen(address) + 1;
-	Address = new char[Size];
-	strcpy(Address, address);
+	if (address != nullptr)
+	{
+		int Size = strlen(address) + 1;
+		Address = new char[Size];
+		strcpy(Address, address);
+	}
 }
 void PagePhoneBook::setComment(char* comment) {
 	if (Comment != nullptr)
 		delete[] Comment;
-	int Size = strlen(comment) + 1;
-	Comment = new char[Size];
-	strcpy(Comment, comment);
+	if (comment != nullptr)
+	{
+		int Size = strlen(comment) + 1;
+		Comment = new char[Size];
+		strcpy(Comment, comment);
+	}
 }
 #pragma warning(default:4996)
 
+char* PagePhoneBook::getFirstName() {
+	return FirstName;
+}
 
 
 void PagePhoneBook::setAddInPage(bool add) {
@@ -226,45 +235,45 @@ PagePhoneBook::PagePhoneBook(char* firstname, char* cellphone)
 	setCellPhone(cellphone);
 }
 
-PagePhoneBook::PagePhoneBook(char* firstname, char* lastname, char* cellphone) 
-	: PagePhoneBook(firstname, cellphone) {
-	setLastName(lastname);
-}
-
-PagePhoneBook::PagePhoneBook(char* firstname, char* lastname, char* middlename, char* cellphone) 
-	: PagePhoneBook(firstname, lastname, cellphone) {
-	setMiddleName(middlename);
-}
-
-PagePhoneBook::PagePhoneBook(char* firstname, char* lastname, char* middlename, char* cellphone, char* email) 
-	: PagePhoneBook(firstname, lastname, middlename, cellphone) {
-	setEmail(email);
-}
-
-PagePhoneBook::PagePhoneBook(char* firstname, char* lastname, char* middlename, char* cellphone, char* email, unsigned short day, unsigned short mounth, unsigned short year) 
-	: PagePhoneBook(firstname, lastname, middlename, cellphone, email) {
-	setBirth(day, mounth, year);
-}
-
-PagePhoneBook::PagePhoneBook(char* firstname, char* lastname, char* middlename, char* cellphone, char* email, unsigned short day, unsigned short mounth, unsigned short year, char* adress) 
-	: PagePhoneBook(firstname, lastname, middlename, cellphone, email, day, mounth, year) {
-	setAddress(adress);
-}
-
-PagePhoneBook::PagePhoneBook(char* firstname, char* lastname, char* middlename, char* cellphone, char* workphone, char* email, unsigned short day, unsigned short mounth, unsigned short year, char* adress) 
-	: PagePhoneBook(firstname, lastname, middlename, cellphone, email, day, mounth, year, adress) {
-	setWorkPhone(workphone);
-}
-
-PagePhoneBook::PagePhoneBook(char* firstname, char* lastname, char* middlename, char* cellphone, char* workphone, char* homephone, char* email, unsigned short day, unsigned short mounth, unsigned short year, char* adress) 
-	: PagePhoneBook(firstname, lastname, middlename, cellphone, workphone, email, day, mounth, year, adress) {
-	setHomePhone(homephone);
-}
-
-PagePhoneBook::PagePhoneBook(char* firstname, char* lastname, char* middlename, char* cellphone, char* workphone, char* homephone, char* email, unsigned short day, unsigned short mounth, unsigned short year, char* adress, char* comment) 
-	: PagePhoneBook(firstname, lastname, middlename, cellphone, workphone, homephone, email, day, mounth, year, adress) {
-	setComment(comment);
-}
+//PagePhoneBook::PagePhoneBook(char* firstname, char* lastname, char* cellphone) 
+//	: PagePhoneBook(firstname, cellphone) {
+//	setLastName(lastname);
+//}
+//
+//PagePhoneBook::PagePhoneBook(char* firstname, char* lastname, char* middlename, char* cellphone) 
+//	: PagePhoneBook(firstname, lastname, cellphone) {
+//	setMiddleName(middlename);
+//}
+//
+//PagePhoneBook::PagePhoneBook(char* firstname, char* lastname, char* middlename, char* cellphone, char* email) 
+//	: PagePhoneBook(firstname, lastname, middlename, cellphone) {
+//	setEmail(email);
+//}
+//
+//PagePhoneBook::PagePhoneBook(char* firstname, char* lastname, char* middlename, char* cellphone, char* email, unsigned short day, unsigned short mounth, unsigned short year) 
+//	: PagePhoneBook(firstname, lastname, middlename, cellphone, email) {
+//	setBirth(day, mounth, year);
+//}
+//
+//PagePhoneBook::PagePhoneBook(char* firstname, char* lastname, char* middlename, char* cellphone, char* email, unsigned short day, unsigned short mounth, unsigned short year, char* adress) 
+//	: PagePhoneBook(firstname, lastname, middlename, cellphone, email, day, mounth, year) {
+//	setAddress(adress);
+//}
+//
+//PagePhoneBook::PagePhoneBook(char* firstname, char* lastname, char* middlename, char* cellphone, char* workphone, char* email, unsigned short day, unsigned short mounth, unsigned short year, char* adress) 
+//	: PagePhoneBook(firstname, lastname, middlename, cellphone, email, day, mounth, year, adress) {
+//	setWorkPhone(workphone);
+//}
+//
+//PagePhoneBook::PagePhoneBook(char* firstname, char* lastname, char* middlename, char* cellphone, char* workphone, char* homephone, char* email, unsigned short day, unsigned short mounth, unsigned short year, char* adress) 
+//	: PagePhoneBook(firstname, lastname, middlename, cellphone, workphone, email, day, mounth, year, adress) {
+//	setHomePhone(homephone);
+//}
+//
+//PagePhoneBook::PagePhoneBook(char* firstname, char* lastname, char* middlename, char* cellphone, char* workphone, char* homephone, char* email, unsigned short day, unsigned short mounth, unsigned short year, char* adress, char* comment) 
+//	: PagePhoneBook(firstname, lastname, middlename, cellphone, workphone, homephone, email, day, mounth, year, adress) {
+//	setComment(comment);
+//}
 
 /* нужно отдельно вынести из класса метод и сделать его функцией в методе.
 Это касается метода добавления страницы в книгу и удаления (setPageAppEnd и setPageDell_i), 
@@ -283,16 +292,26 @@ PagePhoneBook::PagePhoneBook(const PagePhoneBook& Book) // ПРОВЕРИТЬ м
 	setAddress(Book.Address);
 	setComment(Book.Comment);
 }
-PagePhoneBook& PagePhoneBook::operator=(const PagePhoneBook& other) // ПРОВЕРИТЬ оператор перегрузки приравнивания
+PagePhoneBook& PagePhoneBook::operator=(const PagePhoneBook& Book) // ПРОВЕРИТЬ оператор перегрузки приравнивания
 {
-	if (this == &othet)
+	if (this == &Book)
 		return *this;
-	PagePhoneBook(other);
+	//*this = PagePhoneBook(Book); // проверить работает или нет
+	setFirstName(Book.FirstName);
+	setLastName(Book.LastName);
+	setMiddleName(Book.MiddleName);
+	setCellPhone(Book.CellPhone);
+	setWorkPhone(Book.WorkPhone);
+	setHomePhone(Book.HomePhone);
+	setEmail(Book.Email);
+	setBirth(Book.BirthDay, Book.BirthMounth, Book.BirthYear);
+	setAddress(Book.Address);
+	setComment(Book.Comment);
 	return *this;
 }
 
-PagePhoneBook* PagePhoneBook::setPageAppEnd(PagePhoneBook& Book, const PagePhoneBook* Page) {
-	int size = Size;
+PagePhoneBook* setPageAppEnd(PagePhoneBook* Book, const PagePhoneBook* Page) {
+	int size = Book->getSize();
 	PagePhoneBook* newbook = new PagePhoneBook[size]{};
 	for (int i = 0; i < size; i++)
 	{
@@ -301,8 +320,22 @@ PagePhoneBook* PagePhoneBook::setPageAppEnd(PagePhoneBook& Book, const PagePhone
 		else
 			newbook[i] = Page[0];
 	}
-	if (Book != nullptr)
-		delete[] Book;
+	delete[] Book;
+	delete Page;
+	return newbook;
+}
+
+PagePhoneBook* setPageDell_i(PagePhoneBook* Book, int i) {
+	int size = Book->getSize() - 1;
+	PagePhoneBook* newbook = new PagePhoneBook[size]{};
+	for (int j = 0, k = 0; j < size; ++j, ++k)
+	{
+		if (j == i)
+			newbook[j] = Book[++k];
+		else
+			newbook[j] = Book[k];
+	}
+	delete[] Book;
 	return newbook;
 }
 
@@ -320,7 +353,7 @@ PagePhoneBook* PagePhoneBook::setPageAppEnd(PagePhoneBook*& Book, const PagePhon
 	if (Book != nullptr)
 		delete[] Book;
 	return newbook;
-}*/
+}
 
 PagePhoneBook* PagePhoneBook::setPageDell_i(PagePhoneBook*& Book, int i) {
 	int size = Size - 1;
@@ -334,7 +367,7 @@ PagePhoneBook* PagePhoneBook::setPageDell_i(PagePhoneBook*& Book, int i) {
 	}
 		delete[] Book;
 	return newbook;
-}
+}*/
 
 void PagePhoneBook::printPageBook() {
 	std::cout << "Имя: " << FirstName << std::endl;
@@ -357,23 +390,27 @@ void PagePhoneBook::printPageBook() {
 		std::cout << "Комментарий: " << Comment << std::endl;
 }
 
-void PagePhoneBook::sortNameBook(PagePhoneBook*& Book) {
-	//PagePhoneBook* Swap { nullptr };
+void sortNameBook(PagePhoneBook* Book) {
+	int size = Book->getSize() - 1;
+	PagePhoneBook Swap{};
 	bool x{0};
-	if (Size == 1)
+	if (size == 1)
 		return;
 	do
 	{
 		x = 0;
-		for (int i = 0; i < Size - 1; i++)
+		for (int i = 0; i < size - 1; i++)
 		{
-			if (strcmp(Book[i].FirstName, Book[i + 1].FirstName) < 0)
+			if (strcmp(Book[i].getFirstName(), Book[i + 1].getFirstName()) < 0)
 			{
-				std::swap(Book[i], Book[i + 1]);
+				//std::swap(Book[i], Book[i + 1]);
+				Swap = Book[i];
+				Book[i] = Book[i + 1];
+				Book[i + 1] = Swap;
 				x = 1;
 			}
 		}
-	} while (false);
+	} while (x == false);
 }
 
 PagePhoneBook::~PagePhoneBook() {
