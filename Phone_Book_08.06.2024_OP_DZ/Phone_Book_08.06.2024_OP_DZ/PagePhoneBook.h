@@ -21,18 +21,18 @@ class PagePhoneBook
 
 public:
 	
-	void setFirstName(char*);
-	void setMiddleName(char*);
-	void setLastName(char*);
-	void setHomePhone(char*);
-	void setWorkPhone(char*);
-	void setCellPhone(char*);
-	void setEmail(char*);
-	void setBirth(unsigned short, unsigned short, unsigned short);
-	void setAddress(char*);
-	void setComment(char*);
-	char* getFirstName();
-	void setAddInPage(bool add = 0);
+	inline void setFirstName(char*);
+	inline void setMiddleName(char*);
+	inline void setLastName(char*);
+	inline void setHomePhone(char*);
+	inline void setWorkPhone(char*);
+	inline void setCellPhone(char*);
+	inline void setEmail(char*);
+	inline void setBirth(unsigned short, unsigned short, unsigned short);
+	inline void setAddress(char*);
+	inline void setComment(char*);
+	inline char* getFirstName() const;
+	inline void setAddInPage(bool add = 0);
 
 	static int getSize() {
 		return Size; 
@@ -55,7 +55,7 @@ public:
 	//PagePhoneBook setPageAppEnd(PagePhoneBook* Book, const PagePhoneBook* Page); // Метод добавляющий в телефонную книгу новый контакт
 	//PagePhoneBook* setPageDell_i(PagePhoneBook*& Book, int i); // Метод удаления определенной страницы в телефонной книге
 	
-	void printPageBook(); 
+	inline void printPageBook();
 
 	//void sortNameBook(PagePhoneBook* Book);
 

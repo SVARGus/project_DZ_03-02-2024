@@ -108,7 +108,7 @@ void PagePhoneBook::setComment(char* comment) {
 }
 #pragma warning(default:4996)
 
-char* PagePhoneBook::getFirstName() {
+char* PagePhoneBook::getFirstName() const {
 	return FirstName;
 }
 
@@ -279,7 +279,7 @@ PagePhoneBook::PagePhoneBook(char* firstname, char* cellphone)
 Это касается метода добавления страницы в книгу и удаления (setPageAppEnd и setPageDell_i), 
 и добавить в функцию перегрузку метода приравнивания или копирования */
 
-PagePhoneBook::PagePhoneBook(const PagePhoneBook& Book) // ПРОВЕРИТЬ метод глубокого копирования
+PagePhoneBook::PagePhoneBook(const PagePhoneBook& Book) // ПРОВЕРЕН метод глубокого копирования
 {
 	setFirstName(Book.FirstName);
 	setLastName(Book.LastName);
@@ -292,7 +292,7 @@ PagePhoneBook::PagePhoneBook(const PagePhoneBook& Book) // ПРОВЕРИТЬ м
 	setAddress(Book.Address);
 	setComment(Book.Comment);
 }
-PagePhoneBook& PagePhoneBook::operator=(const PagePhoneBook& Book) // ПРОВЕРИТЬ оператор перегрузки приравнивания
+PagePhoneBook& PagePhoneBook::operator=(const PagePhoneBook& Book) // ПРОВЕРЕН оператор перегрузки приравнивания
 {
 	if (this == &Book)
 		return *this;
