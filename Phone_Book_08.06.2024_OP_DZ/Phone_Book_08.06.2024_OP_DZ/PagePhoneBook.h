@@ -32,7 +32,7 @@ public:
 	inline void setAddress(char*);
 	inline void setComment(char*);
 	inline char* getFirstName() const;
-	inline void setAddInPage(bool add = 0);
+	inline void setAddInPage(bool add = false);
 
 	static int getSize() {
 		return Size; 
