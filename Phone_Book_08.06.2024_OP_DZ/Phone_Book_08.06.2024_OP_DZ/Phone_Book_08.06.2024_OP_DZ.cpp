@@ -53,7 +53,7 @@ int main()
             std::cout << "укажите Сотовый телефон: ";
             std::cin >> Phone;
             first = new PagePhoneBook{ Name, Phone };
-            std::cout << "Добавить дополнительные данные? 0 - Да 1 - НЕТ ";
+            std::cout << "Добавить дополнительные данные? 1 - Да 0 - НЕТ ";
             std::cin >> Add;
             if (Add)
                 first->setAddInPage(Add);
@@ -61,15 +61,15 @@ int main()
             
             PhoneBook = setPageAppEnd(PhoneBook, first); // Отрабатывает отлично
             //delete first;
-            //delete first;
-            //first = nullptr;
+            delete first;
+            first = nullptr;
             break;
         case 2:
             std::cout << "изменить контакт под # ";
             std::cin >> i;
             std::cout << "Маркер static Size: " << PagePhoneBook::getSize() << std::endl; // Временно для проверки
             if (i < PagePhoneBook::getSize())
-                PhoneBook[i].setAddInPage(true);
+                PhoneBook[i].setAddInPage();
             else
                 std::cout << "Данный контакт отсутствует в записной книжке!" << std::endl;
             break;
@@ -103,7 +103,8 @@ int main()
             }
             break;
         case 5:
-            sortNameBook(PhoneBook);
+            std::cout << "Временно не работает ((( " << std::endl;
+            //sortNameBook(PhoneBook);
             break;
        /* case 6:
             break;*/

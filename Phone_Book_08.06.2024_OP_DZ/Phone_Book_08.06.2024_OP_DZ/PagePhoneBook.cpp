@@ -146,62 +146,62 @@ void PagePhoneBook::setAddInPage(bool add) {
 	unsigned short day{};
 	unsigned short mounth{};
 	unsigned short year{};
-	std::cout << "Какие данные изменит:\n1) Имя \n2) Сотовый телефон \n";
+	std::cout << "Какие данные изменить : \n";
 	if (add == false)
-		std::cout << "3) Фамилия \n4) Отчество \n5) Рабочий телефон \n6) Домашний телефон \n7) Электронная почта \n8) Дата рождения \n9) Адресс \n10) комментарий \n0) Закончить" << std::endl;
+		std::cout << "1) Имя \n2) Сотовый телефон \n";
+	std::cout << "3) Фамилия \n4) Отчество \n5) Рабочий телефон \n6) Домашний телефон \n7) Электронная почта \n8) Дата рождения \n9) Адресс \n10) комментарий \n0) Закончить" << std::endl;
 	do
 	{
 		std::cin >> Menu;
 		switch (Menu)
 		{
-		case 1:
-			std::cin >> name;
-			setFirstName(name);
-			break;
-		case 2:
-			std::cin >> name;
-			setCellPhone(name);
-			break;
-
 			if (add == false)
 			{
-			case 3:
+			case 1:
 				std::cin >> name;
-				setLastName(name);
+				setFirstName(name);
 				break;
-			case 4:
+			case 2:
 				std::cin >> name;
-				setMiddleName(name);
+				setCellPhone(name);
 				break;
-			case 5:
-				std::cin >> name;
-				setWorkPhone(name);
-				break;
-			case 6:
-				std::cin >> name;
-				setHomePhone(name);
-				break;
-			case 7:
-				std::cin >> name;
-				setEmail(name);
-				break;
-			case 8:
-				std::cout << "День: ";
-				std::cin >> day;
-				std::cout << "Месяц: ";
-				std::cin >> mounth;
-				std::cout << "год: ";
-				std::cin >> year;
-				setBirth(day, mounth, year);
-				break;
-			case 9:
-				std::cin.getline(name, 100);
-				setAddress(name);
-				break;
-			case 10:
-				std::cin >> name;
-				setComment(name);
 			}
+		case 3:
+			std::cin >> name;
+			setLastName(name);
+			break;
+		case 4:
+			std::cin >> name;
+			setMiddleName(name);
+			break;
+		case 5:
+			std::cin >> name;
+			setWorkPhone(name);
+			break;
+		case 6:
+			std::cin >> name;
+			setHomePhone(name);
+			break;
+		case 7:
+			std::cin >> name;
+			setEmail(name);
+			break;
+		case 8:
+			std::cout << "День: ";
+			std::cin >> day;
+			std::cout << "Месяц: ";
+			std::cin >> mounth;
+			std::cout << "год: ";
+			std::cin >> year;
+			setBirth(day, mounth, year);
+			break;
+		case 9:
+			std::cin.getline(name, 100);
+			setAddress(name);
+			break;
+		case 10:
+			std::cin >> name;
+			setComment(name);
 		}
 	} while (Menu!=0);
 }
@@ -304,7 +304,7 @@ PagePhoneBook* setPageAppEnd(PagePhoneBook* Book, const PagePhoneBook* Page) {
 			newbook[i] = Page[0];
 	}
 	delete[] Book;
-	delete Page;
+	//delete Page;
 	return newbook;
 }
 
@@ -373,15 +373,16 @@ void PagePhoneBook::printPageBook() {
 		std::cout << "Комментарий: " << Comment << std::endl;
 }
 
-void sortNameBook(PagePhoneBook* Book) {
+void sortNameBook(PagePhoneBook* Book) // Не работает почемуто 
+{
 	int size = Book->getSize() - 1;
 	PagePhoneBook Swap{};
-	bool x{0};
+	bool x{false};
 	if (size == 1)
 		return;
 	do
 	{
-		x = 0;
+		x = false;
 		for (int i = 0; i < size - 1; i++)
 		{
 			if (strcmp(Book[i].getFirstName(), Book[i + 1].getFirstName()) < 0)
