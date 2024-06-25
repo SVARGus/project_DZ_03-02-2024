@@ -383,15 +383,15 @@ void sortNameBook(PagePhoneBook* Book) // Не работает почемуто
 	do
 	{
 		x = false;
-		for (int i = 0; i < size - 1; i++)
+		for (int i = 0; i < size; i++)
 		{
-			if (strcmp(Book[i].getFirstName(), Book[i + 1].getFirstName()) < 0)
+			if (strcmp(Book[i].getFirstName(), Book[i + 1].getFirstName()) > 0)
 			{
 				//std::swap(Book[i], Book[i + 1]);
 				Swap = Book[i];
 				Book[i] = Book[i + 1];
 				Book[i + 1] = Swap;
-				x = 1;
+				x = ture;
 			}
 		}
 	} while (x == false);

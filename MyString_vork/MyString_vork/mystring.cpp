@@ -103,8 +103,19 @@ char& mystring::operator[] (int index) // для внесения изменен
 	return mString[i];
 }
 
-std::istream& mystring::operator>> (std::istream& input, mystring& name)
+std::istream& operator>> (std::istream& input, mystring& name) // нужно проверить!!!
 {
+	mystring newname{};
+	if (newname.mString != nullptr)
+		delete[] newname.mString;
+	newname.mString = new char[201];
+	input.read(201, newname.mString);
+	newname.mString[201] = '\0';
+	newname.size = strlen(newname.mString);
+	std::cout << newname.size << std::endl; // для проверки приведенной длины строки до первого \0 если введенный текс меньше 200 символов
+	name = newname;
+	return input;
+
 	// как реализовать запись текста вводимого с клавиатуры в динамическую память если изначально не известно количество вводимых символов
 	return input;
 }
