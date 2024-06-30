@@ -23,7 +23,8 @@ public:
 	static int gerStaticCount() { return count; } // временный вывод. ПРОВЕРИЛ - работает
 	static void setStaticCount() { ++count; } // увеличение статического счетчика для дружественных операторов и методов
 
-	mystring();
+	mystring() : size{ 80 }, mString{ new char[size + 1] } { ++count; };
+	mystring(int size) : size{ size }, mString{ new char[size + 1] } { ++count; };
 	mystring(char* name); // ПРОВЕРИЛ - работает
 	~mystring(); // Деструктор, ПРОВЕРИЛ - работает
 	mystring(const mystring& name); // метод глубокого копирования. ПРОВЕРИЛ - работает
@@ -31,13 +32,16 @@ public:
 	void setmString(char* name); // ПРОВЕРИЛ - работает
 	void remove(); // можно или лучше нужно добавить в приватную часть
 
-	friend mystring operator+ (const mystring& name1, const mystring& name2);
-	mystring operator= (const mystring& name);
-	bool operator== (const mystring& name) const;
-	bool operator!= (const mystring& name) const {	return !(*this == name); } // оператор не равно, зависит от оператора равно
-	char operator[] (int index) const;
-	char& operator[] (int index);
-	friend std::istream& operator>> (std::istream& input, mystring& name);
+	friend mystring operator+ (const mystring& name1, const mystring& name2); // ПРОВЕРИЛ - работает
+	friend mystring operator+ (const mystring& name1, const char* name2); // ПРОВЕРИЛ - работает
+	friend mystring operator+ (const char* name1, const mystring& name2); // ПРОВЕРИЛ - работает
+	mystring operator= (const mystring& name); // ПРОВЕРИЛ - работает
+	mystring operator= (const char* name); // ПРОВЕРИЛ - работает
+	bool operator!= (const mystring& name) const { return !(*this == name); } // оператор не равно, зависит от оператора равно
+	bool operator== (const mystring& name) const; // ПРОВЕРИЛ - работает
+	char operator[] (int index) const; // ПРОВЕРИЛ - работает
+	char& operator[] (int index); // ПРОВЕРИЛ - работает
+	friend std::istream& operator>> (std::istream& input, mystring& name); // Ругается компилятор и не собирается (((
 
 	void print() const; // вывод на печать для проверки
 };

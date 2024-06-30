@@ -1,7 +1,7 @@
 ﻿#include "mystring.h"
 #include <iostream>
 
-mystring::mystring(){}
+//mystring::mystring(){}
 
 mystring::mystring(char* name) // ОК
 {
@@ -43,7 +43,7 @@ void mystring::remove() // можно или лучше нужно добави�
 	}
 }
 
-mystring operator+ (const mystring& name1, const mystring& name2)
+mystring operator+ (const mystring& name1, const mystring& name2) // OK
 {
 	mystring name3;
 	name3.size = name1.size + name2.size;
@@ -58,22 +58,72 @@ mystring operator+ (const mystring& name1, const mystring& name2)
 			++j;
 		}
 	}
-	mystring::setStaticCount();
+	//mystring::setStaticCount();
 	return name3;
 }
 
-mystring::mystring operator= (const mystring& name) // проверить!
+mystring operator+ (const mystring& name1, const char* name2) // OK
+{
+	mystring name3;
+	name3.size = name1.size + strlen(name2);
+	name3.mString = new char[name3.size + 1];
+	for (int i = 0, j = 0; i <= name3.size; ++i)
+	{
+		if (i < name1.size)
+			name3.mString[i] = name1.mString[i];
+		else
+		{
+			name3.mString[i] = name2[j];
+			++j;
+		}
+	}
+	return name3;
+}
+
+mystring operator+ (const char* name1, const mystring& name2) // OK
+{
+	mystring name3;
+	name3.size = strlen(name1) + name2.size;
+	name3.mString = new char[name3.size + 1];
+	for (int i = 0, j = 0; i <= name3.size; ++i)
+	{
+		if (i < strlen(name1))
+			name3.mString[i] = name1[i];
+		else
+		{
+			name3.mString[i] = name2.mString[j];
+			++j;
+		}
+	}
+	return name3;
+}
+
+mystring mystring::operator= (const mystring& name) // OK
 {
 	if (this == &name)
 		return *this;
 	remove();
-	mystring(name);
+	size = name.size;
+	mString = new char[size + 1];
+	for (int i = 0; i <= size; ++i)
+		mString[i] = name.mString[i];
+	//mystring(name);
 	return *this;
 }
 
-bool mystring::operator== (const mystring& name) const
+mystring mystring::operator= (const char* name) // OK
 {
-	if (size != name.size)
+	remove();
+	size = strlen(name);
+	mString = new char[size + 1];
+	for (int i = 0; i <= size; ++i)
+		mString[i] = name[i];
+	return *this;
+}
+
+bool mystring::operator== (const mystring& name) const // ОК 
+{
+	if (strlen(mString) != strlen(name.mString))
 		return false;
 	for (int i = 0; i < size; ++i)
 	{
@@ -83,40 +133,41 @@ bool mystring::operator== (const mystring& name) const
 	return true;
 }
 
-char mystring::operator[] (int index) const // только для вывода символа, нельзя его изменить в строке (get)
+char mystring::operator[] (int index) const // только для вывода символа, нельзя его изменить в строке (get) // OK
 {
 	if (index < 0 || index >= size)
 	{
 		std::cout << "Вы выпали за строку, программа аварийно завершена" << std::endl;
 		abort();
 	}
-	return mString[i];
+	return mString[index];
 }
 
-char& mystring::operator[] (int index) // для внесения изменений в строку по индексу (set)
+char& mystring::operator[] (int index) // для внесения изменений в строку по индексу // OK
 {
 	if (index < 0 || index >= size)
 	{
 		std::cout << "Вы выпали за строку, программа аварийно завершена" << std::endl;
 		abort();
 	}
-	return mString[i];
+	return mString[index];
 }
 
 std::istream& operator>> (std::istream& input, mystring& name) // нужно проверить!!!
 {
-	mystring newname{};
-	if (newname.mString != nullptr)
-		delete[] newname.mString;
-	newname.mString = new char[201];
-	input.read(201, newname.mString);
-	newname.mString[201] = '\0';
-	newname.size = strlen(newname.mString);
-	std::cout << newname.size << std::endl; // для проверки приведенной длины строки до первого \0 если введенный текс меньше 200 символов
-	name = newname;
-	return input;
-
-	// как реализовать запись текста вводимого с клавиатуры в динамическую память если изначально не известно количество вводимых символов
+	/*name.remove();
+	const int bSize = 101;
+	char buffer[bSize];
+	input >> buffer;
+	name.size = strlen(buffer);
+	name.mString = new char[name.size + 1];
+	name.mString = buffer;*/
+	name.remove();
+	name.size = 100;
+	name.mString = new char[name.size + 1];
+	char mName[101];
+	std::cin >> mName;
+	name = mName;
 	return input;
 }
 

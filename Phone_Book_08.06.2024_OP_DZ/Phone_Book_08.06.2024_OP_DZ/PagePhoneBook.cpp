@@ -391,10 +391,10 @@ void sortNameBook(PagePhoneBook* Book) // Не работает почемуто
 				Swap = Book[i];
 				Book[i] = Book[i + 1];
 				Book[i + 1] = Swap;
-				x = ture;
+				x = true;
 			}
 		}
-	} while (x == false);
+	} while (x != false);
 }
 
 PagePhoneBook::~PagePhoneBook() {

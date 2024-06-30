@@ -103,8 +103,8 @@ int main()
             }
             break;
         case 5:
-            std::cout << "Временно не работает ((( " << std::endl;
-            //sortNameBook(PhoneBook);
+            //std::cout << "Временно не работает ((( " << std::endl;
+            sortNameBook(PhoneBook);
             break;
        /* case 6:
             break;*/

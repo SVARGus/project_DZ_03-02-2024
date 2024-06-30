@@ -20,9 +20,24 @@ int main()
     name.print();
     mystring Y = name + name1;
     Y.print(); // проверка оператора сложения (позже проверить несколько одновременных сложений)
+    Y = name + " HELLO " + name1;
+    Y.print(); // проверка сложения MyString с С строкой
+    Y = " HELLO " + name1;
+    Y.print(); // проверка сложения С строкой c MyString
     mystring Equate{};
     Equate = xy1;
-    Equate.print(); // Проверка оператора приравнивания - не проверен еще
+    Equate.print(); 
+    Equate = Y;
+    Equate.print(); // Оператор приравнивания проверен
+    std::cout << Equate[2] << " 3 символ равен 'r'" << std::endl;
+    Equate[2] = '9';
+    std::cout << Equate[2] << " 3 символ равен '9'" << std::endl;
+    Equate.print(); // Оператор [] проверен в двух исполнениях
+    name = "getstscv"; 
+    name1 = "get";
+    std::cout << "Проверка равенства двух строк " << (name == name1) << std::endl; // при равенстве все ок
+ 
+
 
     return 0;
 }
