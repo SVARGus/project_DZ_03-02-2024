@@ -36,7 +36,10 @@ int main()
     name = "getstscv"; 
     name1 = "get";
     std::cout << "Проверка равенства двух строк " << (name == name1) << std::endl; // при равенстве все ок
- 
+    mystring IsOperator;
+    std::cin >> IsOperator;
+    IsOperator.print(); // проверка корректности ввода текста пользователем
+    std::cout << name1 << std::endl;
 
 
     return 0;

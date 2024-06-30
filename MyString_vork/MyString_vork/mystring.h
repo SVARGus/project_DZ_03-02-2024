@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <iostream>
 class mystring
 {
 	static int count; // временная статическая переменная для проверки
@@ -41,7 +42,8 @@ public:
 	bool operator== (const mystring& name) const; // ПРОВЕРИЛ - работает
 	char operator[] (int index) const; // ПРОВЕРИЛ - работает
 	char& operator[] (int index); // ПРОВЕРИЛ - работает
-	friend std::istream& operator>> (std::istream& input, mystring& name); // Ругается компилятор и не собирается (((
+	friend std::istream& operator>> (std::istream& input, mystring& name); // ПРОВЕРИЛ - работает
+	friend std::ostream& operator<< (std::ostream& output, mystring& name); // ПРОВЕРИЛ - работает
 
 	void print() const; // вывод на печать для проверки
 };

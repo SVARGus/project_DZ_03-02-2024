@@ -1,7 +1,6 @@
 ﻿#include "mystring.h"
-#include <iostream>
+//#include <iostream>
 
-//mystring::mystring(){}
 
 mystring::mystring(char* name) // ОК
 {
@@ -153,7 +152,7 @@ char& mystring::operator[] (int index) // для внесения изменен
 	return mString[index];
 }
 
-std::istream& operator>> (std::istream& input, mystring& name) // нужно проверить!!!
+std::istream& operator>> (std::istream& input, mystring& name) // OK
 {
 	/*name.remove();
 	const int bSize = 101;
@@ -169,6 +168,13 @@ std::istream& operator>> (std::istream& input, mystring& name) // нужно п�
 	std::cin >> mName;
 	name = mName;
 	return input;
+}
+
+std::ostream& operator<< (std::ostream& output, mystring& name) // OK
+{
+	output << name.mString;
+
+	return output;
 }
 
 void mystring::print() const // ОК
