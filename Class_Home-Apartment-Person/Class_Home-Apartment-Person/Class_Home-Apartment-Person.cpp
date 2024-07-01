@@ -2,10 +2,18 @@
 //
 
 #include <iostream>
+#include "HomeApartmentPerson.h"
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    namespace(LC_ALL, "ru");
+
+    // Блок теста Персоны - позже закоментировать
+
+    // Конец блока теста Персоны
+    
+
+    return 0;
 }
 
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"

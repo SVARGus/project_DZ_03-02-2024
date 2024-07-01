@@ -25,29 +25,41 @@
 
 class Person
 {
+	int fsize{};
 	char* firstname{};
+	int lsize{};
 	char* lastname{};
 	signed int age{};
 
 public:
 
+	Person() {};
+	Person(char* firstname, char* lastname, signed int age);
+	char getFirstName();
+	char getLastName();
+	int getAge();
+	Person operator= (char* firstname, char* lastname, signed int age);
 };
 
 class Apartment
 {
-	signed int appartNumber{}; // номер квартиры надо сделать уникальным при создании
+	static int count{};
+	const int appartNumber;/*номер квартиры будет уникальный для каждой квартиры - надо подумать как реализовать присваивание уникального номера каждой квартире
+	например зависимость от статической переменной которая обнуляется при инициализации дома*/
 	signed int room{}; // количество комнат
 	Person* person{};
 
 public:
 
+	
 };
 
 class Home
 {
 	int floor{};
+	int sizeAp{};
 	Apartment* apartment{};
 
 public:
-
+	Home(int floor, int sizeAp);
 };
