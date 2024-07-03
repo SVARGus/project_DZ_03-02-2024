@@ -25,20 +25,18 @@
 
 class Person
 {
-	int fsize{};
-	char* firstname{};
-	int lsize{};
-	char* lastname{};
-	signed int age{};
+	int fiosize{};
+	char* fio{};
+	
+	int age{};
 
 public:
 
 	Person() {};
-	Person(char* firstname, char* lastname, signed int age);
-	char getFirstName();
-	char getLastName();
+	Person(char* fio, int age);
+	char getFIO();
 	int getAge();
-	Person operator= (char* firstname, char* lastname, signed int age);
+	Person operator= (char* fio, int age);
 };
 
 class Apartment
@@ -46,20 +44,21 @@ class Apartment
 	static int count{};
 	const int appartNumber;/*номер квартиры будет уникальный для каждой квартиры - надо подумать как реализовать присваивание уникального номера каждой квартире
 	например зависимость от статической переменной которая обнуляется при инициализации дома*/
-	signed int room{}; // количество комнат
+	int room{}; // количество комнат
 	Person* person{};
 
 public:
-
-	
+	Apartment(int room);
 };
 
 class Home
 {
-	int floor{};
-	int sizeAp{};
+	char* street{}; // улица
+	int numberHous{}; // номер дома
+	int floor{}; // количество этажей
+	int numbeOfApartmenOnFloor{}; // количество квартир на этаже
 	Apartment* apartment{};
 
 public:
-	Home(int floor, int sizeAp);
+	Home(char* street, int numberHous, int floor, int numbeOfApartmenOnFloor, int[3] apartmentsRoom); // конструктор создания дома, после создания и инициализации номеров квартиры, обнулить счетчик квартир = 1
 };

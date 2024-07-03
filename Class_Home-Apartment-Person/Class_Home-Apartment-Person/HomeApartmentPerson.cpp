@@ -2,46 +2,53 @@
 
 // Методы Персоны
 
-Person::Person(char* firstname, char* lastname, signed int age)
+Person::Person(char* fio, int age)
 {
-	fsize = strlen(firstname);
-	this->firstname = new char[fsize + 1];
-	for (int i = 0; i <= fsize; i++)
-		this->firstname[i] = firstname[i];
-	lsize = strlen(lastname);
-	this->lastname = new char[lsize + 1];
-	for (int i = 0; i <= fsize; i++)
-		this->lastname[i] = lastname[i];
+	fiosize = strlen(fio);
+	this->fio = new char[fiosize + 1];
+	for (int i = 0; i <= fiosize; i++)
+		this->fio[i] = fio[i];
 	this->age = age;
 }
-char Person::getFirstName()
+char Person::getFIO()
 {
-	return firstname;
-}
-char Person::getLastName()
-{
-	return lastname;
+	return fio;
 }
 int Person::getAge()
 {
 	return age;
 }
-Person Person::operator= (char* firstname, char* lastname, signed int age)
+Person Person::operator= (char* fio, signed int age) // переделать на приравнивание класса к классу
 {
-	fsize = strlen(firstname);
-	this->firstname = new char[fsize + 1];
-	for (int i = 0; i <= fsize; i++)
-		this->firstname[i] = firstname[i];
-	lsize = strlen(lastname);
-	this->lastname = new char[lsize + 1];
-	for (int i = 0; i <= fsize; i++)
-		this->lastname[i] = lastname[i];
+	fiosize = strlen(fio);
+	this->fio = new char[fiosize + 1];
+	for (int i = 0; i <= fiosize; i++)
+		this->fio[i] = fio[i];
 	this->age = age;
 }
 
 
 // Методы Квартиры
 
-
+Apartment::Apartment(int room) : appartNumber{count}, room {room}
+{
+	switch (room)
+	{
+	case 1:
+		person = new Person[3];
+		break;
+	case 2:
+		person = new Person[4];
+		break;
+	case 3:
+		person = new Person[6];
+		break;
+	default: // надо продумать блок на случай если пользователь укажет более 3 комнат в квартире!
+		break;
+	}
+	++count;
+}
 
 // Методы Дома
+
+
