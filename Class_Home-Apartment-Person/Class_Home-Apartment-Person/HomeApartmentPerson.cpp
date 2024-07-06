@@ -2,30 +2,24 @@
 
 // Методы Персоны
 
-Person::Person(char* fio, int age)
-{
-	fiosize = strlen(fio);
-	this->fio = new char[fiosize + 1];
-	for (int i = 0; i <= fiosize; i++)
-		this->fio[i] = fio[i];
-	this->age = age;
-}
-char Person::getFIO()
+Person::Person(std::string fio, int age) : fio{ fio }, age {age} {}
+
+std::string Person::getFIO () const
 {
 	return fio;
 }
-int Person::getAge()
+int Person::getAge() const
 {
 	return age;
 }
-Person Person::operator= (char* fio, signed int age) // переделать на приравнивание класса к классу
-{
-	fiosize = strlen(fio);
-	this->fio = new char[fiosize + 1];
-	for (int i = 0; i <= fiosize; i++)
-		this->fio[i] = fio[i];
-	this->age = age;
-}
+//Person Person::operator= (char* fio, signed int age) // переделать на приравнивание класса к классу
+//{
+//	fiosize = strlen(fio);
+//	this->fio = new char[fiosize + 1];
+//	for (int i = 0; i <= fiosize; i++)
+//		this->fio[i] = fio[i];
+//	this->age = age;
+//}
 
 
 // Методы Квартиры
@@ -49,6 +43,20 @@ Apartment::Apartment(int room) : appartNumber{count}, room {room}
 	++count;
 }
 
+
+
 // Методы Дома
 
-
+Home::Home(std::string street, int numberHous, int floor, int numbeOfApartmenOnFloor, int* numRoomApartFloor) : street{ street }, numberHous { numberHous }, floor{ floor }, numbeOfApartmenOnFloor{ numbeOfApartmenOnFloor }
+{
+	Apartment::count = 1; // обнуляем количество квартир в доме и при создании каждой квартиры записываем как номер квартиры начиная с 1
+	apartment = new Apartment*[this->floor];
+	for (int i = 0; i < this->floor; ++i)
+	{
+		apartment[i] = new Apartment[this->numbeOfApartmenOnFloor];
+		for (int j = 0; j < numbeOfApartmenOnFloor; ++j)
+		{
+			apartment[i][j] = Apartment(numRoomApartFloor[j]);
+		}
+	}
+}

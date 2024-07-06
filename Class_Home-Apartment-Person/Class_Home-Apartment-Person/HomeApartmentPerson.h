@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 
+
 /*
 Тема: Указатель this. Побитовое копирование. Конст-руктор копирования.
 
@@ -26,39 +27,45 @@
 class Person
 {
 	int fiosize{};
-	char* fio{};
+	std::string fio{};
 	
 	int age{};
+	friend class Home;
+	friend class Apartment;
 
 public:
 
 	Person() {};
-	Person(char* fio, int age);
-	char getFIO();
-	int getAge();
-	Person operator= (char* fio, int age);
+	Person(std::string fio, int age);
+	std::string getFIO() const;
+	int getAge() const;
+	//Person operator= (char* fio, int age);
 };
 
 class Apartment
 {
-	static int count{};
-	const int appartNumber;/*номер квартиры будет уникальный для каждой квартиры - надо подумать как реализовать присваивание уникального номера каждой квартире
+	static int count;
+	int appartNumber;/*номер квартиры будет уникальный для каждой квартиры - надо подумать как реализовать присваивание уникального номера каждой квартире
 	например зависимость от статической переменной которая обнуляется при инициализации дома*/
 	int room{}; // количество комнат
 	Person* person{};
 
+	friend class Home;
+	Apartment();
+
 public:
-	Apartment(int room);
+	explicit Apartment(int room);
+	//Apartment[](int numbeOfApartmenOnFloor, int* numRoomApartFloor);
 };
 
 class Home
 {
-	char* street{}; // улица
+	std::string street{}; // улица
 	int numberHous{}; // номер дома
 	int floor{}; // количество этажей
 	int numbeOfApartmenOnFloor{}; // количество квартир на этаже
-	Apartment* apartment{};
+	Apartment** apartment{};
 
 public:
-	Home(char* street, int numberHous, int floor, int numbeOfApartmenOnFloor, int[3] apartmentsRoom); // конструктор создания дома, после создания и инициализации номеров квартиры, обнулить счетчик квартир = 1
+	Home(std::string street, int numberHous, int floor, int numbeOfApartmenOnFloor, int* numRoomApartFloor); // конструктор создания дома, после создания и инициализации номеров квартиры, обнулить счетчик квартир = 1
 };

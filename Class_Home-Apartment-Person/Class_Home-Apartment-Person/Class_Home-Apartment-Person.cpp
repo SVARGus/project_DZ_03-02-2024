@@ -4,9 +4,11 @@
 #include <iostream>
 #include "HomeApartmentPerson.h"
 
+int Apartment::count = 0;
+
 int main()
 {
-    namespace(LC_ALL, "ru");
+    setlocale(LC_ALL, "ru");
 
     // Блок теста Персоны - позже закоментировать
 
