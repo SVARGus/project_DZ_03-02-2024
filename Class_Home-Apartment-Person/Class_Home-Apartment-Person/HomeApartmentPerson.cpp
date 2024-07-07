@@ -12,14 +12,23 @@ int Person::getAge() const
 {
 	return age;
 }
-//Person Person::operator= (char* fio, signed int age) // переделать на приравнивание класса к классу
-//{
-//	fiosize = strlen(fio);
-//	this->fio = new char[fiosize + 1];
-//	for (int i = 0; i <= fiosize; i++)
-//		this->fio[i] = fio[i];
-//	this->age = age;
-//}
+void Person::print() const
+{
+	std::cout << "‘»ќ " << fio << ", возраст - " << age << std::endl;
+}
+std::istream& operator>> (std::istream& input, Person& person)
+{
+	std::getline(std::cin, person.fio);
+	input >> person.age;
+	std::cin.ignore();
+	return input;
+}
+Person& Person::operator= (const Person& person)
+{
+	this->fio = person.fio;
+	this->age = person.age;
+	return *this;
+}
 
 
 // ћетоды  вартиры
@@ -29,20 +38,45 @@ Apartment::Apartment(int room) : appartNumber{count}, room {room}
 	switch (room)
 	{
 	case 1:
-		person = new Person[3];
+		sizePerson = 3;
+		person = new Person[sizePerson];
 		break;
 	case 2:
-		person = new Person[4];
+		sizePerson = 4;
+		person = new Person[sizePerson];
 		break;
 	case 3:
-		person = new Person[6];
+		sizePerson = 6;
+		person = new Person[sizePerson];
 		break;
 	default: // надо продумать блок на случай если пользователь укажет более 3 комнат в квартире!
 		break;
 	}
 	++count;
 }
+void Apartment::print() const
+{
+	std::cout << "Ќомер квартиры: " << appartNumber << ".  оличество комнат: " << room << std::endl;
+	for (int i = 0; i < sizePerson; i++)
+	{
+		// прописать условие вывода только прописанные персоны
+		person[i].print();
+	}
+}
 
+void Apartment::freeRegistrPerson(Person& person)
+{
+	// поиск определенной квартиры надо реализовать в классе дома и уже вызывать данный метод дл€ правки
+	for (int i = 0; i < this->sizePerson; i++)
+	{
+		if (this->person[i].age == 0)
+		{
+			this->person[i] = person; // корректно ли работает? (проверить при возможности)
+			return;
+		}
+	}
+	std::cout << "¬ данную кваритру невозможно прописать " << person.fio << ", выберите другую квартиру" << std::endl;
+}
 
 
 // ћетоды ƒома
@@ -56,7 +90,7 @@ Home::Home(std::string street, int numberHous, int floor, int numbeOfApartmenOnF
 		apartment[i] = new Apartment[this->numbeOfApartmenOnFloor];
 		for (int j = 0; j < numbeOfApartmenOnFloor; ++j)
 		{
-			apartment[i][j] = Apartment(numRoomApartFloor[j]);
+			apartment[i][j] = Apartment(numRoomApartFloor[j]); // надоли оператор приравнивани€ сделать?
 		}
 	}
 }

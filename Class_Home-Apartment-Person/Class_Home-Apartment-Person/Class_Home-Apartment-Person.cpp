@@ -11,9 +11,32 @@ int main()
     setlocale(LC_ALL, "ru");
 
     // Блок теста Персоны - позже закоментировать
-
-    // Конец блока теста Персоны
+    //Person First{ "Kuznetsov Pavel Nikolatvich", 35 }; // OK
+    //First.print(); // OK
+    //std::cout << First.getFIO() << " " << First.getAge() << std::endl; // OK
+    //std::cout << "Введите ФИО и возраст: "; // OK
+    //std::cin >> First; // OK
+    //First.print(); // OK
+    //Person Second = First; // OK
+    //Second.print(); // OK
     
+    // Конец блока теста Персоны
+    //------------------------------------------------------------------
+    // Блок теста Квартиры - позже закоментировать
+    Person F1{ "Arg A G", 33 };
+    Person F2{ "Kuz A G", 25 };
+    Person F3{ "Lot A G", 15 };
+    Person F4{ "Fiv A G", 27 };
+    Person F5{ "Fist A G", 20 };
+    Apartment First{ 3 };
+    First.freeRegistrPerson(F1);
+    First.freeRegistrPerson(F2);
+    First.freeRegistrPerson(F3);
+    First.freeRegistrPerson(F4);
+    First.freeRegistrPerson(F5);
+    First.print();
+
+    // Конец блока теста Квартиры
 
     return 0;
 }

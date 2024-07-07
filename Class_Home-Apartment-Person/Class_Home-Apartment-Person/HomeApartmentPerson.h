@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <string>
 
 
 /*
@@ -26,36 +27,43 @@
 
 class Person
 {
-	int fiosize{};
 	std::string fio{};
 	
 	int age{};
 	friend class Home;
 	friend class Apartment;
+	Person() {};
 
 public:
 
-	Person() {};
-	Person(std::string fio, int age);
-	std::string getFIO() const;
-	int getAge() const;
+	Person(std::string fio, int age); // OK
+	std::string getFIO() const; // OK
+	int getAge() const; // OK
+	void print() const; // OK
+	friend std::istream& operator>> (std::istream& input, Person& person); // OK
+	Person& operator= (const Person& person);
+
 	//Person operator= (char* fio, int age);
 };
 
 class Apartment
 {
 	static int count;
-	int appartNumber;/*номер квартиры будет уникальный для каждой квартиры - надо подумать как реализовать присваивание уникального номера каждой квартире
+	int appartNumber{};/*номер квартиры будет уникальный для каждой квартиры - надо подумать как реализовать присваивание уникального номера каждой квартире
 	например зависимость от статической переменной которая обнуляется при инициализации дома*/
 	int room{}; // количество комнат
+	int sizePerson{}; // сколько может быть прописано в квартиру
 	Person* person{};
 
 	friend class Home;
-	Apartment();
+	Apartment() {};
 
 public:
 	explicit Apartment(int room);
-	//Apartment[](int numbeOfApartmenOnFloor, int* numRoomApartFloor);
+	void print() const;
+	void freeRegistrPerson(Person& person);
+	//Person& operator[] (int appartNumber); // надо подумать как перегрузить данный оператор чтобы в квадратных скобках указывать  номер квартиры
+	
 };
 
 class Home
