@@ -94,3 +94,17 @@ Home::Home(std::string street, int numberHous, int floor, int numbeOfApartmenOnF
 		}
 	}
 }
+
+void Home::print() const
+{
+	std::cout << street << ", " << numberHous << std::endl;
+	std::cout << "Количество этажей: " << floor << std::endl;
+	for (int i = 0; i < floor; i++)
+	{
+		for (int j = 0; j < numbeOfApartmenOnFloor; j++)
+		{
+			apartment[i][j].print();
+			std::cout << std::endl;
+		}
+	}
+}

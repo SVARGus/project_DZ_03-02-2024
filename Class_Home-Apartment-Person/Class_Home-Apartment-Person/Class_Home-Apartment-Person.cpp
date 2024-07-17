@@ -28,15 +28,32 @@ int main()
     Person F3{ "Lot A G", 15 };
     Person F4{ "Fiv A G", 27 };
     Person F5{ "Fist A G", 20 };
-    Apartment First{ 3 };
-    First.freeRegistrPerson(F1);
-    First.freeRegistrPerson(F2);
-    First.freeRegistrPerson(F3);
-    First.freeRegistrPerson(F4);
-    First.freeRegistrPerson(F5);
-    First.print();
+    Person F6{ "Arg V G", 56 };
+    Person F7{ "Kuz T G", 12 };
+    Person F8{ "Lot B G", 89 };
+    Person F9{ "Fiv E G", 69 };
+    Person F10{ "Fist U G", 45 };
+    //Apartment First{ 2 }; // OK
+    //First.freeRegistrPerson(F1);// OK
+    //First.freeRegistrPerson(F2); // OK
+    //First.freeRegistrPerson(F3); // OK
+    //First.freeRegistrPerson(F4); // OK
+    //First.freeRegistrPerson(F5); // OK
+    //First.print(); // OK
 
     // Конец блока теста Квартиры
+
+    // Блок теста Дома - позже закоментировать
+    std::string Street = "Nevsky";
+    int NumberHous{ 25 };
+    int floor{ 3 };
+    const int roomInFloor{ 5 }; // заменить позже на неконстантное значение
+    int numRoomApartFloor[roomInFloor]{ 2, 3, 1, 2, 1 }; // заменить на динамический массив
+    Home Hous1(Street, NumberHous, floor, roomInFloor, numRoomApartFloor); // OK
+    Hous1.print(); // OK
+    
+
+    // Конец блока Дома
 
     return 0;
 }

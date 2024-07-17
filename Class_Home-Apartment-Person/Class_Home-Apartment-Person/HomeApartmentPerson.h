@@ -76,4 +76,6 @@ class Home
 
 public:
 	Home(std::string street, int numberHous, int floor, int numbeOfApartmenOnFloor, int* numRoomApartFloor); // конструктор создания дома, после создания и инициализации номеров квартиры, обнулить счетчик квартир = 1
+	void print() const;
+
 };
