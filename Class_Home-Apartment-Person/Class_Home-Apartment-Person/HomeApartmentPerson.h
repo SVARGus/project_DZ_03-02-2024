@@ -76,6 +76,9 @@ class Home
 
 public:
 	Home(std::string street, int numberHous, int floor, int numbeOfApartmenOnFloor, int* numRoomApartFloor); // конструктор создания дома, после создания и инициализации номеров квартиры, обнулить счетчик квартир = 1
-	void print() const;
+	void print() const; // проверил
+	void freeRegistrPersonInHome(Person& person, const int floor, const int numbeOfApartmenOnFloor); // позже этаж и квартира на этаже можно заменить номер квартиры, или заменить квартиру на этаже на номер квартиры и уже в методе проверять есть ли квартира с заданным номером на этом эатаже
+	void discharPersonInHome(); // реализовать способ выписки из квартиры для возможности в дальнейшем прописать в другой квартире этого или другого дома
+	// сделать наверное перегрузку для выписки пользователя в никуда
 
 };

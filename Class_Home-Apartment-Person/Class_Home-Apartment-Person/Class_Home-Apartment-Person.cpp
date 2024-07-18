@@ -51,7 +51,13 @@ int main()
     int numRoomApartFloor[roomInFloor]{ 2, 3, 1, 2, 1 }; // заменить на динамический массив
     Home Hous1(Street, NumberHous, floor, roomInFloor, numRoomApartFloor); // OK
     Hous1.print(); // OK
-    
+    // выше уже проверено ранее
+    Person* Register = new Person[10]{ { "Arg A G", 33 } ,{ "Gerald A F", 25 } ,{ "Mitchel N V", 45 } ,{ "Coins A G", 78 } ,{ "Kolt A G", 15 } ,{ "Keny A G", 5 } ,{ "Misisipy A G", 36 } ,{ "Rost A G", 16 } ,{ "Kent A G", 49 } ,{ "Karlos A G", 35 } };
+    Hous1.freeRegistrPersonInHome(F1, 1, 1);
+    F1.print(); // проверить на обнуление после прописки в дом
+    Hous1.print(); // проверить прописался ли человек в квартиру (позже сделать метод для вывода конкретной квартиры)
+    Hous1.freeRegistrPersonInHome(F1, 1, 1); // проверка попытки записи уже пустой персоны - должно выдать предупреждающее сообщение и не записать
+    Hous1.print(); // повторная проверка
 
     // Конец блока Дома
 

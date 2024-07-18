@@ -64,18 +64,24 @@ void Apartment::print() const
 	}
 }
 
-void Apartment::freeRegistrPerson(Person& person)
+void Apartment::freeRegistrPerson(Person& person) // переделал - надо проверить
 {
 	// поиск определенной квартиры надо реализовать в классе дома и уже вызывать данный метод для правки
-	for (int i = 0; i < this->sizePerson; i++)
+	if (person != 0)
 	{
-		if (this->person[i].age == 0)
+		for (int i = 0; i < this->sizePerson; i++)
 		{
-			this->person[i] = person; // корректно ли работает? (проверить при возможности)
-			return;
+			if (this->person[i].age == 0)
+			{
+				this->person[i] = person; // корректно ли работает? (проверить при возможности)
+				delete person; //
+				return;
+			}
 		}
+		std::cout << "В данную кваритру невозможно прописать " << person.fio << ", выберите другую квартиру" << std::endl;
 	}
-	std::cout << "В данную кваритру невозможно прописать " << person.fio << ", выберите другую квартиру" << std::endl;
+	else
+		std::cout << " Для проверки - персона уже прописалась ранее" << std::endl;
 }
 
 
@@ -107,4 +113,19 @@ void Home::print() const
 			std::cout << std::endl;
 		}
 	}
+}
+
+void Home::freeRegistrPersonInHome(Person& person, const int floor, const int numbeOfApartmenOnFloor)
+{
+	if (floor < 1 || floor > this->floor)
+	{
+		std::cout << "Вы выбрали не верный этаж, в доме всего этажей: " << this->floor << std::endl;
+		return;
+	}
+	if (numbeOfApartmenOnFloor < 1 || numbeOfApartmenOnFloor > this->numbeOfApartmenOnFloor)
+	{
+		std::cout << "Вы выбрали не верную квартиру на этаже, на этаже всего квартир: " << this->numbeOfApartmenOnFloor << std::endl;
+		return;
+	}
+	this->apartment[floor-1][numbeOfApartmenOnFloor-1].freeRegistrPerson(Person & person);
 }
