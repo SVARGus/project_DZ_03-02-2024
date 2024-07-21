@@ -2,6 +2,7 @@
 //
 
 #include <iostream>
+#include <string>
 #include "HomeApartmentPerson.h"
 
 int Apartment::count = 0;
@@ -23,7 +24,7 @@ int main()
     // Конец блока теста Персоны
     //------------------------------------------------------------------
     // Блок теста Квартиры - позже закоментировать
-    Person F1{ "Arg A G", 33 };
+    /*Person F1{ "Arg A G", 33 };
     Person F2{ "Kuz A G", 25 };
     Person F3{ "Lot A G", 15 };
     Person F4{ "Fiv A G", 27 };
@@ -32,7 +33,7 @@ int main()
     Person F7{ "Kuz T G", 12 };
     Person F8{ "Lot B G", 89 };
     Person F9{ "Fiv E G", 69 };
-    Person F10{ "Fist U G", 45 };
+    Person F10{ "Fist U G", 45 };*/
     //Apartment First{ 2 }; // OK
     //First.freeRegistrPerson(F1);// OK
     //First.freeRegistrPerson(F2); // OK
@@ -44,33 +45,130 @@ int main()
     // Конец блока теста Квартиры
 
     // Блок теста Дома - позже закоментировать
-    std::string Street = "Nevsky";
-    int NumberHous{ 25 };
-    int floor{ 3 };
-    const int roomInFloor{ 5 }; // заменить позже на неконстантное значение
-    int numRoomApartFloor[roomInFloor]{ 2, 3, 1, 2, 1 }; // заменить на динамический массив
-    Home Hous1(Street, NumberHous, floor, roomInFloor, numRoomApartFloor); // OK
-    Hous1.print(); // OK
+    // 
+    //std::string Street = "Nevsky";
+    //int NumberHous{ 25 };
+    //int floor{ 3 };
+    //const int roomInFloor{ 5 }; // заменить позже на неконстантное значение
+    //int numRoomApartFloor[roomInFloor]{ 2, 3, 1, 2, 1 }; // заменить на динамический массив
+    //Home Hous1(Street, NumberHous, floor, roomInFloor, numRoomApartFloor); // OK
+    //Hous1.print(); // OK
     // выше уже проверено ранее
-    Person* Register = new Person[10]{ { "Arg A G", 33 } ,{ "Gerald A F", 25 } ,{ "Mitchel N V", 45 } ,{ "Coins A G", 78 } ,{ "Kolt A G", 15 } ,{ "Keny A G", 5 } ,{ "Misisipy A G", 36 } ,{ "Rost A G", 16 } ,{ "Kent A G", 49 } ,{ "Karlos A G", 35 } };
-    Hous1.freeRegistrPersonInHome(F1, 1, 1);
-    F1.print(); // проверить на обнуление после прописки в дом
-    Hous1.print(); // проверить прописался ли человек в квартиру (позже сделать метод для вывода конкретной квартиры)
-    Hous1.freeRegistrPersonInHome(F1, 1, 1); // проверка попытки записи уже пустой персоны - должно выдать предупреждающее сообщение и не записать
-    Hous1.print(); // повторная проверка
+    //Person* Register = new Person[10]{ { "Arg A G", 33 } ,{ "Gerald A F", 25 } ,{ "Mitchel N V", 45 } ,{ "Coins A G", 78 } ,{ "Kolt A G", 15 } ,{ "Keny A G", 5 } ,{ "Misisipy A G", 36 } ,{ "Rost A G", 16 } ,{ "Kent A G", 49 } ,{ "Karlos A G", 35 } };
+    //Hous1.freeRegistrPersonInHome(F1, 1, 1);
+    //F1.print(); // проверить на обнуление после прописки в дом // OK
+    //Hous1.print(); // проверить прописался ли человек в квартиру (позже сделать метод для вывода конкретной квартиры) // OK
+    //Hous1.freeRegistrPersonInHome(F1, 1, 1); // проверка попытки записи уже пустой персоны - должно выдать предупреждающее сообщение и не записать // OK
+    //Hous1.print(); // повторная проверка
 
-    // Конец блока Дома
+    // Конец теста блока Дома
+
+    //Начало работы программы
+
+    std::string Street{};
+    int NumberHous{};
+    int floor{};
+    int roomInFloor{};
+    int* numRoomApartFloor{};
+    std::cout << "Укажите улицу дома: ";
+    std::getline(std::cin, Street);
+    std::cout << "Какой номер дома: ";
+    std::cin >> NumberHous;
+    std::cout << "Сколько этажей в доме: ";
+    std::cin >> floor;
+    std::cout << "Сколько квартир на этаже: ";
+    std::cin >> roomInFloor;
+    numRoomApartFloor = new int [roomInFloor] {};
+    std::cout << "Укажитесколько комнат у каждой квартиры на этаже (от 1 до 3 комнат): ";
+    for (int i = 0; i < roomInFloor; ++i)
+    {
+        std::cin >> numRoomApartFloor[i];
+        while (numRoomApartFloor[i] < 1 || numRoomApartFloor[i] > 3)
+        {
+            std::cout << "Вы не корректно ввели количество комнат, укажите количество комнат в квартире от 1 до 3: ";
+            std::cin >> numRoomApartFloor[i];
+        }
+    }
+    Home Hous1(Street, NumberHous, floor, roomInFloor, numRoomApartFloor);
+    std::string fio{};
+    int age{};
+    int appartNumber{};
+    int menu{};
+    Person personToRegister{"", 0};
+    do
+    {
+        std::cout << "1 - Прописать новую личность в конкретную квартиру\n";
+        std::cout << "2 - выписать личность для следующей записи в другую квартиру\n";
+        std::cout << "3 - выписать личноть из дома\n";
+        std::cout << "4 - Напечатать список прописанных в доме\n";
+        std::cout << "5 - Напечатать список прописанных в конкретной квартире\n";
+        std::cout << "0 - Выход\n";
+        std::cin >> menu;
+        switch (menu)
+        {
+        case 1:
+            std::cout << "Напишите ФИО будущего квартиранта: ";
+            std::getline(std::cin, fio);
+            personToRegister.setFIO(fio);
+            std::cout << "Сколько ему лет: ";
+            std::cin >> age;
+            personToRegister.setAge(age);
+            std::cout << "Укажите номер квартиры: ";
+            std::cin >> appartNumber;
+            do
+            {
+                if (appartNumber > 0 && appartNumber <= Hous1.getApartmentInHous())
+                    Hous1.freeRegistrPersonInHome(&personToRegister, appartNumber);
+                else
+                    std::cout << "Не верно указан номер квартиры" << std::endl;
+            } while (appartNumber < 1 || appartNumber > Hous1.getApartmentInHous());
+            //personToRegister.print(); // для проверки
+            break;
+        case 2:
+            std::cout << "Укажите номер квартиры: ";
+            std::cin >> appartNumber;
+            do
+            {
+                if (appartNumber > 0 && appartNumber <= Hous1.getApartmentInHous())
+                    Hous1.discharPersonInHome(personToRegister, appartNumber);
+                else
+                    std::cout << "Не верно указан номер квартиры" << std::endl;
+            } while (appartNumber < 1 || appartNumber > Hous1.getApartmentInHous());
+            std::cout << "Укажите номер квартиры куда записать персону: ";
+            std::cin >> appartNumber;
+            do
+            {
+                if (appartNumber > 0 && appartNumber <= Hous1.getApartmentInHous())
+                    Hous1.freeRegistrPersonInHome(&personToRegister, appartNumber);
+                else
+                    std::cout << "Не верно указан номер квартиры" << std::endl;
+            } while (appartNumber < 1 || appartNumber > Hous1.getApartmentInHous());
+            //personToRegister.print(); // для проверки
+            break;
+        case 3:
+            std::cout << "Укажите номер квартиры: ";
+            std::cin >> appartNumber;
+            do
+            {
+                if (appartNumber > 0 && appartNumber <= Hous1.getApartmentInHous())
+                    Hous1.discharPersonInHome(appartNumber);
+                else
+                    std::cout << "Не верно указан номер квартиры" << std::endl;
+            } while (appartNumber < 1 || appartNumber > Hous1.getApartmentInHous());
+            break;
+        case 4:
+            Hous1.print();
+            break;
+        case 5:
+            std::cout << "Укажите номер квартиры: "; 
+            std::cin >> appartNumber;
+            if (appartNumber > 0 && appartNumber <= Hous1.getApartmentInHous())
+                Hous1[appartNumber].print();
+            else
+                std::cout << "Не верно указан номер квартиры" << std::endl;
+            break;
+        }
+    } while (menu != 0);
 
     return 0;
 }
-
-// Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
-// Отладка программы: F5 или меню "Отладка" > "Запустить отладку"
-
-// Советы по началу работы 
-//   1. В окне обозревателя решений можно добавлять файлы и управлять ими.
-//   2. В окне Team Explorer можно подключиться к системе управления версиями.
-//   3. В окне "Выходные данные" можно просматривать выходные данные сборки и другие сообщения.
-//   4. В окне "Список ошибок" можно просматривать ошибки.
-//   5. Последовательно выберите пункты меню "Проект" > "Добавить новый элемент", чтобы создать файлы кода, или "Проект" > "Добавить существующий элемент", чтобы добавить в проект существующие файлы кода.
-//   6. Чтобы снова открыть этот проект позже, выберите пункты меню "Файл" > "Открыть" > "Проект" и выберите SLN-файл.
