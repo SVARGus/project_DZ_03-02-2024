@@ -66,7 +66,7 @@ int main()
             {
                 createArray(array, k);
             }
-            catch (const char* &s) {
+            catch (const char* s) {
                 cout << "Error!!! - " << s;
             }
             break;
