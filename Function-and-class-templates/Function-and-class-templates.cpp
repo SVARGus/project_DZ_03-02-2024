@@ -169,8 +169,21 @@ int main()
     cin >> searchNum1;
     cout << binarySearch(array1, size, searchNum1) << endl;*/
 
-
-
+    //Тестирование класса матрица
+    
+    int size{ 3 };
+    Matrix<int> Arr(size);
+    Arr.printMatrix();
+    cout << Arr(1, 0);
+    Arr(1, 0) = 5;
+    cout << Arr(1, 0);
+    Arr(1, 1) = Arr(1, 0);
+    cout << Arr(1, 1);
+    cin >> Arr(1, 2);
+    cout << Arr(1, 2);
+    cout << endl;
+    Arr.enterMatrix();
+    Arr.printMatrix();
     return 0;
 }
 

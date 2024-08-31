@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 #include <iostream>
 using std::cout;
 using std::endl;
@@ -7,11 +7,13 @@ using std::string;
 using std::swap;
 
 /*
-Тема: Шаблоны классов (Будет реализован отдельный класс)
+РўРµРјР°: РЁР°Р±Р»РѕРЅС‹ РєР»Р°СЃСЃРѕРІ (Р‘СѓРґРµС‚ СЂРµР°Р»РёР·РѕРІР°РЅ РѕС‚РґРµР»СЊРЅС‹Р№ РєР»Р°СЃСЃ)
 
-Задание.
-Создайте шаблонный класс матрица. Необходимо реали-зовать динамическое выделение памяти (реализовано), очистку памяти (реализовано), заполнение матрицы с клавиатуры,
-заполнение случайны-ми значениями, отображение матрицы, арифметические операции с помощью перегруженных операторов (+, –, *, /), поиск максимального и минимального элемента
+Р—Р°РґР°РЅРёРµ.
+РЎРѕР·РґР°Р№С‚Рµ С€Р°Р±Р»РѕРЅРЅС‹Р№ РєР»Р°СЃСЃ РјР°С‚СЂРёС†Р°. РќРµРѕР±С…РѕРґРёРјРѕ СЂРµР°Р»Рё-Р·РѕРІР°С‚СЊ РґРёРЅР°РјРёС‡РµСЃРєРѕРµ РІС‹РґРµР»РµРЅРёРµ РїР°РјСЏС‚Рё (СЂРµР°Р»РёР·РѕРІР°РЅРѕ), РѕС‡РёСЃС‚РєСѓ РїР°РјСЏС‚Рё (СЂРµР°Р»РёР·РѕРІР°РЅРѕ), 
+Р·Р°РїРѕР»РЅРµРЅРёРµ РјР°С‚СЂРёС†С‹ СЃ РєР»Р°РІРёР°С‚СѓСЂС‹ (СЂРµР°Р»РёР·РѕРІР°РЅРѕ + С‡Р°СЃС‚РёС‡РЅРѕ С‡РµСЂРµР· РѕРїРµСЂР°С‚РѕСЂ РїРµСЂРµРіСЂСѓР·РєРё),
+Р·Р°РїРѕР»РЅРµРЅРёРµ СЃР»СѓС‡Р°Р№РЅС‹-РјРё Р·РЅР°С‡РµРЅРёСЏРјРё, РѕС‚РѕР±СЂР°Р¶РµРЅРёРµ РјР°С‚СЂРёС†С‹ (СЂРµР°Р»РёР·РѕРІР°РЅРѕ, С‡Р°СЃС‚РёС‡РЅС‹Р№ РІС‹РІРѕРґ СЂРµР°Р»РёР·РѕРІР°РЅ С‡РµСЂРµР· РїРµСЂРµРіСЂСѓР·РєСѓ РѕРїРµСЂР°С‚РѕСЂР° ()), 
+Р°СЂРёС„РјРµС‚РёС‡РµСЃРєРёРµ РѕРїРµСЂР°С†РёРё СЃ РїРѕРјРѕС‰СЊСЋ РїРµСЂРµРіСЂСѓР¶РµРЅРЅС‹С… РѕРїРµСЂР°С‚РѕСЂРѕРІ (+, вЂ“, *, /), РїРѕРёСЃРє РјР°РєСЃРёРјР°Р»СЊРЅРѕРіРѕ Рё РјРёРЅРёРјР°Р»СЊРЅРѕРіРѕ СЌР»РµРјРµРЅС‚Р°
 */
 
 template<class T>
@@ -21,9 +23,64 @@ class Matrix
 	T** array{ nullptr };
 
 public:
-	Matrix(int size) : size{ size } {};
+	Matrix(int size);
 	~Matrix();
 
-	void createDynamicMatrix(T**& array, int size);
-
+	void printMatrix() const;
+	T genMatrix(); // Р”РѕРїРёСЃР°С‚СЊ РµРґРёРЅС‹Р№ РґР»СЏ С†РµР»С‹С… Рё РґСЂРѕР±РЅС‹С… С‡РёСЃРµР», Рё РѕС‚РґРµР»СЊРЅС‹Р№ РґР»СЏ char
+	void enterMatrix();
+	T& operator () (const int row, const int col);
+	const T& operator () (const int row, const int col) const;
 };
+
+
+
+template<class T>
+Matrix<T>::Matrix(int size) {
+	this->size = size;
+	array = new  T * [this->size];
+	for (int i = 0; i < size; ++i)
+	{
+		array[i] = new T[this->size]{};
+	}
+}
+
+template<class T>
+Matrix<T>::~Matrix()
+{
+	for (int i = 0; i < size; i++)
+	{
+		delete[] array[i];
+	}
+	delete[] array;
+}
+
+template<class T>
+void Matrix<T>::printMatrix() const {
+	for (int i = 0; i < size; ++i)
+	{
+		for (int j = 0; j < size; ++j)
+			cout << array[i][j] << " ";
+		cout << endl;
+	}
+}
+template<class T>
+T Matrix<T>::genMatrix() {
+
+}
+template<class T>
+void Matrix<T>::enterMatrix() {
+	for (int i = 0; i < size; ++i)
+	{
+		for (int j = 0; j < size; ++j)
+			cin >> array[i][j];
+	}
+}
+template<class T>
+T& Matrix<T>::operator () (const int row, const int col) {
+	return array[row][col];
+}
+template<class T>
+const T& Matrix<T>::operator () (const int row, const int col) const {
+	return array[row][col];
+}
