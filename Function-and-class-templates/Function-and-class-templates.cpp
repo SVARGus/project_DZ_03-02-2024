@@ -133,6 +133,7 @@ void replaceValue(T* array, int size, int i, T value)
 int main()
 {
     setlocale(LC_ALL, "ru");
+    srand(time(NULL));
 
     /*int i{};
     int size{ 10 };
@@ -171,19 +172,21 @@ int main()
 
     //Тестирование класса матрица
     
-    int size{ 3 };
-    Matrix<int> Arr(size);
-    Arr.printMatrix();
-    cout << Arr(1, 0);
-    Arr(1, 0) = 5;
-    cout << Arr(1, 0);
-    Arr(1, 1) = Arr(1, 0);
-    cout << Arr(1, 1);
-    cin >> Arr(1, 2);
-    cout << Arr(1, 2);
+    int size1{ 2 };
+    int size2{ 3 };
+    Matrix<int> arr1{ size1 };
+    Matrix<int> arr2{ size2 };
+    arr1.genMatrix();
+    arr1.printMatrix();
     cout << endl;
-    Arr.enterMatrix();
-    Arr.printMatrix();
+    arr2.genMatrix();
+    arr2.printMatrix();
+    cout << endl;
+    Matrix<int> arr3{0};
+    arr3 = arr1 + arr2;
+    arr3.printMatrix();
+    cout << endl;
+
     return 0;
 }
 
