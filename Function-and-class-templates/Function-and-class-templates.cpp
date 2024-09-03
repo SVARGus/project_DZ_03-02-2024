@@ -7,7 +7,7 @@
 */
 
 /*
-Тема: Шаблоны классов (Будет реализован отдельный класс)
+Тема: Шаблоны классов (Будет реализован отдельный класс) + в шаблонном класе добавил поимку исключений на основе своего класса MyException
 
 Задание.
 Создайте шаблонный класс матрица. Необходимо реали-зовать динамическое выделение памяти, очистку памяти, заполнение матрицы с клавиатуры, 
@@ -16,6 +16,7 @@
 
 #include <iostream>
 #include "Matrix.h"
+#include "MyException.h"
 using std::cout;
 using std::endl;
 using std::cin;
@@ -135,7 +136,8 @@ int main()
     setlocale(LC_ALL, "ru");
     srand(time(NULL));
 
-    /*int i{};
+    // тестирование шаблонных функций
+    int i{};
     int size{ 10 };
     int searchNum{};
     int* array = new int[size] {6, 5, 2, 9, 1, 12, 18, 0, 10, 11};
@@ -168,24 +170,104 @@ int main()
     cin >> searchNum1;
     searchInArray(array1, size, searchNum1);
     cin >> searchNum1;
-    cout << binarySearch(array1, size, searchNum1) << endl;*/
+    cout << binarySearch(array1, size, searchNum1) << endl;
 
-    //Тестирование класса матрица
+    //Тестирование шаблонного класса матрица
     
-    int size1{ 2 };
-    int size2{ 3 };
-    Matrix<int> arr1{ size1 };
-    Matrix<int> arr2{ size2 };
+    Matrix<int> arr1{ 4,4 };
     arr1.genMatrix();
     arr1.printMatrix();
     cout << endl;
+    Matrix<int> arr2{ 4 };
     arr2.genMatrix();
+    //arr2.enterMatrix();
     arr2.printMatrix();
     cout << endl;
-    Matrix<int> arr3{0};
-    arr3 = arr1 + arr2;
+    Matrix<int> arr3{ 3 };
+    arr3.genMatrix();
     arr3.printMatrix();
     cout << endl;
+    Matrix<int> arr4{ 2 };
+    arr4.genMatrix();
+    try
+    {
+        arr4 = arr3 + arr1;
+    }
+    catch (MyEsception &ex)
+    {
+        cout << ex.what() << endl;
+        cout << "Error #" << ex.getDateState() << endl;
+    }
+    arr4.printMatrix();
+    cout << endl;
+    try
+    {
+        arr4 = arr3 - arr1;
+    }
+    catch (MyEsception& ex)
+    {
+        cout << ex.what() << endl;
+        cout << "Error #" << ex.getDateState() << endl;
+    }
+    arr4.printMatrix();
+    cout << endl;
+    try
+    {
+        arr4 = arr3 / arr1;
+    }
+    catch (MyEsception& ex)
+    {
+        cout << ex.what() << endl;
+        cout << "Error #" << ex.getDateState() << endl;
+    }
+    arr4.printMatrix();
+    cout << endl;
+    try
+    {
+        arr4 = arr3 * arr1;
+    }
+    catch (MyEsception& ex)
+    {
+        cout << ex.what() << endl;
+        cout << "Error #" << ex.getDateState() << endl;
+    }
+    arr4.printMatrix();
+    cout << endl;
+    int row{-1};
+    int col{-1};
+    try
+    {
+        cin >> row;
+        cin >> col;
+        cout << arr1(row, col) << endl;
+    }
+    catch (MyEsception& ex)
+    {
+        cout << ex.what() << endl;
+        cout << "Error #" << ex.getDateState() << endl;
+    }
+
+    Matrix<double> darr1{ 2,3 };
+    darr1.genMatrix();
+    darr1.printMatrix();
+    cout << endl;
+    Matrix<double> darr2{ 3,2 };
+    darr2.genMatrix();
+    darr2.printMatrix();
+    cout << endl;
+    Matrix<double> darr3{ 2 };
+    darr3.genMatrix();
+    darr3.printMatrix();
+    cout << endl;
+    try
+    {
+        darr3 = darr1 * darr2;
+    }
+    catch (MyEsception & ex)
+    {
+        cout << ex.what() << endl;
+        cout << "Error #" << ex.getDateState() << endl;
+    }
 
     return 0;
 }
