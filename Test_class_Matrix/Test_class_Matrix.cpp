@@ -45,6 +45,8 @@ public:
     friend Matrix operator- (const Matrix& matrix1, const Matrix& matrix2); // Дружественный оператор (функция) вычитания 
     friend Matrix operator* (const Matrix& matrix1, const Matrix& matrix2); // Дружественный оператор (функция) умножения
     friend Matrix operator/ (const Matrix& matrix1, const Matrix& matrix2); // Дружественный оператор (функция) деления
+    int max(); // поиск максимального элемента в матрице
+    int min(); // поиск минимального элемента в матрице
 };
 Matrix::Matrix(const int row, const int col) {
     if (row <= 0 || col <=0)
@@ -94,6 +96,7 @@ void Matrix::enterMatrix() {
     {
         for (int j = 0; j < col; ++j)
             // !!!!!! прописать ловушку для поимки неверного типа данных - надо подумать как это сделать с учетом если класс будет шаблонный
+            // пока идей нету, вопрос оставлю открытым
             cin >> array[i][j];
     }
 }
@@ -206,6 +209,28 @@ Matrix operator/ (const Matrix& matrix1, const Matrix& matrix2) {
     }
     return matrix;
 }
+int Matrix::max() {
+    int max = array[0][0];
+    for (int i = 0; i < row; ++i)
+    {
+        for (int j = 0; j < col; ++j)
+        {
+            max = (max > array[i][j]) ? max : array[i][j];
+        }
+    }
+    return max;
+}
+int Matrix::min() {
+    int min = array[0][0];
+    for (int i = 0; i < row; ++i)
+    {
+        for (int j = 0; j < col; ++j)
+        {
+            min = (min < array[i][j]) ? min : array[i][j];
+        }
+    }
+    return min;
+}
 
 
 
@@ -218,6 +243,7 @@ int main()
     arr1.genMatrix();
     arr1.printMatrix();
     cout << endl;
+    cout << arr1.max() << " " << arr1.min() << endl;
     Matrix arr2{ 2, 3 };
     arr2.genMatrix();
     arr2.printMatrix();
