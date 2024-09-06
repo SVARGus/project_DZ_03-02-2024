@@ -1,4 +1,5 @@
-#pragma once
+п»ї#pragma once
+
 
 #include <iostream>
 
@@ -7,7 +8,7 @@ using std::cin;
 using std::endl;
 using std::string;
 
-// Надо шаблонизировать очередь чтоб мог принимать различнве объекты (например объект пассажир с временем когда встал в очередь и когда покинул очередь)
+// РќР°РґРѕ С€Р°Р±Р»РѕРЅРёР·РёСЂРѕРІР°С‚СЊ РѕС‡РµСЂРµРґСЊ С‡С‚РѕР± РјРѕРі РїСЂРёРЅРёРјР°С‚СЊ СЂР°Р·Р»РёС‡РЅРІРµ РѕР±СЉРµРєС‚С‹ (РЅР°РїСЂРёРјРµСЂ РѕР±СЉРµРєС‚ РїР°СЃСЃР°Р¶РёСЂ СЃ РІСЂРµРјРµРЅРµРј РєРѕРіРґР° РІСЃС‚Р°Р» РІ РѕС‡РµСЂРµРґСЊ Рё РєРѕРіРґР° РїРѕРєРёРЅСѓР» РѕС‡РµСЂРµРґСЊ)
 template<class T>
 class MyQueue
 {
@@ -18,7 +19,7 @@ public:
 	MyQueue(int maxQueueLength) : maxQueueLength{ maxQueueLength }, queueLength{0} { wait = new T[this->maxQueueLength]; }
 	~MyQueue() { delete[]wait; }
 	void Add(T x);
-	int Extract();
+	T Extract();
 	void Clear() { queueLength = 0; }
 	bool IsEmpty() { return queueLength == 0; }
 	bool IsFull() { return queueLength == maxQueueLength; }
@@ -31,11 +32,11 @@ void MyQueue<T>::Add(T x) {
 		wait[queueLength++] = x;
 	else
 	{
-		// добавить ловушку исключений на случай переполнения
+		// РґРѕР±Р°РІРёС‚СЊ Р»РѕРІСѓС€РєСѓ РёСЃРєР»СЋС‡РµРЅРёР№ РЅР° СЃР»СѓС‡Р°Р№ РїРµСЂРµРїРѕР»РЅРµРЅРёСЏ
 	}
 }
 template<class T>
-int MyQueue<T>::Extract() {
+T MyQueue<T>::Extract() {
 	if (!IsEmpty())
 	{
 		T temp = wait[0];
