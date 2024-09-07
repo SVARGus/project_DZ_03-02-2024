@@ -53,7 +53,7 @@ void MyQueue<T>::Show() const {
 	cout << "\n------------------------\n";
 	for (int i = 0; i < queueLength; ++i)
 	{
-		cout << wait[i] << " ";
+		cout << wait[i] << " " << endl;
 	}
 	cout << "\n------------------------\n";
 }

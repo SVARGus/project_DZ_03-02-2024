@@ -20,6 +20,7 @@
 #include "MyStack.h"
 #include "MyQueue.h"
 #include <vector>
+#include "MyQueuePriority.h"
 
 using std::cout;
 using std::cin;
@@ -206,19 +207,66 @@ int main_queue()
 Необходимо сохранять статистику печати (пользователь, время) в отдельной очереди.
 Предусмотреть вывод статистики на экран.
 */
-struct MyStruct
+class PrintPerson
 {
     enum PRIORITY{GENDIR, BUHG, SECRETAR, MANAG, GOSTI}; // вынести за структуру?
     int prioryEmploy{};
     int ID_Employ{};
     int timeEntry{};
     int timeExit{};
+    friend std::ostream& operator<< (std::ostream& output, const PrintPerson& person);
+public:
+    void setTimeEntry(int timeEntry) { this->timeEntry = timeEntry; }
+    void setTimeExit(int timeExit) { this->timeExit = timeExit; }
+    int getPrioryEmploy(){ return prioryEmploy; }
+    PrintPerson(int prioryEmploy, int ID_Employ) : prioryEmploy{ prioryEmploy }, ID_Employ{ ID_Employ } {}
+    PrintPerson() {};
 };
+std::ostream& operator<< (std::ostream& output, const PrintPerson& person) {
+    output << "Айди (имя) пользователя: " << person.ID_Employ << ". Приоритет печати: " << person.prioryEmploy << ". время для отправки на печать: " << person.timeEntry << ". Время завершения печати: " << person.timeExit;
+    return output;
+}
+
 int main()
 {
     setlocale(LC_ALL, "ru");
     srand(time(NULL));
 
+    // условно всего 8 пользователей
+    PrintPerson Gendir(0, 111);
+    PrintPerson Buhg1(1, 112);
+    PrintPerson Buhg2(1, 113);
+    PrintPerson Secretar(2, 114);
+    PrintPerson Manager1(3, 256);
+    PrintPerson Manager2(3, 489);
+    PrintPerson Manager3(3, 253);
+    PrintPerson Gosti(4, 000);
+    PrintPerson Company[8]{ Gendir , Buhg1 , Buhg2, Secretar, Manager1, Manager2, Manager3, Gosti }; // сделано для удобства
+
+    int timePrintStart{ 3 }; // условное время (минуты) печати одного документа, условно отправку на печать поставим в 1 минуту 
+    MyQueuePriority<PrintPerson>PrinterCom(20); // приоритетная очередь принтера
+    MyQueue<PrintPerson>endPrint(40); // обычная очередь собирающая статику
+    PrintPerson ptrComp{};
+    for (int i = 1, j = 0; i < 100; i++)
+    {
+        if (i < 26)
+        {
+            j = rand() % 8;
+            ptrComp = Company[j];
+            ptrComp.setTimeEntry(i);
+            PrinterCom.add(ptrComp, ptrComp.getPrioryEmploy()); // проверить верно ли записана очередь!!! (сдесь что-то не так)
+        }
+        if (i%3 == 0)
+        {
+            if (PrinterCom.isEmpty()) // отработка принтера пока все не напечатает из очереди
+                break;
+            ptrComp = PrinterCom.extract();
+            ptrComp.setTimeExit(i);
+            //cout << ptrComp << endl << endl;
+            endPrint.Add(ptrComp);
+        }
+    }
+    endPrint.Show();
     /*
     создать класс или структуру с данными пользователя : 
     Приоритет через enum, 
