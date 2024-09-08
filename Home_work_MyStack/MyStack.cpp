@@ -7,7 +7,7 @@ void MyStack::Push(char s) {
 	}
 	else
 	{
-		//сюда можно вставить поимку исключений на переполнение очереди
+		throw std::exception("Стэк переполнен");
 	}
 }
 char MyStack::Pop() {

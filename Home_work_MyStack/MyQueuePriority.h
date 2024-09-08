@@ -28,30 +28,21 @@ public:
 };
 template<class T>
 void MyQueuePriority<T>::add(T wai, int pri) {
-	T waiTemp = wai;
-	int priTemp = pri;
-	if (isEmpty())
+	if (!isFull())
 	{
-		wait[queueLength] = wai;
-		priority[queueLength] = pri;
-		queueLength++;
-	}
-	else if (!isFull())
-	{
-		for (int i = 0; i <= queueLength; i++)
+		int i{};
+		for (i = queueLength-1; (i >= 0 && priority[i] > pri); --i)
 		{
-			if (pri < priority[i]) // проверить правильность приоритета если 0 имеет больший приоритет чем 1, а 1 более чем 2 и так далее
-			{
-				//ТУТ ОШИБКА, нужно заменить swap на другой способ замены!!!
-				swap(waiTemp, wait[i]);
-				swap(priTemp, priority[i]);
-			}
+			wait[i + 1] = wait[i];
+			priority[i + 1] = priority[i];
 		}
+		wait[i + 1] = wai;
+		priority[i + 1] = pri;
 		queueLength++;
 	}
 	else
 	{
-		//сюда можно добавить исключение если очередь переполнена
+		throw std::exception("Очередь переполнена");
 	}
 }
 template<class T>
@@ -69,7 +60,7 @@ T MyQueuePriority<T>::extract() {
 	}
 	else
 	{
-		//добавить поимку исключений
+		throw std::exception("Очередь пуста!!!");
 	}
 }
 template<class T>

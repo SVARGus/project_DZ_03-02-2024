@@ -31,9 +31,7 @@ void MyQueue<T>::Add(T x) {
 	if (!IsFull())
 		wait[queueLength++] = x;
 	else
-	{
-		//сюда можно вставить поимку исключений на переполнение стека
-	}
+		throw std::exception("Очередь переполнена");
 }
 template<class T>
 T MyQueue<T>::Extract() {
@@ -46,7 +44,7 @@ T MyQueue<T>::Extract() {
 		return temp;
 	}
 	else
-		return -1;
+		throw std::exception("Очередь пуста!!!");
 }
 template<class T>
 void MyQueue<T>::Show() const {
