@@ -124,7 +124,7 @@ int main_stack() // выполненное задание со стэком - п
 //    int time{};
 //};
 //int Passenger::count = 1;
-int main_queue()
+int main()
 {
     setlocale(LC_ALL,"ru");
     srand(time(NULL));
@@ -144,7 +144,7 @@ int main_queue()
     int menu{};
     do // для начала выберу вариант конечной остановки, дальше будет приезжать автобус с рандомным количством свободных мест от 1 до 6
     {
-        cout << "Меню программы: \n1) Ввод занчений для расчета результатов (в том числе повторный)\n2) Выход из программы" << endl;
+        cout << "Меню программы: \n1) Ввод занчений для расчета результатов (в том числе повторный)\n0) Выход из программы" << endl;
         cin >> menu;
         if (menu == 1)
         {
@@ -227,7 +227,7 @@ std::ostream& operator<< (std::ostream& output, const PrintPerson& person) {
     return output;
 }
 
-int main()
+int main_3()
 {
     setlocale(LC_ALL, "ru");
     srand(time(NULL));

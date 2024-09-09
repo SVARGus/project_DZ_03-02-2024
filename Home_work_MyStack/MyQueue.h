@@ -21,9 +21,9 @@ public:
 	void Add(T x);
 	T Extract();
 	void Clear() { queueLength = 0; }
-	bool IsEmpty() { return queueLength == 0; }
-	bool IsFull() { return queueLength == maxQueueLength; }
-	int GetCount() { return queueLength; }
+	bool IsEmpty() const { return queueLength == 0; }
+	bool IsFull() const { return queueLength == maxQueueLength; }
+	int GetCount() const { return queueLength; }
 	void Show() const;
 };
 template<class T>

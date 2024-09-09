@@ -19,12 +19,12 @@ char MyStack::Pop() {
 void MyStack::Clear() {
 	top = empty;
 }
-bool MyStack::IsEmpty() {
+bool MyStack::IsEmpty() const {
 	return top == empty;
 }
-bool MyStack::IsFull() {
+bool MyStack::IsFull() const {
 	return top == full;
 }
-int MyStack::GetCount() {
+int MyStack::GetCount() const {
 	return top + 1;
 }

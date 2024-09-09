@@ -21,9 +21,9 @@ public:
 	void add(T wai, int pri);
 	T extract();
 	void clear() { queueLength = 0; }
-	bool isEmpty() { return queueLength == 0; }
-	bool isFull() { return maxQueueLength == queueLength; }
-	int getCount() { return queueLength; }
+	bool isEmpty() const { return queueLength == 0; }
+	bool isFull() const { return maxQueueLength == queueLength; }
+	int getCount() const { return queueLength; }
 	void show() const;
 };
 template<class T>

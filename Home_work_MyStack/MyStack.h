@@ -20,7 +20,7 @@ public:
 	void Push(char s);
 	char Pop();
 	void Clear();
-	bool IsEmpty();
-	bool IsFull();
-	int GetCount();
+	bool IsEmpty() const;
+	bool IsFull() const;
+	int GetCount() const;
 };
