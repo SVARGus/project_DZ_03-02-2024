@@ -20,7 +20,13 @@ public:
     // реализовать различные методы для удобства взаимодействия
     explicit BaseViolationsCar(string carNumber) : carNumber{ carNumber } { left = nullptr; right = nullptr; parent = nullptr; }
     void Print() {
-        // прописать тело метода вывода на печать
+        cout << "Номер машины - " << carNumber << endl;
+        cout << "Список правонарушений: " << endl;
+        for (auto x : violations)
+        {
+            int i{ 1 };
+            cout << "/t" << i <<") " << x << endl; // проверить корректность вывода
+        }
     }
     friend bool operator> (const BaseViolationsCar& node1, const BaseViolationsCar& node2) {
         return node1.carNumber > node2.carNumber;
