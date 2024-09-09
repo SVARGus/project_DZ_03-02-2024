@@ -73,15 +73,19 @@ class MyTree
 public:
     MyTree() :root{ nullptr } {}
     ~MyTree() { Dell(); }
+    void Print(); // печать всего дерева
     void Print(BaseViolationsCar* node); // Печать от указанного узла
-    void Print(BaseViolationsCar* node1, BaseViolationsCar* node2); // Печать от указанного первого узла и до указанного второго узла
+    void Print(BaseViolationsCar* node1, BaseViolationsCar* node2); // Печать от указанного первого узла и до указанного второго узла // НУЖНО ПЕРЕДЕЛАТЬ!!!
+    BaseViolationsCar* Search(string* key); // Поиск начиная от корня дерева
     BaseViolationsCar* Search(BaseViolationsCar* node, string* key); // поиск от указанного узла посредством ключа: номер машины "carNumber"
+    BaseViolationsCar* Min(); // поиск минимального значения от корня дерева
     BaseViolationsCar* Min(BaseViolationsCar* node); // поиск минимального значения от указанного узла
+    BaseViolationsCar* Max(); // поиск максимального значения от корня дерева
     BaseViolationsCar* Max(BaseViolationsCar* node); // поиск максимального значения от указанного узла
     BaseViolationsCar* Next(BaseViolationsCar* node); // следующий для указанного узла (надо изучить как правильно идти по ветке)
     BaseViolationsCar* Previous(BaseViolationsCar* node); // предыдущий от указанного узла
     void Add(BaseViolationsCar* z); // вставка узла
     void Dell(BaseViolationsCar* z = 0); // 0 удаление всего дерева, иначе указываем какой узел удалить
-    BaseViolationsCar* GetRoot(); // получение корня
+    BaseViolationsCar* GetRoot() { return root; }; // получение корня
 };
 

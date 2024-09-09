@@ -18,14 +18,6 @@ using std::cin;
 using std::endl;
 using std::string;
 
-//struct BaseViolationsCar // Возможно переделать в класс. Добавить методы для печати - наверное лучше реализовать через "operator <<" (Но уже после упрощенной реализации)
-//{
-//    string carNumber{}; // номер машины, будет ключем
-//    string* violations = new string[10]; // список правонарушений (ограничился 10) (после изучения STL string переделать на расширяющийся массив через добавление правонарушения)
-//    BaseViolationsCar* left;
-//    BaseViolationsCar* right;
-//    BaseViolationsCar* parent;
-//};
 
 int main()
 {
