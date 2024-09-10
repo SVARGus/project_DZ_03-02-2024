@@ -13,17 +13,17 @@ void MyTree::Print(BaseViolationsCar* node) { // вывод всего дере�
 		Print(node->right);
 	}
 }
-void MyTree::Print(BaseViolationsCar* node1, BaseViolationsCar* node2) { // Нужно перепроверить корректность работы если node1 в левой ветке, а node2 в правой ветке
-	if (node1 == nullptr || node1 == nullptr) // если хпервый нод нулевой - значит дерево пустое, если второй нод пустой - значит не верно переданы данные и не будет произведен вывод
-		return;
-	if (node1 > node2)
-		return;
-	if (node1 <= node2)
+void MyTree::Print(BaseViolationsCar* node1, BaseViolationsCar* node2) {
+	BaseViolationsCar* node = root;
+	if (node != 0 && node1 <= node2)
 	{
-		Print(node1->left, node2);
-		node1->Print(); 
-		cout << "------------------------------------------------------------" << endl;
-		Print(node1->right, node2);
+		Print(node->left);
+		if (node >= node1 && node <= node2)
+		{
+			node->Print();
+			cout << "------------------------------------------------------------" << endl;
+		}
+		Print(node->right);
 	}
 }
 BaseViolationsCar* MyTree::Search(string* key) {
@@ -125,12 +125,38 @@ void MyTree::Add(BaseViolationsCar* z) {
 		y->left = z;
 }
 void MyTree::Dell(BaseViolationsCar* z) {
-	if (z == 0)
+	if (z != nullptr)
 	{
+		BaseViolationsCar* y = nullptr;
+		BaseViolationsCar* node = nullptr;
+		if (z->left == nullptr || z->right == nullptr)
+			y = z;
+		else
+			y = Next(z);
 
+		if (y->left != nullptr)
+			node = y->left;
+		else
+			node = y->right;
+
+		if (node != nullptr)
+			node->parent = y->parent;
+
+		if (y->parent == nullptr)
+			root = node;
+		else if (y == y->parent->left)
+			y->parent->left = node;
+		else
+			y->parent->right = node;
+
+		if (y != z)
+			z = y;
+
+		delete y;
 	}
 	else
 	{
-
+		while (root != nullptr)
+			Dell(root);
 	}
 }

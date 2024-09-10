@@ -25,8 +25,13 @@ public:
         for (auto x : violations)
         {
             int i{ 1 };
-            cout << "/t" << i <<") " << x << endl; // проверить корректность вывода
+            cout << "\t" << i++ <<") " << x << endl; // корректный вывод
+            
         }
+    }
+    BaseViolationsCar operator= (const BaseViolationsCar & node){ // оператор копирования, копирует только значения, но не указатели на родителей и ветки дерева
+        this->carNumber = node.carNumber;
+        this->violations = node.violations;
     }
     friend bool operator> (const BaseViolationsCar& node1, const BaseViolationsCar& node2) {
         return node1.carNumber > node2.carNumber;
@@ -75,7 +80,7 @@ public:
     ~MyTree() { Dell(); }
     void Print(); // печать всего дерева
     void Print(BaseViolationsCar* node); // Печать от указанного узла
-    void Print(BaseViolationsCar* node1, BaseViolationsCar* node2); // Печать от указанного первого узла и до указанного второго узла // НУЖНО ПЕРЕДЕЛАТЬ!!!
+    void Print(BaseViolationsCar* node1, BaseViolationsCar* node2); // Печать диапазона
     BaseViolationsCar* Search(string* key); // Поиск начиная от корня дерева
     BaseViolationsCar* Search(BaseViolationsCar* node, string* key); // поиск от указанного узла посредством ключа: номер машины "carNumber"
     BaseViolationsCar* Min(); // поиск минимального значения от корня дерева
@@ -85,7 +90,7 @@ public:
     BaseViolationsCar* Next(BaseViolationsCar* node); // следующий для указанного узла (надо изучить как правильно идти по ветке)
     BaseViolationsCar* Previous(BaseViolationsCar* node); // предыдущий от указанного узла
     void Add(BaseViolationsCar* z); // вставка узла
-    void Dell(BaseViolationsCar* z = 0); // 0 удаление всего дерева, иначе указываем какой узел удалить
+    void Dell(BaseViolationsCar* z = nullptr); // 0 удаление всего дерева, иначе указываем какой узел удалить
     BaseViolationsCar* GetRoot() { return root; }; // получение корня
 };
 

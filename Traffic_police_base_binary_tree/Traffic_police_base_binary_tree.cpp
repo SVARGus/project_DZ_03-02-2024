@@ -18,9 +18,113 @@ using std::cin;
 using std::endl;
 using std::string;
 
+string choisViolation() // списко правонарушений для возможности выбора из списка
+{
+    int chois{};
+    cout << "Список правонарушений:" << endl;
+    cout << "1) Превышение скорости на 20 км/ч" << endl;
+    cout << "2) Превышение скорости более чем на 40 км/ч" << endl;
+    cout << "3) Парковка в неположенном мпесте" << endl;
+    cout << "4) Проезд на запрещающий сигнал светофора" << endl;
+    cout << "5) Пересечение сплошной" << endl;
+    cout << "6) Пересечение двойно-сплошной" << endl;
+    cout << "7) Остановка в неположенном месте" << endl;
+    cout << "8) Езда в нетрезвом виде" << endl;
+    cout << "Выберите правонарушение из списка: ";
+    do
+    {
+        cin >> chois;
+        switch (chois)
+        {
+        case 1:
+            return "Превышение скорости на 20 км / ч";
+            break;
+        case 2:
+            return "Превышение скорости более чем на 40 км/ч";
+            break;
+        case 3:
+            return "Парковка в неположенном мпесте";
+            break;
+        case 4:
+            return "Проезд на запрещающий сигнал светофора";
+            break;
+        case 5:
+            return "Пересечение сплошной";
+            break;
+        case 6:
+            return "Пересечение двойно-сплошной";
+            break;
+        case 7:
+            return "Остановка в неположенном месте";
+            break;
+        case 8:
+            return "Езда в нетрезвом виде";
+            break;
+        default:
+            cout << "Не верно выбрано правонарушение, повторите выбор: ";
+        }
+    } while (chois < 1 || chois > 8);
+}
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    setlocale(LC_ALL, "ru");
+    srand(time(NULL));
+
+    MyTree BaseCar{}; // База машин на основе бинарного дерева
+    string namberCar{}; // Номер машины, для тестирования буду использовать трехзначный номер машины генерируемый рандомно.
+    BaseViolationsCar* PTR = nullptr; //Указатель для перемещения по дереву (заводить второй указатель?)
+    string violation{};
+    int menu{};
+    do
+    {
+        cout << "База машин ГИББД" << endl;
+        cout << "Меню\n";
+        cout << "1) Добавить правонарушение на машину\n"; // сначало прописываем правонарушения и потом номер машины, если номер найден в базе - то добавляется правонарушение, если нет - то добавляется новая машина с правонарушениями
+        cout << "2) Вывести на экран всю базу машин со списком правонарушений\n";
+        cout << "3) Вывести список машин с правонарушениями в определенном диапазоне\n";
+        cout << "4) Поиск машины по базе данных\n"; // поиск машины по номеру и вывод на экран
+        cout << "5) Удалить машину из базы данных\n";
+        cout << "0) Выход\n";
+        cin >> menu;
+        switch (menu)
+        {
+        case 1:
+            cout << "Укажите номер машины: ";
+            cin >> namberCar;
+            cout << "Укажите правонарушение" << endl;
+            violation = choisViolation();
+            PTR = BaseCar.Search(&namberCar);
+            if (PTR != nullptr)
+            {
+                PTR->violations.push_back(violation);
+            }
+            else
+            {
+                PTR = new BaseViolationsCar{ namberCar };
+                BaseCar.Add(PTR);
+                PTR->violations.push_back(violation); // проверить!!! (по первичной проверке все ок, в конце еще раз перепроверить)
+            }
+            PTR = nullptr;
+            break;
+        case 2:
+            BaseCar.Print();
+            break;
+        case 3:
+            break;
+        case 4:
+            cout << "Укажите номер машины для поиска в базе данных: ";
+            cin >> namberCar;
+            PTR = BaseCar.Search(&namberCar);
+            PTR->Print();
+            break;
+        case 5:
+            break;
+        default:
+            break;
+        }
+    } while (menu > 0);
+    
+    return 0;
 }
 
