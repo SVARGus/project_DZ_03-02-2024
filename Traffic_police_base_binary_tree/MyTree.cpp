@@ -13,12 +13,12 @@ void MyTree::Print(BaseViolationsCar* node) { // вывод всего дере�
 		Print(node->right);
 	}
 }
-void MyTree::Print(BaseViolationsCar* node1, BaseViolationsCar* node2) {
+void MyTree::Print(string* key1, string* key2) { 
 	BaseViolationsCar* node = root;
-	if (node != 0 && node1 <= node2)
+	if (node != 0 && *key1 <= *key2)
 	{
 		Print(node->left);
-		if (node >= node1 && node <= node2)
+		if (node->carNumber >= *key1 && node ->carNumber <= *key2) // Заменил *node == *key
 		{
 			node->Print();
 			cout << "------------------------------------------------------------" << endl;
@@ -29,12 +29,12 @@ void MyTree::Print(BaseViolationsCar* node1, BaseViolationsCar* node2) {
 BaseViolationsCar* MyTree::Search(string* key) {
 	return Search(root, key);
 }
-BaseViolationsCar* MyTree::Search(BaseViolationsCar* node, string* key) {
+BaseViolationsCar* MyTree::Search(BaseViolationsCar* node, string* key) { // Заменил *node == *key - в итоге операторы сравнения не надо перегружать для сравнения класса со стрингом, но тогда не смогу шобланизировать, позже можно попробовать
 	while (node != nullptr)
 	{
-		if (*node == *key) // при нахождении сразу выходим
+		if (node->carNumber == *key) // при нахождении сразу выходим
 			return node;
-		if (*node > *key)
+		if (node->carNumber > *key)
 			return Search(node->left, key);
 		else
 			return Search(node->right, key);

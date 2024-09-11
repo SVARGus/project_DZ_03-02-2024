@@ -74,6 +74,8 @@ int main()
     MyTree BaseCar{}; // База машин на основе бинарного дерева
     string namberCar{}; // Номер машины, для тестирования буду использовать трехзначный номер машины генерируемый рандомно.
     BaseViolationsCar* PTR = nullptr; //Указатель для перемещения по дереву (заводить второй указатель?)
+    string key1{};
+    string key2{};
     string violation{};
     int menu{};
     do
@@ -89,6 +91,8 @@ int main()
         cin >> menu;
         switch (menu)
         {
+        case 0:
+            break;
         case 1:
             cout << "Укажите номер машины: ";
             cin >> namberCar;
@@ -111,16 +115,27 @@ int main()
             BaseCar.Print();
             break;
         case 3:
+            cout << "Для вывода на печать из диапазона укажите номера машин: ";
+            cin >> key1;
+            cin >> key2;
+            BaseCar.Print(&key1, &key2);
             break;
         case 4:
             cout << "Укажите номер машины для поиска в базе данных: ";
             cin >> namberCar;
             PTR = BaseCar.Search(&namberCar);
             PTR->Print();
+            PTR = nullptr;
             break;
         case 5:
+            cout << "Укажите какую машину надо удалить из базы: ";
+            cin >> namberCar;
+            PTR = BaseCar.Search(&namberCar);
+            BaseCar.Dell(PTR);
+            PTR = nullptr;
             break;
         default:
+            cout << "Ошибка ввбора меню, повторите выбор! " << endl;
             break;
         }
     } while (menu > 0);

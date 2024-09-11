@@ -22,9 +22,9 @@ public:
     void Print() {
         cout << "Номер машины - " << carNumber << endl;
         cout << "Список правонарушений: " << endl;
+        int i{ 1 };
         for (auto x : violations)
         {
-            int i{ 1 };
             cout << "\t" << i++ <<") " << x << endl; // корректный вывод
             
         }
@@ -51,25 +51,25 @@ public:
     friend bool operator!= (const BaseViolationsCar& node1, const BaseViolationsCar& node2) {
         return !(node1.carNumber == node2.carNumber);
     }
-    //перегружены операторы для возможности сравнения в бинарном дереве с ключем
-    friend bool operator> (const BaseViolationsCar& node1, const string& node2) {
-        return node1.carNumber >node2;
-    }
-    friend bool operator< (const BaseViolationsCar& node1, const string& node2) {
-        return node1.carNumber < node2;
-    }
-    friend bool operator>= (const BaseViolationsCar& node1, const string& node2) {
-        return !(node1.carNumber < node2);
-    }
-    friend bool operator<= (const BaseViolationsCar& node1, const string& node2) {
-        return !(node1.carNumber > node2);
-    }
-    friend bool operator== (const BaseViolationsCar& node1, const string& node2) {
-        return node1.carNumber == node2;
-    }
-    friend bool operator!= (const BaseViolationsCar& node1, const string& node2) {
-        return !(node1.carNumber == node2);
-    }
+    ////перегружены операторы для возможности сравнения в бинарном дереве с ключем
+    //friend bool operator> (const BaseViolationsCar& node1, const string& node2) {
+    //    return node1.carNumber >node2;
+    //}
+    //friend bool operator< (const BaseViolationsCar& node1, const string& node2) {
+    //    return node1.carNumber < node2;
+    //}
+    //friend bool operator>= (const BaseViolationsCar& node1, const string& node2) {
+    //    return !(node1.carNumber < node2);
+    //}
+    //friend bool operator<= (const BaseViolationsCar& node1, const string& node2) {
+    //    return !(node1.carNumber > node2);
+    //}
+    //friend bool operator== (const BaseViolationsCar& node1, const string& node2) {
+    //    return node1.carNumber == node2;
+    //}
+    //friend bool operator!= (const BaseViolationsCar& node1, const string& node2) {
+    //    return !(node1.carNumber == node2);
+    //}
 };
 
 class MyTree
@@ -80,7 +80,7 @@ public:
     ~MyTree() { Dell(); }
     void Print(); // печать всего дерева
     void Print(BaseViolationsCar* node); // Печать от указанного узла
-    void Print(BaseViolationsCar* node1, BaseViolationsCar* node2); // Печать диапазона
+    void Print(string* key1, string* key2); // Печать диапазона
     BaseViolationsCar* Search(string* key); // Поиск начиная от корня дерева
     BaseViolationsCar* Search(BaseViolationsCar* node, string* key); // поиск от указанного узла посредством ключа: номер машины "carNumber"
     BaseViolationsCar* Min(); // поиск минимального значения от корня дерева
