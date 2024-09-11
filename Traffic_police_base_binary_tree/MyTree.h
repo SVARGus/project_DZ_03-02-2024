@@ -29,10 +29,10 @@ public:
             
         }
     }
-    BaseViolationsCar operator= (const BaseViolationsCar & node){ // оператор копирования, копирует только значения, но не указатели на родителей и ветки дерева
-        this->carNumber = node.carNumber;
-        this->violations = node.violations;
-    }
+    //BaseViolationsCar operator= (const BaseViolationsCar & node){ // оператор копирования, копирует только значения, но не указатели на родителей и ветки дерева
+    //    this->carNumber = node.carNumber;
+    //    this->violations = node.violations;
+    //} // закомментировал,так как есть вероятность что некорректно работает из-за данной реализации
     friend bool operator> (const BaseViolationsCar& node1, const BaseViolationsCar& node2) {
         return node1.carNumber > node2.carNumber;
     }
@@ -78,11 +78,11 @@ class MyTree
 public:
     MyTree() :root{ nullptr } {}
     ~MyTree() { Dell(); }
-    void Print(); // печать всего дерева
+    void Print(); // печать всего дерева РАБОТАЕТ НЕ КОРРЕКТНО, НАДО РАЗОБРАТЬСЯ ПОЧЕМУ (ВОЗМОЖНО НЕКОРРЕКТНО РАБОТАЕТ ДОБАВЛЕНИЕ)
     void Print(BaseViolationsCar* node); // Печать от указанного узла
-    void Print(string* key1, string* key2); // Печать диапазона
-    BaseViolationsCar* Search(string* key); // Поиск начиная от корня дерева
-    BaseViolationsCar* Search(BaseViolationsCar* node, string* key); // поиск от указанного узла посредством ключа: номер машины "carNumber"
+    void Print(const string* key1, const string* key2); // Печать диапазона
+    BaseViolationsCar* Search(const string* key); // Поиск начиная от корня дерева
+    BaseViolationsCar* Search(BaseViolationsCar* node, const string* key); // поиск от указанного узла посредством ключа: номер машины "carNumber"
     BaseViolationsCar* Min(); // поиск минимального значения от корня дерева
     BaseViolationsCar* Min(BaseViolationsCar* node); // поиск минимального значения от указанного узла
     BaseViolationsCar* Max(); // поиск максимального значения от корня дерева
@@ -92,5 +92,9 @@ public:
     void Add(BaseViolationsCar* z); // вставка узла
     void Dell(BaseViolationsCar* z = nullptr); // 0 удаление всего дерева, иначе указываем какой узел удалить
     BaseViolationsCar* GetRoot() { return root; }; // получение корня
+
+    // сделаю свое удаление разбив на подзадачи
+    void MyDell_list(BaseViolationsCar * z); // Удаления листа без потомка
+    void MyDell_EndNode(BaseViolationsCar* z); // удаление узла если есть хотябы один потомок, но уже без потомков
 };
 

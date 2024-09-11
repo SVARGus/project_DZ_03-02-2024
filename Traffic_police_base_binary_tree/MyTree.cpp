@@ -5,7 +5,7 @@ void MyTree::Print() {
 	cout << endl;
 }
 void MyTree::Print(BaseViolationsCar* node) { // вывод всего дерева, но при условии если передан сам корень, а не с конкретного узла
-	if (node != 0)
+	if (node != nullptr)
 	{
 		Print(node->left);
 		node->Print(); 
@@ -13,9 +13,9 @@ void MyTree::Print(BaseViolationsCar* node) { // вывод всего дере�
 		Print(node->right);
 	}
 }
-void MyTree::Print(string* key1, string* key2) { 
+void MyTree::Print(const string* key1, const string* key2) { 
 	BaseViolationsCar* node = root;
-	if (node != 0 && *key1 <= *key2)
+	if (node != nullptr && *key1 <= *key2)
 	{
 		Print(node->left);
 		if (node->carNumber >= *key1 && node ->carNumber <= *key2) // Заменил *node == *key
@@ -26,10 +26,10 @@ void MyTree::Print(string* key1, string* key2) {
 		Print(node->right);
 	}
 }
-BaseViolationsCar* MyTree::Search(string* key) {
+BaseViolationsCar* MyTree::Search(const string* key) {
 	return Search(root, key);
 }
-BaseViolationsCar* MyTree::Search(BaseViolationsCar* node, string* key) { // Заменил *node == *key - в итоге операторы сравнения не надо перегружать для сравнения класса со стрингом, но тогда не смогу шобланизировать, позже можно попробовать
+BaseViolationsCar* MyTree::Search(BaseViolationsCar* node, const string* key) { // Заменил *node == *key - в итоге операторы сравнения не надо перегружать для сравнения класса со стрингом, но тогда не смогу шобланизировать, позже можно попробовать
 	while (node != nullptr)
 	{
 		if (node->carNumber == *key) // при нахождении сразу выходим
@@ -99,7 +99,7 @@ BaseViolationsCar* MyTree::Previous(BaseViolationsCar* node) {
 	}
 	return y;
 }
-void MyTree::Add(BaseViolationsCar* z) {
+void MyTree::Add(BaseViolationsCar* z) { // переделал сравнения без использования операторов сравнения для BaseViolationsCar. Все заработало - некорректно реализовал операторы сравнения???
 	z->left = nullptr;
 	z->right = nullptr;
 	BaseViolationsCar* y = nullptr;
@@ -107,7 +107,7 @@ void MyTree::Add(BaseViolationsCar* z) {
 	while (node != nullptr)
 	{
 		y = node;
-		if (z > node)
+		if (z->carNumber > node->carNumber)
 		{
 			node = node->right;
 		}
@@ -119,7 +119,7 @@ void MyTree::Add(BaseViolationsCar* z) {
 	z->parent = y;
 	if (y == nullptr)
 		root = z;
-	else if (z > y)
+	else if (z->carNumber > y->carNumber)
 		y->right = z;
 	else
 		y->left = z;
@@ -158,5 +158,11 @@ void MyTree::Dell(BaseViolationsCar* z) {
 	{
 		while (root != nullptr)
 			Dell(root);
+	}
+}
+void MyTree::MyDell_list(BaseViolationsCar* z) {
+	if (z != nullptr && z->parent != nullptr)
+	{
+		// доделать
 	}
 }
