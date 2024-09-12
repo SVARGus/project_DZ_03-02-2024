@@ -4,7 +4,7 @@ void MyTree::Print() {
 	Print(root);
 	cout << endl;
 }
-void MyTree::Print(BaseViolationsCar* node) { // вывод всего дерева, но при условии если передан сам корень, а не с конкретного узла
+void MyTree::Print(BaseViolationsCar* node) { 
 	if (node != nullptr)
 	{
 		Print(node->left);
@@ -13,28 +13,30 @@ void MyTree::Print(BaseViolationsCar* node) { // вывод всего дере�
 		Print(node->right);
 	}
 }
-void MyTree::Print(const string* key1, const string* key2) { 
-	BaseViolationsCar* node = root;
+void MyTree::Print(const string* key1, const string* key2) {
+	Print(key1, key2, root);
+}
+void MyTree::Print(const string* key1, const string* key2, BaseViolationsCar* node) {
 	if (node != nullptr && *key1 <= *key2)
 	{
-		Print(node->left);
-		if (node->carNumber >= *key1 && node ->carNumber <= *key2) // Заменил *node == *key
+		Print(key1, key2, node->left);
+		if (*node >= *key1 && *node <= *key2) 
 		{
 			node->Print();
 			cout << "------------------------------------------------------------" << endl;
 		}
-		Print(node->right);
+		Print(key1, key2, node->right);
 	}
 }
 BaseViolationsCar* MyTree::Search(const string* key) {
 	return Search(root, key);
 }
-BaseViolationsCar* MyTree::Search(BaseViolationsCar* node, const string* key) { // Заменил *node == *key - в итоге операторы сравнения не надо перегружать для сравнения класса со стрингом, но тогда не смогу шобланизировать, позже можно попробовать
+BaseViolationsCar* MyTree::Search(BaseViolationsCar* node, const string* key) {
 	while (node != nullptr)
 	{
-		if (node->carNumber == *key) // при нахождении сразу выходим
+		if (*node == *key) // при нахождении сразу выходим
 			return node;
-		if (node->carNumber > *key)
+		if (*node > *key)
 			return Search(node->left, key);
 		else
 			return Search(node->right, key);
@@ -99,7 +101,7 @@ BaseViolationsCar* MyTree::Previous(BaseViolationsCar* node) {
 	}
 	return y;
 }
-void MyTree::Add(BaseViolationsCar* z) { // переделал сравнения без использования операторов сравнения для BaseViolationsCar. Все заработало - некорректно реализовал операторы сравнения???
+void MyTree::Add(BaseViolationsCar* z) { // Разобрался почему не работал должным образом оператор сравнения, забыл просто разыменовать
 	z->left = nullptr;
 	z->right = nullptr;
 	BaseViolationsCar* y = nullptr;
@@ -107,7 +109,7 @@ void MyTree::Add(BaseViolationsCar* z) { // переделал сравнени�
 	while (node != nullptr)
 	{
 		y = node;
-		if (z->carNumber > node->carNumber)
+		if (*z > *node)
 		{
 			node = node->right;
 		}
@@ -119,12 +121,12 @@ void MyTree::Add(BaseViolationsCar* z) { // переделал сравнени�
 	z->parent = y;
 	if (y == nullptr)
 		root = z;
-	else if (z->carNumber > y->carNumber)
+	else if (*z > *y)
 		y->right = z;
 	else
 		y->left = z;
 }
-void MyTree::Dell(BaseViolationsCar* z) {
+void MyTree::Dell(BaseViolationsCar* z) { // метод реализован из методички, позже был переделан в свой более удобный метод
 	if (z != nullptr)
 	{
 		BaseViolationsCar* y = nullptr;
@@ -160,9 +162,74 @@ void MyTree::Dell(BaseViolationsCar* z) {
 			Dell(root);
 	}
 }
-void MyTree::MyDell_list(BaseViolationsCar* z) {
-	if (z != nullptr && z->parent != nullptr)
+void MyTree::MyDell_sheet(BaseViolationsCar* z) {
+	if (z->parent->left == z)
+		z->parent->left = nullptr;
+	else
+		z->parent->right = nullptr;
+}
+void MyTree::MyDell_onesheet(BaseViolationsCar* z) { // если у удаляемого есть только один лист
+	if (z->left)
 	{
-		// доделать
+		z->left->parent = z->parent;
+		if (z->parent->left == z)
+			z->parent->left = z->left;
+		else
+			z->parent->right = z->left;
 	}
+	if (z->right)
+	{
+		z->right->parent = z->parent;
+		if (z->parent->left == z)
+			z->parent->left = z->right;
+		else
+			z->parent->right = z->right;
+	}
+}
+void MyTree::MyDell(BaseViolationsCar* z) {
+	if (!z->left && !z->right) // если удаляемый элемент является листом
+	{
+		MyDell_sheet(z);
+		delete z;
+		return;
+	}
+	if (!z->left || !z->right) // если удаляем элемент с одним листом.
+	{
+		MyDell_onesheet(z);
+		delete z;
+		return;
+	}
+	// удаляем вершину, в том числе если это корень, делаем перепривязку адресов для возможности в дальнейшем шаблонизировать
+	BaseViolationsCar* min_node = Min(z->right);
+	if (min_node->right) 
+	{
+		min_node->parent->left = min_node->right;
+		min_node->right->parent = min_node->parent;
+	}
+	min_node->right = z->right;
+	min_node->left = z->left;
+	if (!z->parent) // если удаляемый элемент является корнем
+	{
+		root = min_node;
+		min_node->parent = nullptr;
+	}
+	else
+	{
+		min_node->parent = z->parent;
+		if (z->parent->right == z)
+			z->parent->right == min_node;
+		else
+			z->parent->left == min_node;
+	}
+	delete z;
+}
+
+void MyTree::ClearTree() {
+	ClearTree(root);
+	root = nullptr;
+}
+void MyTree::ClearTree(BaseViolationsCar* node) {
+	ClearTree(node->left);
+	ClearTree(node->right);
+	delete node;
 }

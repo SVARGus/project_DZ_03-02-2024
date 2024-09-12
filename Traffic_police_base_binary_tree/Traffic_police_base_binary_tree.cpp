@@ -131,7 +131,7 @@ int main()
             cout << "Укажите какую машину надо удалить из базы: ";
             cin >> namberCar;
             PTR = BaseCar.Search(&namberCar);
-            BaseCar.Dell(PTR);
+            BaseCar.MyDell(PTR); // удаление через свой метод разбитый на подметоды
             PTR = nullptr;
             break;
         default:

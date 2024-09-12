@@ -51,30 +51,32 @@ public:
     friend bool operator!= (const BaseViolationsCar& node1, const BaseViolationsCar& node2) {
         return !(node1.carNumber == node2.carNumber);
     }
-    ////перегружены операторы для возможности сравнения в бинарном дереве с ключем
-    //friend bool operator> (const BaseViolationsCar& node1, const string& node2) {
-    //    return node1.carNumber >node2;
-    //}
-    //friend bool operator< (const BaseViolationsCar& node1, const string& node2) {
-    //    return node1.carNumber < node2;
-    //}
-    //friend bool operator>= (const BaseViolationsCar& node1, const string& node2) {
-    //    return !(node1.carNumber < node2);
-    //}
-    //friend bool operator<= (const BaseViolationsCar& node1, const string& node2) {
-    //    return !(node1.carNumber > node2);
-    //}
-    //friend bool operator== (const BaseViolationsCar& node1, const string& node2) {
-    //    return node1.carNumber == node2;
-    //}
-    //friend bool operator!= (const BaseViolationsCar& node1, const string& node2) {
-    //    return !(node1.carNumber == node2);
-    //}
+    //перегружены операторы для возможности сравнения в бинарном дереве с ключем
+    friend bool operator> (const BaseViolationsCar& node1, const string& node2) {
+        return node1.carNumber >node2;
+    }
+    friend bool operator< (const BaseViolationsCar& node1, const string& node2) {
+        return node1.carNumber < node2;
+    }
+    friend bool operator>= (const BaseViolationsCar& node1, const string& node2) {
+        return !(node1.carNumber < node2);
+    }
+    friend bool operator<= (const BaseViolationsCar& node1, const string& node2) {
+        return !(node1.carNumber > node2);
+    }
+    friend bool operator== (const BaseViolationsCar& node1, const string& node2) {
+        return node1.carNumber == node2;
+    }
+    friend bool operator!= (const BaseViolationsCar& node1, const string& node2) {
+        return !(node1.carNumber == node2);
+    }
 };
 
 class MyTree
 {
     BaseViolationsCar* root;
+    void ClearTree(BaseViolationsCar* node);
+    void Print(const string* key1, const string* key2, BaseViolationsCar* node);
 public:
     MyTree() :root{ nullptr } {}
     ~MyTree() { Dell(); }
@@ -94,7 +96,10 @@ public:
     BaseViolationsCar* GetRoot() { return root; }; // получение корня
 
     // сделаю свое удаление разбив на подзадачи
-    void MyDell_list(BaseViolationsCar * z); // Удаления листа без потомка
-    void MyDell_EndNode(BaseViolationsCar* z); // удаление узла если есть хотябы один потомок, но уже без потомков
+    void MyDell_sheet(BaseViolationsCar * z); // Удаления листа без потомка
+    void MyDell_onesheet(BaseViolationsCar* z); // удаление узла если есть хотябы один потомок, но уже без потомков
+    void MyDell(BaseViolationsCar* z);
+    void ClearTree(); // метод полной очистки (не проверял в работе)
+    //void balanceTree();// Позже сделать метод балансировки дерева (после того как разберусь как это делать правильно)
 };
 
