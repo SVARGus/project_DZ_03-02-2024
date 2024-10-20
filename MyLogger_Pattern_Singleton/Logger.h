@@ -2,6 +2,8 @@
 #include <iostream>
 #include <fstream>
 #include <mutex>
+#include <chrono>
+#include <iomanip>
 
 using std::cout;
 using std::cin;
@@ -93,11 +95,19 @@ void Logger::log(const string& messagePriorityStr, LogPriority messagePriority, 
 	if (priority <= messagePriority)
 	{
 		std::scoped_lock lock(logMutex);
+
+		auto now = std::chrono::system_clock::now();
+		std::time_t now_c = std::chrono::system_clock::to_time_t(now);
+		tm local_time{};
+		localtime_s(&local_time, &now_c);
+
+		cout << std::put_time(&local_time, "%Y-%m-%d %H:%M:%S") << " ";
 		cout << messagePriorityStr << message << " ";
 		printArg(forward<Args>(args)...);
 		cout << endl;
 		if (myLogFile.is_open())
 		{
+			myLogFile << std::put_time(&local_time, "%Y-%m-%d %H:%M:%S") << " ";
 			myLogFile << messagePriorityStr << " " << message << " ";
 			printArgToFile(forward<Args>(args)...);
 			myLogFile << endl;
