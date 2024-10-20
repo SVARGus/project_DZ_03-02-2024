@@ -25,7 +25,15 @@ private:
 	Logger(LogPriority newPriority) { priority = newPriority; }
 	Logger(const Logger&) = delete;
 	Logger& operator= (const Logger&) = delete;
+	template<typename... Args>
+	static void log (const string& messagePriorityStr, LogPriority messagePriority, const string& message, Args... args);
+	static string filepath;
+	static ofstream myLogFile;
 public:
+	static void enableFileOutput();
+	static void enableFileOutput(const string& newFilepath);
+	static void closeFileOutput();
+
 	static Logger& getInstance();
 	static void setPriority(LogPriority newPriority);
 
@@ -34,6 +42,12 @@ public:
 
 	template<typename T, typename... Args>
 	static void printArg(T&& arg, Args&&... args);
+
+	template<typename T>
+	static void printArgToFile(T&& arg);
+
+	template<typename T, typename... Args>
+	static void printArgToFile(T&& arg, Args&&... args);
 
 	template<typename... Args>
 	static void trace(const string& message, Args... args); // (const char* message, Args... args)
@@ -64,76 +78,66 @@ void Logger::printArg(T&& arg, Args&&... args) {
 	printArg(forward<Args>(args)...);
 }
 
+template<typename T>
+void Logger::printArgToFile(T&& arg) {
+	myLogFile << arg;
+}
+template<typename T, typename... Args>
+void Logger::printArgToFile(T&& arg, Args&&... args) {
+	myLogFile << arg << " ";
+	printArgToFile(forward<Args>(args)...);
+}
+
+template<typename... Args>
+void Logger::log(const string& messagePriorityStr, LogPriority messagePriority, const string& message, Args... args) {
+	if (priority <= messagePriority)
+	{
+		std::scoped_lock lock(logMutex);
+		cout << messagePriorityStr << message << " ";
+		printArg(forward<Args>(args)...);
+		cout << endl;
+		if (myLogFile.is_open())
+		{
+			myLogFile << messagePriorityStr << " " << message << " ";
+			printArgToFile(forward<Args>(args)...);
+			myLogFile << endl;
+		}
+	}
+}
 template<typename... Args>
 void Logger::trace(const string& message, Args... args) // (const char* message, Args... args)
 {
-	if (priority <= TracePriority)
-	{
-		std::scoped_lock lock(logMutex);
-		cout << "[Trace]\t" << message << " ";
-		printArg(forward<Args>(args)...);
-		cout << endl;
-	}
+	log("[Trace]\t", TracePriority, message, args...);
 }
 
 template<typename... Args>
 void Logger::debug(const string& message, Args... args) // (const char* message, Args... args)
 {
-	if (priority <= DebugPriority)
-	{
-		std::scoped_lock lock(logMutex);
-		cout << "[Debug]\t" << message << " ";
-		printArg(forward<Args>(args)...);
-		cout << endl;
-	}
+	log("[Debug]\t", DebugPriority, message, args...);
 }
 
 template<typename... Args>
 void Logger::info(const string& message, Args... args) // (const char* message, Args... args)
 {
-	if (priority <= InfoPriority)
-	{
-		std::scoped_lock lock(logMutex);
-		cout << "[Info]\t" << message << " ";
-		printArg(forward<Args>(args)...);
-		cout << endl;
-	}
+	log("[Info]\t", InfoPriority, message, args...);
 }
 
 template<typename... Args>
 void Logger::warn(const string& message, Args... args) // (const char* message, Args... args)
 {
-	if (priority <= WarnPriority)
-	{
-		std::scoped_lock lock(logMutex);
-		cout << "[Warn]\t" << message << " ";
-		printArg(forward<Args>(args)...);
-		cout << endl;
-	}
+	log("[Warn]\t", WarnPriority, message, args...);
 }
 
 template<typename... Args>
 void Logger::error(const string& message, Args... args) // (const char* message, Args... args)
 {
-	if (priority <= ErrorPriority)
-	{
-		std::scoped_lock lock(logMutex);
-		cout << "[Error]\t" << message << " ";
-		printArg(forward<Args>(args)...);
-		cout << endl;
-	}
+	log("[Error]\t", ErrorPriority, message, args...);
 }
 
 template<typename... Args>
 void Logger::critical(const string& message, Args... args) // (const char* message, Args... args)
 {
-	if (priority <= CriticalPriority)
-	{
-		std::scoped_lock lock(logMutex);
-		cout << "[Critical]\t" << message << " ";
-		printArg(forward<Args>(args)...);
-		cout << endl;
-	}
+	log("[Critical]\t", CriticalPriority, message, args...);
 }
 
 //LogPriority Logger::priority = InfoPriority;

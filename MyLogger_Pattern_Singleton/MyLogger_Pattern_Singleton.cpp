@@ -13,6 +13,7 @@ int main()
     
     Logger& logtest = Logger::getInstance();
     logtest.setPriority(Logger::TracePriority);
+    logtest.enableFileOutput();
     int a = 5;
     string name{ "Pavel" };
     logtest.trace("log test", a, name);
@@ -22,5 +23,6 @@ int main()
     logtest.error("log test", a, name);
     logtest.critical("log test", a, name);
 
+    logtest.closeFileOutput();
     return 0;
 }
