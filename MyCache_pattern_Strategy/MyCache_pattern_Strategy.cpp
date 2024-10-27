@@ -47,8 +47,61 @@ public:
 */
 
 #include <iostream>
+#include "CacheApplier.h"
+#include "MemoryCache.h"
+#include "FileCache.h"
+#include "PoorManMemoryCache.h"
+#include "NullCache.h"
+
+using std::cout;
+using std::cin;
+using std::endl;
+using std::string;
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    setlocale(LC_ALL, "ru");
+
+    CacheApplier cacheManager;
+
+    MemoryCache memoryCache;
+    FileCache fileCache;
+    PoorManMemoryCache poorManMemoryCache(4);
+    NullCache nullCache;
+
+    cout << "Выберите стратегию записи кэша" << endl;
+    cout << "1) memoryCache \n2 fileCache \n3) poorManMemoryCache \n4) nullCache \n";
+    int cach{};
+    cin >> cach;
+    switch (cach)
+    {
+    case 1:
+        cacheManager.set_strategy(memoryCache);
+        break;
+    case 2:
+        cacheManager.set_strategy(fileCache);
+        break;
+    case 3:
+        cacheManager.set_strategy(poorManMemoryCache);
+        break;
+    case 4:
+        cacheManager.set_strategy(nullCache);
+        break;
+    }
+    cacheManager.write_from_cache("key1", "value1");
+    cacheManager.write_from_cache("key2", "value2");
+    cacheManager.write_from_cache("key3", "value3");
+    cacheManager.write_from_cache("key4", "value4");
+    cacheManager.write_from_cache("key5", "value5");
+    cacheManager.write_from_cache("key6", "value6");
+    cacheManager.write_from_cache("key7", "value7");
+    cacheManager.write_from_cache("key8", "value8");
+
+    std::cout << "PoorManMemoryCache key1: " << cacheManager.read_from_cache("key1") << std::endl;
+    std::cout << "PoorManMemoryCache key3: " << cacheManager.read_from_cache("key3") << std::endl;
+    std::cout << "PoorManMemoryCache key7: " << cacheManager.read_from_cache("key7") << std::endl;
+    std::cout << "PoorManMemoryCache key9: " << cacheManager.read_from_cache("key9") << std::endl;
+
+
+    return 0;
 }
