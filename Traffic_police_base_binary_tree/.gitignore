@@ -1,0 +1,42 @@
+# Игнорировать все object-файлы и исполняемые файлы
+*.o
+*.obj
+*.exe
+*.out
+*.app
+*.lib
+*.a
+*.so
+*.dll
+*.dylib
+
+# Каталоги сборки и компиляции
+/build/
+bin/
+lib/
+
+# Файлы для отладки
+*.log
+*.pdb
+*.ilk
+*.dSYM/
+
+# CMake файлы и кэш
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# Конфигурационные файлы для IDE
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln
+*.vcxproj
+*.vcxproj.filters
+
+# Настройки, создаваемые операционной системой
+.DS_Store         # macOS
+Thumbs.db         # Windows
