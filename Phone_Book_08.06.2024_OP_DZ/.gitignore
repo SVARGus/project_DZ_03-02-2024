@@ -10,6 +10,12 @@
 *.dll
 *.dylib
 
+# Игнорировать внутренние папки и все содержимое
+.vs/
+x64/
+vehicle_DZ/
+
+
 # Каталоги сборки и компиляции
 /build/
 bin/
@@ -31,11 +37,7 @@ Makefile
 .vscode/
 .idea/
 *.suo
-*.user
 *.userosscache
-*.sln
-*.vcxproj
-*.vcxproj.filters
 
 # Настройки, создаваемые операционной системой
 .DS_Store         # macOS
