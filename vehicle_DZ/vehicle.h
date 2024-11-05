@@ -96,7 +96,7 @@ public:
 		cout << "Обслуживание: проверка давления в шинах, проверка уровня масла, внешняя проверка на наличие неисправнгостей." << endl;
 	}
 };
-class automobile_car : automobile
+class automobile_car : public automobile
 {
 
 public:
@@ -114,11 +114,11 @@ public:
 		cout << "Использовать легковой автомобиль марки " << nameBrand << " для езды на по городу" << endl;
 	}
 };
-class automobile_buss : automobile
+class automobile_bus : public automobile
 {
 
 public:
-	automobile_buss(string name, int seat, int maxspeed, string color) : automobile(name, seat, maxspeed, color) {}
+	automobile_bus(string name, int seat, int maxspeed, string color) : automobile(name, seat, maxspeed, color) {}
 	void DisplaySpecifications() const override
 	{
 		cout << "Автобус. Характеристики: " << endl;
@@ -132,7 +132,7 @@ public:
 		cout << "На автобусе " << nameBrand << " развозить людей по городу" << endl;
 	}
 };
-class automobile_truck : automobile
+class automobile_truck : public automobile
 {
 	
 public:

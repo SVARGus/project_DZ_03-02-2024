@@ -12,10 +12,18 @@ using std::vector;
 // подумать над созданием гаража как отдельного класса для использования в Персоне
 class person
 {
-	vector<vehicle*> garage{};
 public:
+	vector<vehicle*> garage{};
 	void addGarage(vehicle* Vehicle) { // добавление 
 		garage.push_back(Vehicle);
+	}
+	~person()
+	{
+		for (auto v : garage)
+		{
+			delete v;
+		}
+		garage.clear();
 	}
 };
 
