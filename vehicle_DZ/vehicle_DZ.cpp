@@ -53,7 +53,8 @@ int main()
     people.addGarage(car2);
     people.addGarage(car3);
     // Тестовая реализация проверки корректности вывода информации о транспорте в гараже, его обслуживание и использование до реализации отдельных методов в классе person
-    cout << "Выведем список транспортных средст из гаража: " << endl;
+    // garage в тесте был public
+    /*cout << "Выведем список транспортных средст из гаража: " << endl;
     for (auto it = people.garage.begin(); it != people.garage.end(); ++it)
     {
         (*it)->DisplaySpecifications();
@@ -76,6 +77,23 @@ int main()
     else
     {
         cout << "Такого тнранспорта нету в гараже" << endl;
+    }*/
+    int index{};
+    cout << "Какое транспортное средство желаете использовать из гаража? ";
+    cin >> index;
+    people.UseVehicleGarage(index);
+    cout << "Какое транспортное средство желаете обслужить из гаража? ";
+    cin >> index;
+    people.ServiceVehicleGarage(index);
+    cout << "Вывести информацию о транспортном средстве из гаража. Укажите индекс. ";
+    cin >> index;
+    people.DisplaySpecificationsGarage(index);
+    cout << endl;
+    cout << "Вывести информацию о всех транспортных средств в гараже" << endl;
+    for (int i = 0; i < people.getSizeGarage(); i++)
+    {
+        people.DisplaySpecificationsGarage(i); 
+        cout << endl;
     }
 
     return 0;
