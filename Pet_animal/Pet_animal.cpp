@@ -1,20 +1,51 @@
-﻿// Pet_animal.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
-//
+﻿#include <iostream>
+#include "HomePet.h"
+#include "Shape.h"
+#include <vector>
 
-#include <iostream>
+using std::cout;
+using std::cin;
+using std::endl;
+using std::string;
+using std::vector;
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    setlocale(LC_ALL, "ru");
+
+    cout << "Тестовый вывод задания #2 про животных" << endl;
+
+    Dog* dog = new Dog("Шарик", "Черно белый", 15, 5);
+    Cat* cat = new Cat("Мурзик", "Рыжий", 5, 3);
+    Parrot* parrot = new Parrot("Кеша", "зелено голубой", 0.3, 1);
+    dog->printPet();
+    cout << endl;
+    cat->printPet();
+    cout << endl;
+    parrot->printPet();
+    cout << endl;
+
+    cout << "Тестовый вывод задания #3 про фигуры" << endl;
+    vector<Shape*> shapes{};
+    // Добавление фигур в вектор
+    shapes.push_back(new Square(5, 6, 15));
+    shapes.push_back(new Rectangle(9, 4, 5, 10));
+    shapes.push_back(new Circle(4, 2, 7));
+    shapes.push_back(new Ellipse(0, 1, 5, 6));
+    // Вывод фигур на экран
+    for (auto* shape : shapes)
+    {
+        shape->Show();
+    }
+    SaveShapes(&shapes, "shapes.txt");
+    cout << "\t---------------------------" << endl;
+    vector<Shape*> newShapes{};
+    LoadShapes(&newShapes, "shapes.txt");
+    // Вывод фигур на экран из нового массива
+    for (auto* shape : newShapes)
+    {
+        shape->Show();
+    }
+
+    return 0;
 }
-
-// Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
-// Отладка программы: F5 или меню "Отладка" > "Запустить отладку"
-
-// Советы по началу работы 
-//   1. В окне обозревателя решений можно добавлять файлы и управлять ими.
-//   2. В окне Team Explorer можно подключиться к системе управления версиями.
-//   3. В окне "Выходные данные" можно просматривать выходные данные сборки и другие сообщения.
-//   4. В окне "Список ошибок" можно просматривать ошибки.
-//   5. Последовательно выберите пункты меню "Проект" > "Добавить новый элемент", чтобы создать файлы кода, или "Проект" > "Добавить существующий элемент", чтобы добавить в проект существующие файлы кода.
-//   6. Чтобы снова открыть этот проект позже, выберите пункты меню "Файл" > "Открыть" > "Проект" и выберите SLN-файл.
